@@ -1,25 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import CreateAccount from './CreateAccount';
+import Login from './Login';
+import AccountInfo from './AccountInfo';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>SPOTTER</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{ headerShown: false }} 
+                />
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    fontFamily: 'anton',
-    fontSize: '40',
-    fontWeight: '700',
-  },
-});
+                <Stack.Screen name="CreateAccount" component={CreateAccount} options={{ title: 'SPOTTER' }} />
+                <Stack.Screen name="AccountInfo" component={AccountInfo} options={{ title: 'Complete Your Profile' }} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+}
