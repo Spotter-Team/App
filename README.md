@@ -25,7 +25,17 @@ Install Dependencies:
 $ npm install
 ```
 
-Run the app locally:
+Create an .env file in the Spotter folder:
+```
+API_BASE_URL=http://<your-local-IP>:3000
+```
+
+cd backend folder:
+```
+$ node server.js
+```
+
+Run the app locally from Spotter folder:
 ```
 $ npx expo start
 ```
