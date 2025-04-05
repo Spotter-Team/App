@@ -46,7 +46,7 @@ $ npm install
 Start the node server
 
 ```
-$ node server.js
+$ npm run start
 ```
 
 Run the app locally from Spotter folder:
