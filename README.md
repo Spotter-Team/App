@@ -31,6 +31,20 @@ API_BASE_URL=http://<your-local-IP>:3000
 ```
 
 cd backend folder:
+
+```
+$ cd ..
+$ cd backend
+```
+
+Install Backend Dependencies
+
+```
+$ npm install
+```
+
+Start the node server
+
 ```
 $ node server.js
 ```
