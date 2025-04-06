@@ -5,3 +5,17 @@ node_modules/
 
 # local database files
 data/
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+.env
+
+# typescript
+*.tsbuildinfo
+
+#.vs folder
+.vs/
