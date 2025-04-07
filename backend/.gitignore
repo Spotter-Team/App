@@ -7,7 +7,7 @@ node_modules/
 data/
 
 # macOS
-.DS_Store
+**/.DS_Store
 *.pem
 
 # local env files
