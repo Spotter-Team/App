@@ -12,8 +12,8 @@ import {
 import axios from 'axios';
 import { API_BASE_URL } from '@env';
 import { useNavigation } from '@react-navigation/native';
-import COLORS from './theme';
-import DumbbellLogo from './assets/dumbbell-logo.png';
+import COLORS from '../utils/theme';
+import DumbbellLogo from '../assets/dumbbell-logo.png';
 
 const CreateAccount = () => {
     const navigation = useNavigation();

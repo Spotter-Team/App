@@ -11,8 +11,8 @@ import {
     Image,
 } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import COLORS from './theme';
-import DumbbellLogo from './assets/dumbbell-logo.png';
+import COLORS from '../utils/theme';
+import DumbbellLogo from '../assets/dumbbell-logo.png';
 
 const AccountInfo = () => {
     const route = useRoute();

@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
-import AccountInfo from './AccountInfo';
-import COLORS from './theme';
+import AccountInfo from '../screens/AccountInfo';
+import COLORS from '../utils/theme';
 
 const Tab = createBottomTabNavigator();
 
