@@ -15,9 +15,9 @@ $ git clone https://github.com/johanfortus/Spotter-App
 $ cd Spotter-App
 ```
 
-Navigate to the Spotter folder:
+Navigate to the frontend folder:
 ```
-$ cd Spotter
+$ cd frontend
 ```
 
 Install Dependencies:
@@ -25,12 +25,12 @@ Install Dependencies:
 $ npm install
 ```
 
-Create an .env file in the Spotter folder:
+Create an .env file in the frontend folder:
 ```
 API_BASE_URL=http://<your-local-IP>:3000
 ```
 
-cd backend folder:
+Navigate to the backend folder:
 
 ```
 $ cd ..
@@ -49,7 +49,7 @@ Start the node server
 $ npm run start
 ```
 
-Run the app locally from Spotter folder:
+Run the app locally from frontend folder:
 ```
 $ npx expo start
 ```
