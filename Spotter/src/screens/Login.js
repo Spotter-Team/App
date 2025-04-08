@@ -6,14 +6,16 @@ import {
     Button,
     StyleSheet,
     Alert,
+    Image,
 } from 'react-native';
 import axios from 'axios';
 import { API_BASE_URL } from '@env';
 import { useNavigation } from '@react-navigation/native';
+import COLORS from './theme';
+import DumbbellLogo from './assets/dumbbell-logo.png';
 
 const Login = () => {
     const navigation = useNavigation();
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -35,7 +37,9 @@ const Login = () => {
             setPassword('');
             setError('');
 
-            navigation.navigate('AccountInfo');
+            navigation.navigate('HomeTabs', {
+                params: { screen: 'Profile', params: { name: email.split('@')[0] } },
+            });
         } catch (err) {
             const msg =
                 err.response?.data?.message || 'Login failed. Please try again.';
@@ -45,15 +49,16 @@ const Login = () => {
 
     return (
         <View style={styles.wrapper}>
+            <Image source={DumbbellLogo} style={styles.logo} />
             <Text style={styles.appTitle}>SPOTTER</Text>
 
             <View style={styles.container}>
-                
                 {error ? <Text style={styles.error}>{error}</Text> : null}
 
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
+                    placeholderTextColor={COLORS.lightText}
                     autoCapitalize="none"
                     keyboardType="email-address"
                     value={email}
@@ -62,19 +67,21 @@ const Login = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Password"
+                    placeholderTextColor={COLORS.lightText}
                     secureTextEntry
                     value={password}
                     onChangeText={setPassword}
                 />
 
                 <View style={styles.buttonWrapper}>
-                    <Button title="Log In" onPress={handleLogin} />
+                    <Button title="Log In" color={COLORS.accent} onPress={handleLogin} />
                 </View>
 
                 <View style={styles.linkWrapper}>
                     <Text style={styles.linkText}>Don't have an account?</Text>
                     <Button
                         title="Create Account"
+                        color={COLORS.accent}
                         onPress={() => navigation.navigate('CreateAccount')}
                     />
                 </View>
@@ -87,27 +94,27 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        paddingTop: 250,
-        backgroundColor: '#fff',
+        justifyContent: 'center',
+        backgroundColor: COLORS.background,
+    },
+    logo: {
+        width: 50,
+        height: 50,
+        marginBottom: 20,
+        resizeMode: 'contain',
     },
     appTitle: {
-        fontSize: 50,
+        fontSize: 40,
         fontWeight: 'bold',
+        color: COLORS.accent,
         marginBottom: 40,
-        fontFamily: 'anton',
     },
     container: {
         width: '90%',
         alignItems: 'center',
     },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
-        fontWeight: 'bold',
-    },
     error: {
-        color: 'red',
+        color: COLORS.accent,
         marginBottom: 10,
     },
     input: {
@@ -115,8 +122,10 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 12,
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: COLORS.border,
+        backgroundColor: '#1C1C1C',
         borderRadius: 6,
+        color: COLORS.text,
     },
     buttonWrapper: {
         width: '100%',
@@ -128,6 +137,7 @@ const styles = StyleSheet.create({
     },
     linkText: {
         fontSize: 16,
+        color: COLORS.lightText,
         marginBottom: 5,
     },
 });
