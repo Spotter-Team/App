@@ -30,12 +30,26 @@ Create an .env file in the Spotter folder:
 API_BASE_URL=http://<your-local-IP>:3000
 ```
 
-Start the backend:
+cd backend folder:
+
 ```
-$ node server.js
+$ cd ..
+$ cd backend
 ```
 
-Run the app locally:
+Install Backend Dependencies
+
+```
+$ npm install
+```
+
+Start the node server
+
+```
+$ npm run start
+```
+
+Run the app locally from Spotter folder:
 ```
 $ npx expo start
 ```
