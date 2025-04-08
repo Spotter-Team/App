@@ -31,8 +31,22 @@ API_BASE_URL=http://<your-local-IP>:3000
 ```
 
 cd backend folder:
+
 ```
-$ node server.js
+$ cd ..
+$ cd backend
+```
+
+Install Backend Dependencies
+
+```
+$ npm install
+```
+
+Start the node server
+
+```
+$ npm run start
 ```
 
 Run the app locally from Spotter folder:
