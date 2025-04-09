@@ -18,10 +18,15 @@ export default function NavigationTabs() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
-                tabBarStyle: { backgroundColor: '#000' },
+                tabBarStyle: { 
+                    backgroundColor: '#141417',
+                    height: 80,
+                    borderTopWidth: 0 
+                },
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: COLORS.accent,
                 tabBarInactiveTintColor: '#888',
+                tabBarIconStyle: { marginTop: 10 },
                 tabBarIcon: ({ color, size }) => {
                     let iconName;
                     switch (route.name) {
