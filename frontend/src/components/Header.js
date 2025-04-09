@@ -27,10 +27,12 @@ const styles = StyleSheet.create({
     logo: {
         width: 27,
         height: 20,
+        paddingTop: 2.5,
     },
     title: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 22,
+        fontFamily: 'Bebas Neue',
         paddingLeft: 7,
         fontWeight: 700,
     },
