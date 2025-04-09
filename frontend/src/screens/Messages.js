@@ -8,7 +8,7 @@ const Messages = () => {
             <MessagesTabs />
             <ScrollView>
                 <Text style={styles.chatPage}>
-                    Test
+                    Chat Area
                 </Text>
             </ScrollView>
         </SafeAreaView>
