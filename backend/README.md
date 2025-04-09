@@ -53,6 +53,22 @@ $ cd backend
 $ npm install
 ```
 
+Create an environment variable file (.env) in the 'backend' directory
+```
+$ touch .env
+```
+
+Add variables to your .env file with a text editor
+```text
+# Nodejs
+NODE_ENV=development
+
+# Database Stuff
+LOCAL_DB_PATH=data/local.db
+LOCAL_DB_USERNAME=test
+LOCAL_DB_PASSWORD=somethingSecure*
+```
+
 Run the NPM command to initialize the local sqlite environment
 
 ```

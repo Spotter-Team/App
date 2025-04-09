@@ -5,9 +5,9 @@ CREATE TABLE User (
     phoneNumber TEXT,
     firstName TEXT,
     lastName TEXT,
-    userLocation LOCATION,
+    userLocation TEXT,
     fitnessLevel INTEGER,
-    trainerBadge TEXT
+    trainerBadge BOOLEAN
 );
 
 CREATE TABLE TimeSlot (
