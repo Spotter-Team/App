@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import MessagesTabs from '../components/MessagesTabs';
 
 const Messages = () => {
     return (
-        <View style={{ flex: 1, backgroundColor: 'black' }}>
-            <Text style={styles.chatPage}>
-                Test
-            </Text>
-        </View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+            <MessagesTabs />
+            <ScrollView>
+                <Text style={styles.chatPage}>
+                    Test
+                </Text>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
