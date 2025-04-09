@@ -1,10 +1,10 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-require('dotenv').config()
+require('dotenv').config();
 
 // Connect to your local DB
 const dbPath = process.env.LOCAL_DB_PATH;
 if (!dbPath) {
-    console.error(`Error: Variable LOCAL_DB_PATH was not found .env file!`)
+    console.error(`Error: Variable LOCAL_DB_PATH was not found .env file!`);
 }
 const sequelize = new Sequelize(dbPath);
 
