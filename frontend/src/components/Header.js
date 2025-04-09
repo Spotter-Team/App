@@ -16,23 +16,23 @@ const Header = () => {
 const styles = StyleSheet.create({
     container : {
         backgroundColor: '#141417',
-        height: 105,
+        height: 102,
     },
     logoContainer: {
         flex: 1,
         flexDirection: 'row',
-        paddingTop: 60,
+        paddingTop: 65,
         paddingLeft: 20,
     },
     logo: {
-        width: 30,
-        height: 30,
+        width: 27,
+        height: 20,
     },
     title: {
         color: 'white',
-        fontSize: 25,
-        paddingLeft: 8,
-        fontWeight: 600,
+        fontSize: 17,
+        paddingLeft: 7,
+        fontWeight: 700,
     },
 });
 
