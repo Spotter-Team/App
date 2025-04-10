@@ -36,6 +36,7 @@ CREATE TABLE DirectMessage (
 CREATE TABLE Match (
     spotterID INTEGER,
     spottedID INTEGER,
+    matchScore INTEGER,
     FOREIGN KEY(spotterID) REFERENCES User(userID),
     FOREIGN KEY(spottedID) REFERENCES User(userID)
 );
