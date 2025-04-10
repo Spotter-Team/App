@@ -3,3 +3,10 @@
 # VSCode
 .vs/
 *.code-workspace
+
+# macOS
+.DS_Store
+
+# local env files
+.env*.local
+.env

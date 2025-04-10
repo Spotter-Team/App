@@ -1,16 +1,16 @@
-const path = require('path');
-const DatabaseService = require('../services/DatabaseService');
+require('@dotenvx/dotenvx').config();
 
-const dataDir = path.join(__dirname, '../data');
-const sqlCmdsDir = path.join(__dirname, './sql');
+const DatabaseUtility = require('./DatabaseUtility');
 
-// Create an instance of the DatabaseService
-const dbService = new DatabaseService(dataDir, sqlCmdsDir);
-
-dbService.initDB(true)
+// Initialize the tables
+const dbUtility = new DatabaseUtility();
+dbUtility.initLocalDB(true)
     .then(msg => {
         console.log(msg);
+
+        // Define the tables
+        dbUtility.loadModels();
     })
     .catch(err => {
         console.error('Database setup failed:', err);
-    });
+    })

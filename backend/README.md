@@ -65,6 +65,7 @@ NODE_ENV=development
 
 # Database Stuff
 DB_MODE=local # Options: local
+DATA_PATH=data
 LOCAL_DB_PATH=data/local.db
 LOCAL_DB_USERNAME=test
 LOCAL_DB_PASSWORD=somethingSecure*
