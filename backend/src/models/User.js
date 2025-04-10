@@ -18,7 +18,8 @@ User.init(
     {
         userID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            primaryKey: true
         },
         email: {
             type: DataTypes.TEXT,
