@@ -9,7 +9,13 @@ dbUtility.initLocalDB(true)
         console.log(msg);
 
         // Define the tables
-        dbUtility.loadModels();
+        dbUtility.loadModels()
+            .then(msg => {
+                console.log(msg);
+            })
+            .catch(err => {
+                console.error('Database setup failed:', err);
+            })
     })
     .catch(err => {
         console.error('Database setup failed:', err);
