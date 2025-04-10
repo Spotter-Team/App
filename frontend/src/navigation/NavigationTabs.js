@@ -3,8 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
-import AccountInfo from './AccountInfo';
-import COLORS from './theme';
+import AccountInfo from '../screens/AccountInfo';
+import Messages from '../screens/Messages';
+import COLORS from '../utils/theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,10 +19,15 @@ export default function NavigationTabs() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
-                tabBarStyle: { backgroundColor: '#000' },
+                tabBarStyle: { 
+                    backgroundColor: '#141417',
+                    height: 80,
+                    borderTopWidth: 0 
+                },
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: COLORS.accent,
                 tabBarInactiveTintColor: '#888',
+                tabBarIconStyle: { marginTop: 10 },
                 tabBarIcon: ({ color, size }) => {
                     let iconName;
                     switch (route.name) {
@@ -44,7 +50,7 @@ export default function NavigationTabs() {
         >
             <Tab.Screen name="Matching">{() => <BlankScreen title="Matching" />}</Tab.Screen>
             <Tab.Screen name="Explore">{() => <BlankScreen title="Explore" />}</Tab.Screen>
-            <Tab.Screen name="Messages">{() => <BlankScreen title="Messages" />}</Tab.Screen>
+            <Tab.Screen name="Messages" component={Messages} />
             <Tab.Screen name="Profile" component={AccountInfo} />
         </Tab.Navigator>
     );
