@@ -18,35 +18,25 @@ User.init(
     {
         userID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            autoIncrement: true,
+            primaryKey: true
         },
         email: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         pwd: {
             type: DataTypes.TEXT,
             allowNull: false
         },
-        phoneNumber: {
-            type: DataTypes.TEXT,
-        },
-        firstName: {
-            type: DataTypes.TEXT,
-        },
-        lastName: {
-            type: DataTypes.TEXT,
-        },
-        userLocation: {
-            type: DataTypes.TEXT
-        },
-        fitnessLevel: {
-            type: DataTypes.INTEGER,
-        },
-        trainerBadge: {
-            type: DataTypes.BOOLEAN
-        }
-    },
+        phoneNumber: DataTypes.TEXT,
+        firstName: DataTypes.TEXT,
+        lastName: DataTypes.TEXT,
+        userLocation: DataTypes.TEXT,
+        fitnessLevel: DataTypes.INTEGER,
+        trainerBadge: DataTypes.BOOLEAN
+    }, 
     {
         sequelize,
         modelName: 'User'
