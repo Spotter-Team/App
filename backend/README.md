@@ -64,6 +64,7 @@ Add variables to your .env file with a text editor
 NODE_ENV=development
 
 # Database Stuff
+DB_MODE=local # Options: local
 LOCAL_DB_PATH=data/local.db
 LOCAL_DB_USERNAME=test
 LOCAL_DB_PASSWORD=somethingSecure*

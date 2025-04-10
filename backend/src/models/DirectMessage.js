@@ -6,6 +6,7 @@ require('dotenv').config();
 const dbPath = process.env.LOCAL_DB_PATH;
 if (!dbPath) {
     console.error(`Error: Variable LOCAL_DB_PATH was not found .env file!`);
+    process.exit(1);
 }
 const sequelize = new Sequelize(dbPath);
 
