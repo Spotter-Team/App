@@ -1,0 +1,12 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# VSCode
+.vs/
+*.code-workspace
+
+# macOS
+.DS_Store
+
+# local env files
+.env*.local
+.env

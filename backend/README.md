@@ -24,16 +24,36 @@
 ## Database Architecture
 ```mermaid
 erDiagram
+    User ||--|{ DirectMessage : sends
+    User ||--o{ TimeSlot : available
+    User ||--o{ Gym : goesTo
+    User ||--|| User : match
+    User ||--o{ UserReport : submits
+    User ||--o{ Community : memberOf
+    Meetup ||--|| TimeSlot : meetupTime
+    Meetup ||--|| Workout : spotting
+    Workout ||--o{ WorkoutEquipment : requiredEquipment
+    
     User {
         int userID PK
-        string email
-        string pwd
-        string phoneNumber
-        string firstName
-        string lastName
+        text email
+        text pwd
+        text phoneNumber
+        text firstName
+        text lastName
         location usrLocation
         int fitnessLevel
-        string trainerBadge
+        text trainerBadge
+    }
+    TimeSlot {
+        int slotID PK
+        datetime startTStamp
+        datetime endTStamp
+    }
+    CommunityType {
+        int typeID PK
+        text typeName
+        text typeDescription
     }
     DirectMessage {
         int msgID PK
@@ -41,6 +61,71 @@ erDiagram
         string msg
         number senderID FK
         number receiverID FK
+    }
+    Match {
+        int spotterID FK
+        int spottedID FK
+    }
+    Workout {
+        int workoutID PK
+        text workoutName
+        text workoutDescription
+    }
+    WorkoutEquipment {
+        int equipmentID PK
+        text equipmentName
+        text equipmentDescription
+    }
+    RequiredEquipment {
+        int workoutID FK
+        int equipmentID FK
+    }
+    Meetup {
+        int meetupID PK
+        text meetupLocation
+        int meetupTime FK
+    }
+    Availability {
+        int userID FK
+        int tSlotID FK
+    }
+    Community {
+        int cID PK
+        text cName
+        int typeID FK
+        text cLocation
+        int numMembers
+        bool isPublic
+    }
+    MemberOf {
+        int userID FK
+        int communityID FK
+    }
+    GoesTo {
+        int userID FK
+        int gymID FK
+    }
+    Gym {
+        int gymID PK
+        text gymName
+        location gymLocation
+        text gymAddress
+        text gymURL
+    }
+    UserReport {
+        int reportID PK
+        int userID FK
+        int reporterID FK
+        text reportDetail
+    }
+    UserReportType {
+        int reportTypeID PK
+        text reportTypeName
+        text reportTypeDescription
+    }
+    Blocked {
+        int userID FK
+        int blockedBy FK
     }
 ```
 
@@ -51,6 +136,24 @@ Initialize the backend if you have not already
 ```
 $ cd backend
 $ npm install
+```
+
+Create an environment variable file (.env) in the 'backend' directory
+```
+$ touch .env
+```
+
+Add variables to your .env file with a text editor
+```text
+# Nodejs
+NODE_ENV=development
+
+# Database Stuff
+DB_MODE=local # Options: local
+DATA_PATH=data
+LOCAL_DB_PATH=data/local.db
+LOCAL_DB_USERNAME=test
+LOCAL_DB_PASSWORD=somethingSecure*
 ```
 
 Run the NPM command to initialize the local sqlite environment

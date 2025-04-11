@@ -1,21 +1,28 @@
 const fs = require('fs').promises;
 const path = require('path');
-const sqlite3 = require('sqlite3').verbose();
+const { Sequelize, DataTypes } = require('sequelize');
 
-class DatabaseService {
-    dataDir;
-    sqlCmdDir;
+class DatabaseUtility {
     dbFilePath;
-    schemaFilePath;
-    tableChecksFilePath;
-    db;
+    dataPath;
 
-    constructor(dataDir, sqlCmdDir) {
-        this.dataDir = dataDir;
-        this.sqlCmdDir = sqlCmdDir;
-        this.dbFilePath = path.join(this.dataDir, 'local.db');
-        this.schemaFilePath = path.join(this.sqlCmdDir, 'schema.sql');
-        this.tableChecksFilePath = path.join(this.sqlCmdDir, 'table-checks.sql');
+    /** @type { Array } */
+    models = [];
+
+    constructor() {
+        const localDBPath = process.env.LOCAL_DB_PATH;
+        const dataPath = process.env.DATA_PATH;
+        if (!localDBPath) {
+            console.error(`Error: Variable LOCAL_DB_PATH was not found .env file!`);
+            process.exit(1);
+        }
+        this.dbFilePath = path.join(__dirname, '../', localDBPath);
+
+        if (!dataPath) {
+            console.error(`Error: Variable DATA_PATH was not found .env file!`);
+            process.exit(1);
+        }
+        this.dataPath = path.join(__dirname, '../', dataPath);
     }
 
 
@@ -28,22 +35,10 @@ class DatabaseService {
      * @param {boolean} clean If an existing db file should be deleted and recreated
      * @returns A promise which resolves when the DB has been initialized and rejects on an unhandled error
      */
-    initDB(clean) {
+    initLocalDB(clean) {
         return new Promise((resolve, reject) => {
             // Check for the data directory and if it doesn't exist create it
-            DatabaseService._checkForDirectory(this.dataDir)
-                .then(() => {
-                    // Check to see if the schema.sql file is accessible
-                    return DatabaseService._checkForFile(this.schemaFilePath);
-                })
-                .then(schemaFileExists => {
-                    if (schemaFileExists) {
-                        // Check to see if the local.db file is accessible
-                        return DatabaseService._checkForFile(this.dbFilePath);
-                    } else {
-                        reject(`Could not init the database since the schema.sql file was not found in the 'utils/sql' directory!`);
-                    }
-                })
+            DatabaseUtility._checkForFile(this.dbFilePath)
                 .then(dbFileExists => {
                     return new Promise((resolve, reject) => {
                         // If the clean parameter was passed, delete the local.db file
@@ -61,106 +56,138 @@ class DatabaseService {
                         // If the local.db file doesn't exist or if the clean parameter was passed
                         if (!dbFileExists || clean) {
                             console.log(`The 'local.db' file does not exist! It will be created!`);
-                            fs.writeFile(this.dbFilePath, '')
-                                .then(() => {
-                                    console.log("The 'local.db' file was successfully created!")
-                                    resolve(true)
-                                })
-                                .catch(err => {
-                                    reject(err);
-                                })
+
+                            // Check to see if the data directory exists
+                            DatabaseUtility._checkForDirectory(this.dataPath)
+                            .then(() => {
+                                fs.writeFile(this.dbFilePath, '')
+                                    .then(() => {
+                                        resolve();
+                                    })
+                                    .catch(err => {
+                                        reject(err);
+                                    })
+                            })
+                            .catch(err => {
+                                reject(err);
+                            })
                         } else {
-                            resolve(false);
+                            resolve();
                         }
                     })
                 })
-                .then(continueSetup => {
-                    // Get the SQL commands to setup the tables
-                    if (continueSetup) {
-                        return this._openDBConnection();
-                    } else {
-                        resolve(`A file named 'local.db' exists and the 'clean' parameter was not passed to the function. No additional checks will be performed to validate the database`);
-                    }
-                })
                 .then(() => {
-                    return this._setupTables()
-                })
-                .then(() => {
-                    resolve("Database setup completed successfully!");
+                    resolve(`The 'data' directory is in place and the 'local.db' file has been created in that directory.`);
                 })
                 .catch(err => {
                     reject(err);
                 })
-        }) 
+        });
     }
+
+
+    /**
+     * Loads all the model files from the 'models' directory
+     */
+    loadModels() {
+        return new Promise((resolve, reject) => {
+            const sequelize = new Sequelize({
+                dialect: 'sqlite',
+                storage: this.dbFilePath
+            });
+
+            // Define the 'User' model
+            sequelize.define(
+                'User',
+                {
+                    userID: {
+                        type: DataTypes.INTEGER,
+                        allowNull: false
+                    },
+                    email: {
+                        type: DataTypes.TEXT,
+                        allowNull: false
+                    },
+                    pwd: {
+                        type: DataTypes.TEXT,
+                        allowNull: false
+                    },
+                    phoneNumber: {
+                        type: DataTypes.TEXT,
+                    },
+                    firstName: {
+                        type: DataTypes.TEXT,
+                    },
+                    lastName: {
+                        type: DataTypes.TEXT,
+                    },
+                    userLocation: {
+                        type: DataTypes.TEXT
+                    },
+                    fitnessLevel: {
+                        type: DataTypes.INTEGER,
+                    },
+                    trainerBadge: {
+                        type: DataTypes.BOOLEAN
+                    }
+                }
+            )
+
+            // Define the 'DirectMessage' model
+            sequelize.define(
+                'DirectMessage',
+                {
+                    msgID: {
+                        type: DataTypes.INTEGER,
+                        autoIncrement: true,
+                        primaryKey: true
+                    },
+                    tStamp: {
+                        type: DataTypes.DATE,
+                        allowNull: false
+                    },
+                    msg: {
+                        type: DataTypes.TEXT,
+                        allowNull: false
+                    },
+                    senderID: {
+                        type: DataTypes.INTEGER,
+                        references: {
+                            model: sequelize.models.User,
+                            key: 'userID'
+                        }
+                    },
+                    receiverID: {
+                        type: DataTypes.INTEGER,
+                        references: {
+                            model: sequelize.models.User,
+                            key: 'userID'
+                        }
+                    }
+                }
+            )
+
+            // Sync the new tables with the db
+            sequelize.sync()
+                .then(db => {
+                    db.close()
+                        .then(() => {
+                            resolve(`Successfully defined the tables and synced them with the DB!`);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        });
+    }    
 
 
     /**
      * ========== INTERNAL FUNCTIONS ==========
      */
-
-    /**
-     * An internal function that opens a connection to a local DB
-     * @returns A Promise which resolves if the DB connection is successfully made and rejects for any other unhandled error
-     */
-    _openDBConnection(reconnect) {
-        return new Promise((resolve, reject) => {
-            if (this.db === undefined || reconnect) {
-                this.db = new sqlite3.Database(this.dbFilePath, err => {
-                    if (err) {
-                        reject(err);
-                    }
-    
-                    console.log(`Successfully opened the db connection!`);
-                    resolve();
-                })
-            } else {
-                console.log(`A DB connection was already open an the reconnect parameter was not passed! The connections were not modified!`);
-                resolve();
-            }
-        })
-    }
-
-    /**
-     * Closes the connection to the local DB if it's open
-     * @returns A Promise which resolves if the DB connection is closed
-     */
-    _closeDBConnection() {
-        return new Promise((resolve, reject) => {
-            if (this.db === undefined) {
-                console.log(`There is no open connection to a local DB! A connection cannot be closed!`)
-                resolve();
-            } else {
-                this.db.close(err => {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve();
-                    }
-                })
-            }
-        })
-    }
-
-    _setupTables() {
-        return new Promise((resolve, reject) => {
-            DatabaseService._getFileContents(this.schemaFilePath)
-                .then(sqlCommands => {
-                    // Run the SQL commands on the DB
-                    this.db.exec(sqlCommands, err => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            console.log(`Successfully created the tables in the local DB!`);
-                            resolve();
-                        }
-                    })
-                })
-                .catch(err => {
-                    reject(err);
-                })
-        })
-    }
 
 
     /**
@@ -252,4 +279,4 @@ class DatabaseService {
 
 }
 
-module.exports = DatabaseService;
+module.exports = DatabaseUtility;
