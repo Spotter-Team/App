@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import MessagesTabs from '../../components/ChatsComponents/MessagesTabs';
+import ChatList from './ChatList';
 
 const Messages = () => {
 
@@ -10,11 +11,7 @@ const Messages = () => {
     const renderContent = () => {
         if(activeTab === 'chats') {
             return (
-                <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 280 }}>
-                    <Text style={styles.chatPage}>
-                        CHAT SCREEN
-                    </Text>
-                </View>
+                <ChatList />
             );
         }
         else if(activeTab === 'matches') {
