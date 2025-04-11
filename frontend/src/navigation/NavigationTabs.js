@@ -5,6 +5,8 @@ import { View, Text } from 'react-native';
 
 import AccountInfo from '../screens/AccountInfo';
 import Messages from '../screens/Messages';
+import GymHub from '../screens/GymHub';
+import Match from '../screens/Match';
 import COLORS from '../utils/theme';
 
 const Tab = createBottomTabNavigator();
@@ -48,8 +50,8 @@ export default function NavigationTabs() {
                 },
             })}
         >
-            <Tab.Screen name="Matching">{() => <BlankScreen title="Matching" />}</Tab.Screen>
-            <Tab.Screen name="Explore">{() => <BlankScreen title="Explore" />}</Tab.Screen>
+            <Tab.Screen name="Matching" component={Match} />
+            <Tab.Screen name="Explore" component={GymHub} />
             <Tab.Screen name="Messages" component={Messages} />
             <Tab.Screen name="Profile" component={AccountInfo} />
         </Tab.Navigator>

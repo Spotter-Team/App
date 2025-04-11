@@ -7,9 +7,11 @@ const Messages = () => {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
             <MessagesTabs />
             <ScrollView>
-                <Text style={styles.chatPage}>
-                    Chat Area
-                </Text>
+                <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 280 }}>
+                    <Text style={styles.chatPage}>
+                        CHAT SCREEN
+                    </Text>
+                </View>
             </ScrollView>
         </SafeAreaView>
     );
@@ -17,7 +19,9 @@ const Messages = () => {
 
 const styles = StyleSheet.create({
     chatPage: {
+        fontFamily: 'Bebas Neue',
         color: 'white',
+        fontSize: 50,
     },
 });
 
