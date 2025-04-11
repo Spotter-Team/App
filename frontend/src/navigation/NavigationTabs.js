@@ -34,16 +34,16 @@ export default function NavigationTabs() {
                     let iconName;
                     switch (route.name) {
                         case 'Matching':
-                            iconName = 'barbell-outline';
+                            iconName = 'barbell';
                             break;
                         case 'Explore':
-                            iconName = 'search-outline';
+                            iconName = 'compass';
                             break;
                         case 'Messages':
-                            iconName = 'chatbubble-outline';
+                            iconName = 'chatbox';
                             break;
                         case 'Profile':
-                            iconName = 'person-outline';
+                            iconName = 'person';
                             break;
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
