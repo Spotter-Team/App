@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import MessagesTabs from '../components/MessagesTabs';
+import MessagesTabs from '../../components/ChatsComponents/MessagesTabs';
 
 const Messages = () => {
 

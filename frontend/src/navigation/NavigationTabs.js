@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
-import AccountInfo from '../screens/AccountInfo';
-import Messages from '../screens/Messages';
-import GymHub from '../screens/GymHub';
-import Match from '../screens/Match';
+import AccountInfo from '../screens/Profile/AccountInfo';
+import Messages from '../screens/Chats/Messages';
+import GymHub from '../screens/GymHub/GymHub';
+import Match from '../screens/Home/Match';
 import COLORS from '../utils/theme';
 
 const Tab = createBottomTabNavigator();

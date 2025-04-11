@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from './screens/Login';
 import CreateAccount from './screens/CreateAccount';
-import AccountInfo from './screens/AccountInfo';
+import AccountInfo from './screens/Profile/AccountInfo';
 import NavigationTabs from './navigation/NavigationTabs';
 import Header from './components/Header';
 
