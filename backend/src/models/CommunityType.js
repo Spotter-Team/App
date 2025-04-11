@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
+
 const dbPath = process.env.LOCAL_DB_PATH;
 
 if (!dbPath) {
@@ -24,7 +25,7 @@ CommunityType.init({
         allowNull: false
     },
     typeDescription: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
     }
 }, {
     sequelize: sequelize,

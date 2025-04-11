@@ -29,7 +29,7 @@ Community.init({
         type: DataTypes.INTEGER,
         references: {
             model: CommunityType,
-            key: 'userID'
+            key: 'typeID'
         }
     },
     cLocation: {

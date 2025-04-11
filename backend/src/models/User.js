@@ -23,19 +23,30 @@ User.init(
         },
         email: {
             type: DataTypes.TEXT,
-            allowNull: false,
-            unique: true
+            allowNull: false
         },
         pwd: {
             type: DataTypes.TEXT,
             allowNull: false
         },
-        phoneNumber: DataTypes.TEXT,
-        firstName: DataTypes.TEXT,
-        lastName: DataTypes.TEXT,
-        userLocation: DataTypes.TEXT,
-        fitnessLevel: DataTypes.INTEGER,
-        trainerBadge: DataTypes.BOOLEAN
+        phoneNumber: {
+            type: DataTypes.TEXT,
+        },
+        firstName: {
+            type: DataTypes.TEXT,
+        },
+        lastName: {
+            type: DataTypes.TEXT,
+        },
+        userLocation: {
+            type: DataTypes.TEXT
+        },
+        fitnessLevel: {
+            type: DataTypes.INTEGER,
+        },
+        trainerBadge: {
+            type: DataTypes.BOOLEAN
+        }
     }, 
     {
         sequelize,
