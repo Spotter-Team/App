@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import MessagesTabs from '../../components/ChatsComponents/MessagesTabs';
-import ChatList from './ChatList';
+import ChatList from '../../components/ChatsComponents/ChatList';
 
 const Messages = () => {
 

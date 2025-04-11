@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { ChatItem } from '../../components/ChatsComponents/ChatItem';
+import { ChatItem } from './ChatItem';
+import { useNavigation } from '@react-navigation/native';
 
 const ChatList = () => {
     return (
