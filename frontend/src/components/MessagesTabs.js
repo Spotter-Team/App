@@ -2,22 +2,16 @@ import React from 'react';
 import { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 
-const MessagesTabs = () => {
-
-    const [activeTab, setActiveTab] = useState('chats');
-
-    const chatsTabPressed = () => setActiveTab('chats');
-    const matchTabPressed = () => setActiveTab('matches')
-
+const MessagesTabs = ({ activeTab, setActiveTab }) => {
     return (
         <View>
             <View style={styles.tabContainer}>
 
-                <Pressable onPress={chatsTabPressed}>
+                <Pressable onPress={() => setActiveTab('chats')}>
                     <Text style={activeTab === 'chats' ? styles.chatTabActive : styles.chatTabInactive}>CHATS</Text>
                 </Pressable>
 
-                <Pressable onPress={matchTabPressed}>
+                <Pressable onPress={() => setActiveTab('matches')}>
                     <Text style={activeTab === 'matches' ? styles.matchesTabActive : styles.matchesTabInactive}>MATCHES</Text>
                 </Pressable>
 
