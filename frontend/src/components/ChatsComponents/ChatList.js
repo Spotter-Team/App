@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { ChatItem } from './ChatItem';
 import { useNavigation } from '@react-navigation/native';
+import mockChatList from '../../mock/Chats/mockChatList';
 
 const ChatList = () => {
-
+    
     const navigation = useNavigation();
  
     const handleChatPress = () => navigation.navigate('Chat');
@@ -11,7 +12,15 @@ const ChatList = () => {
     return (
         <View style={styles.container}>
              <View onTouchEnd={handleChatPress}>
-                 <ChatItem />
+                {mockChatList.map((val) => (
+                    <ChatItem 
+                        avatar={val.avatarUri}
+                        name={val.name}
+                        lastMessage={val.lastMessage.type === 'image' ? 'Sent an image' : val.lastMessage.content}
+                        timestamp={val.lastMessage.timestamp}
+                        unread={val.unreadCount}
+                    />
+                ))}
              </View>
         </View>
     );

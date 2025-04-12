@@ -2,7 +2,7 @@ const mockChatList = [
     {
         id: 1,
         name: 'Haley Smith',
-        avatarUri: './pfp/haley.png',
+        avatarUri: require('./pfp/haley.png'),
         lastMessage: {
             senderId: 'haley123',
             content: 'Great job on the deadlifts',
@@ -14,7 +14,7 @@ const mockChatList = [
     {
         id: 2,
         name: 'Jessica Johnson',
-        avatarUri: './pfp/jessica.png',
+        avatarUri: require('./pfp/jessica.png'),
         lastMessage: {
             senderId: 'jessica123',
             content: 'Are you going to the gym tomorrow?',
@@ -26,7 +26,7 @@ const mockChatList = [
     {
         id: 3,
         name: 'Joseph Williams',
-        avatarUri: './pfp/joseph.png',
+        avatarUri: require('./pfp/joseph.png'),
         lastMessage: {
             senderId: 'user123',
             content: "Yeah, I'm down!",
@@ -38,7 +38,7 @@ const mockChatList = [
     {
         id: 4,
         name: 'Michael Brown',
-        avatarUri: './pfp/michael.png',
+        avatarUri: require('./pfp/michael.png'),
         lastMessage: {
             senderId: 'michael123',
             content: '/sent-image.png',

@@ -1,23 +1,38 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const ChatItem = () => {
+const ChatItem = ({ avatar, name, lastMessage, timestamp, unread }) => {
     return (
             <View style={styles.chatItemContainer}>
-                <Image source={require('../../mock/Chats/pfp/haley.png')} style={styles.avatar} />
+
+                <Image source={avatar} style={styles.avatar} />
+
                 <View style={styles.chatInfoContainer}>
+
                     <View>
-                        <Text style={styles.name}>Haley</Text>
-                        <Text style={styles.lastMessage}>Great job on the deadlifts!</Text>
+                        <Text style={styles.name}>
+                            {name}
+                        </Text>
+                        <Text style={styles.lastMessage}>
+                            {lastMessage}
+                        </Text>
                     </View>
 
                     <View style={styles.chatMetaContainer}>
-                        <Text style={styles.timestamp}>2:15 PM</Text>
-
-                        <View style={styles.unreadBadge}>
-                            <Text style={styles.unreadText}>1</Text>
-                        </View>
+                        <Text style={styles.timestamp}>
+                            {timestamp}
+                        </Text>
+                        
+                        {unread > 0 && (
+                            <View style={styles.unreadBadge}>
+                                <Text style={styles.unreadText}>
+                                    {unread}
+                                </Text>
+                            </View>
+                        )}
                     </View>
+
                 </View>
+
             </View>
     );
 };
