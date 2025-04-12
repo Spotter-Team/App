@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { ChatItem } from './ChatItem';
 import { useNavigation } from '@react-navigation/native';
 import formatDate from '../../utils/formatDate';
@@ -24,17 +24,21 @@ const ChatList = () => {
 
     return (
         <View style={styles.container}>
-             <View onTouchEnd={handleChatPress}>
-                {mockChatList.map((val) => (
-                    <ChatItem 
-                        avatar={val.avatarUri}
-                        name={val.name}
-                        lastMessage={formatLastMessage(userId, val.lastMessage)}
-                        timestamp={formatDate(val.lastMessage.timestamp)}
-                        unread={val.unreadCount}
-                    />
+                {mockChatList.map((val, index) => (
+                    <TouchableOpacity
+                        key={val.id || index}
+                        onPress={() => handleChatPress(val.id)}
+                        activeOpacity={0.7}
+                    >
+                        <ChatItem    
+                            avatar={val.avatarUri}
+                            name={val.name}
+                            lastMessage={formatLastMessage(userId, val.lastMessage)}
+                            timestamp={formatDate(val.lastMessage.timestamp)}
+                            unread={val.unreadCount}
+                        />
+                    </TouchableOpacity>
                 ))}
-             </View>
         </View>
     );
 };
