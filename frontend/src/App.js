@@ -7,6 +7,7 @@ import CreateAccount from './screens/CreateAccount';
 import AccountInfo from './screens/Profile/AccountInfo';
 import NavigationTabs from './navigation/NavigationTabs';
 import Header from './components/Header';
+import Chat from './screens/Chats/Chat';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
                 
                 <Stack.Screen name="HomeTabs" component={NavigationTabs} />
                 <Stack.Screen name="AccountInfo" component={AccountInfo} />
+                <Stack.Screen name="Chat" component={Chat} />
             </Stack.Navigator>
         </NavigationContainer>
     );
