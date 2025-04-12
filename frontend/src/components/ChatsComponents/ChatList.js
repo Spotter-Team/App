@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { ChatItem } from './ChatItem';
 import { useNavigation } from '@react-navigation/native';
+import formatDate from '../../utils/formatDate';
 import mockChatList from '../../mock/Chats/mockChatList';
 
 const ChatList = () => {
     
     const navigation = useNavigation();
- 
     const handleChatPress = () => navigation.navigate('Chat');
 
     return (
@@ -17,7 +17,7 @@ const ChatList = () => {
                         avatar={val.avatarUri}
                         name={val.name}
                         lastMessage={val.lastMessage.type === 'image' ? 'Sent an image' : val.lastMessage.content}
-                        timestamp={val.lastMessage.timestamp}
+                        timestamp={formatDate(val.lastMessage.timestamp)}
                         unread={val.unreadCount}
                     />
                 ))}
