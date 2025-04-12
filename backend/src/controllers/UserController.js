@@ -17,7 +17,7 @@ class UserController {
      * @returns A promise which resolves if the account creation succeeds, and rejects if it fails
      */
     createAccount(username, pwd) {
-
+        // TODO: implement createAccount() function
     }
 
     /**
@@ -27,7 +27,7 @@ class UserController {
      * @returns A promise which resolves to a login token if the login succeeds, and rejects if it fails
      */
     login(username, pwd) {
-
+        // TODO: implement login() function
     }
 
     /**
@@ -35,7 +35,7 @@ class UserController {
      * @returns An array of usernames
      */
     getAllUsers() {
-
+        // TODO: implement getAllUsers() function
     }
 }
 

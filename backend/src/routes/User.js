@@ -6,6 +6,7 @@ const router = express.Router();
 let users = [];
 
 // create account route
+// TODO: refactor to use UserController createAccount() function
 router.post('/create-account', (req, res) => {
     const { email, password } = req.body;
 
@@ -28,6 +29,7 @@ router.post('/create-account', (req, res) => {
 });
 
 // login route
+// TODO: refactor to use UserController login() function
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
     console.log('Login attempt:', email, password);
@@ -52,6 +54,7 @@ router.post('/login', (req, res) => {
 });
 
 // Get all users
+// TODO: refactor to use UserController getAllUsers() function
 router.get('/', (req, res) => {
   res.send(users);
 });
