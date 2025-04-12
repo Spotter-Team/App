@@ -13,7 +13,7 @@ const mockChatList = [
     }, 
     {
         id: 2,
-        name: 'Jessica Anserson',
+        name: 'Jessica Anderson',
         avatarUri: require('./pfp/jessica.jpg'),
         lastMessage: {
             senderId: 'jessica123',
