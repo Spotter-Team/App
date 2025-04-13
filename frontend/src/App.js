@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -12,9 +12,24 @@ import Chat from './screens/Chats/Chat';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+    const [currentScreen, setCurrentScreen] = useState('Matching');
+
+    const handleStateChange = (state) => {
+        setCurrentScreen(getActiveRouteName(state));
+    }
+
+    const getActiveRouteName = (state) => {
+        const route = state.routes[state.index];
+        if(route.state) {
+            return getActiveRouteName(route.state);
+        }
+        return route.name;
+    };
+
     return (
-        <NavigationContainer>
-            <Header />
+        <NavigationContainer onStateChange={handleStateChange}>
+            <Header activeScreen={currentScreen}/>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {/* <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="CreateAccount" component={CreateAccount} /> */}

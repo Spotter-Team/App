@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
 import DumbbellLogo from '../assets/dumbbell-logo.png';
 
-const Header = () => {
+const Header = ({ activeScreen }) => {
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
