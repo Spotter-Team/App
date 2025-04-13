@@ -1,27 +1,30 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
 import DumbbellLogo from '../assets/dumbbell-logo.png';
 
 const Header = () => {
     return (
-        <View style={styles.container}>
-            <View style={styles.logoContainer}>
-                <Image source={DumbbellLogo} style={styles.logo} />
-                <Text style={styles.title}>Spotter</Text>
+        <SafeAreaView style={styles.safeArea}>
+            <View style={styles.container}>
+                <View style={styles.logoContainer}>
+                    <Image source={DumbbellLogo} style={styles.logo} />
+                    <Text style={styles.title}>Spotter</Text>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container : {
         backgroundColor: '#141417',
-        height: 102,
+        flexDirection: 'row',
+        paddingTop: 3,
+        paddingBottom: 10,
     },
     logoContainer: {
         flex: 1,
         flexDirection: 'row',
-        paddingTop: 65,
         paddingLeft: 20,
     },
     logo: {
@@ -36,6 +39,12 @@ const styles = StyleSheet.create({
         paddingLeft: 7,
         fontWeight: 700,
     },
+    settings: {
+        color: 'white'
+    },
+    safeArea: {
+        backgroundColor: '#141417'
+    }
 });
 
 export default Header;
