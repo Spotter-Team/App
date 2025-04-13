@@ -37,7 +37,7 @@ export default function NavigationTabs() {
                             iconName = 'barbell';
                             break;
                         case 'Explore':
-                            iconName = 'compass';
+                            iconName = 'grid';
                             break;
                         case 'Messages':
                             iconName = 'chatbox';

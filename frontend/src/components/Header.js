@@ -1,40 +1,44 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import DumbbellLogo from '../assets/dumbbell-logo.png';
 
 const Header = ({ activeScreen }) => {
 
+    const navigation = useNavigation();
+    const handleSettingsPress = () => navigation.navigate('Settings');
+    const handleFilterPress = () => navigation.navigate('Filter');
+
     const renderContent = () => {
-        if(activeScreen === 'Profile') {
+        if(activeScreen === 'Profile' || activeScreen === 'Settings') {
             return (
-                <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => handleSettingsPress()}>
                     <Text style={styles.buttonText}>
                         Settings
                     </Text>
                     <View style={styles.buttonIconContainer}>
                         <Ionicons name="settings" size={16} color={'white'}></Ionicons>
                     </View>
-                </View>
+                </TouchableOpacity>
             );
         }
-        else if(activeScreen === 'Matching') {
+        else if(activeScreen === 'Matching' || activeScreen === 'Filter') {
             return (
-                <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => handleFilterPress()}>
                     <Text style={styles.buttonText}>
                         Filter
                     </Text>
                     <View style={styles.buttonIconContainer}>
                         <Ionicons name="options" size={16} color={'white'}></Ionicons>
                     </View>
-                </View>
+                </TouchableOpacity>
             );
         };
     };
 
     return (
         <SafeAreaView style={styles.safeArea}>
-
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
                     <Image source={DumbbellLogo} style={styles.logo} />

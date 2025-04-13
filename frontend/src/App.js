@@ -8,6 +8,8 @@ import AccountInfo from './screens/Profile/AccountInfo';
 import NavigationTabs from './navigation/NavigationTabs';
 import Header from './components/Header';
 import Chat from './screens/Chats/Chat';
+import Filter from './screens/Home/Filter';
+import Settings from './screens/Profile/Settings';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +39,8 @@ export default function App() {
                 <Stack.Screen name="HomeTabs" component={NavigationTabs} />
                 <Stack.Screen name="AccountInfo" component={AccountInfo} />
                 <Stack.Screen name="Chat" component={Chat} />
+                <Stack.Screen name="Filter" component={Filter} options={{ presentation: 'modal' }}/>
+                <Stack.Screen name="Settings" component={Settings} options={{presentation: 'modal' }}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
