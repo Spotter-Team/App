@@ -1,11 +1,18 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const ChatHeader = () => {
+
+    const navigation = useNavigation();
+    const handleBackBtnPress = () => navigation.goBack();
+
     return (
         <View style={styles.chatHeaderContainer}>
-            <Ionicons name="chevron-back" size={25} style={styles.backButton}></Ionicons>
+            <TouchableOpacity onPress={() => handleBackBtnPress()}>
+                <Ionicons name="chevron-back" size={25} style={styles.backButton}></Ionicons>                
+            </TouchableOpacity>
+
             <View style={styles.userInfoContainer}>
                 <Image source={require('../../mock/Chats/pfp/haley.jpg')} style={styles.userAvatar}></Image>
                 <Text style={styles.userName}>Haley Smith</Text>
@@ -23,6 +30,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#141417',
         paddingTop: 0,
         paddingBottom: 6,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#3C444F',
     },
     backButton: {
         color: '#B42B23',
