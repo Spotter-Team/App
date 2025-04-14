@@ -61,6 +61,11 @@ class User extends Model {
         })
     }
 
+    /**
+     * Queries the database for a specific user and returns rows that are found
+     * @param { string } username the query parameter to perform the search
+     * @returns { Promise<User[]>>} A promise that resolves to an array of users
+     */
     static findUser(username) {
         return new Promise((resolve, reject) => {
             User.findAll({
@@ -74,6 +79,42 @@ class User extends Model {
             .catch(err => {
                 reject(err);
             })
+        })
+    }
+
+    /**
+     * 
+     * @param { string } username the user to find the password for
+     * @returns { Promise<string> } A promise that resolves to a string representing the hashed password
+     */
+    static getUserPwdHash(username) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findOne({ attributes: [ 'pwd' ], where: { username: username }})
+                .then(user => {
+                    resolve(user.dataValues.pwd);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Attempts to get a user record from the db
+     * @param { string } username A username to be used for the query
+     * @returns { Promise<object> } A promise that resolves to an object which contains the data values for the user
+     */
+    static getUser(username) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findOne({ attributes: [ 'pwd' ], where: { username: username }})
+                .then(user => {
+                    resolve(user.dataValues);
+                })
+                .catch(err => {
+                    reject(err);
+                })
         })
     }
 }
@@ -95,7 +136,10 @@ const userSchema = {
     },
     pwd: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        get() {
+            return this.getDataValue();
+        }
     },
     phoneNumber: {
         type: DataTypes.TEXT,
