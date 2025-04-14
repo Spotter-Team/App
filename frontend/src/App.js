@@ -31,7 +31,6 @@ export default function App() {
 
     return (
         <NavigationContainer onStateChange={handleStateChange}>
-            <Header activeScreen={currentScreen}/>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {/* <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="CreateAccount" component={CreateAccount} /> */}
@@ -40,7 +39,7 @@ export default function App() {
                 <Stack.Screen name="AccountInfo" component={AccountInfo} />
                 <Stack.Screen name="Chat" component={Chat} />
                 <Stack.Screen name="Filter" component={Filter} options={{ presentation: 'modal' }}/>
-                <Stack.Screen name="Settings" component={Settings} options={{presentation: 'modal' }}/>
+                <Stack.Screen name="Settings" component={Settings}  />
             </Stack.Navigator>
         </NavigationContainer>
     );
