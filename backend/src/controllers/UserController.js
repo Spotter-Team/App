@@ -1,23 +1,25 @@
 const User = require('../models/User');
 
 class UserController {
-    /** @type { User } */
-    user;
-
-    constructor() {
-        this.user = User;
-    }
-
     /** PUBLIC METHODS */
 
     /**
      * Performs the account creation process based on the parameters passed to the func
      * @param {string} username 
      * @param {string} pwd 
-     * @returns A promise which resolves if the account creation succeeds, and rejects if it fails
+     * @returns { Promise<void, any>} A promise which resolves if the account creation succeeds, and rejects if it fails
      */
-    createAccount(username, pwd) {
-        // TODO: implement createAccount() function
+    static createAccount(username, pwd) {
+        return new Promise((resolve, reject) => {
+            // Attempt to create the account
+            User.addNewUser(username, pwd)
+                .then(newUser => {
+                    resolve(`Your account was created! Your username is '${newUser.username}'.`);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
     }
 
     /**
@@ -26,7 +28,7 @@ class UserController {
      * @param {string} pwd 
      * @returns A promise which resolves to a login token if the login succeeds, and rejects if it fails
      */
-    login(username, pwd) {
+    static login(username, pwd) {
         // TODO: implement login() function
     }
 
@@ -34,7 +36,7 @@ class UserController {
      * Gets the usernames for all the users in the Users table
      * @returns An array of usernames
      */
-    getAllUsers() {
+    static getAllUsers() {
         // TODO: implement getAllUsers() function
     }
 }

@@ -36,7 +36,7 @@ erDiagram
     
     User {
         int userID PK
-        text email
+        text username
         text pwd
         text phoneNumber
         text firstName
@@ -163,6 +163,16 @@ DATA_PATH=data
 LOCAL_DB_PATH=data/local.db
 LOCAL_DB_USERNAME=test
 LOCAL_DB_PASSWORD=somethingSecure*
+```
+
+You should also create an environment variable specifically for testing called test.env in /backend
+```
+$ touch test.env
+```
+
+The variable names and values can be mostly the same, but you might want your local db path to be different for testing
+```text
+LOCAL_DB_PATH=data/test.local.db
 ```
 
 Run the NPM command to initialize the local sqlite environment

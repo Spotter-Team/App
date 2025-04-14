@@ -1,9 +1,7 @@
-// routes/Users.js
+// routes/User.js
 const express = require('express');
 const router = express.Router();
-
-// Temporary storage
-let users = [];
+const UserController = require('../controllers/UserController');
 
 // create account route
 // TODO: refactor to use UserController createAccount() function
@@ -15,17 +13,14 @@ router.post('/create-account', (req, res) => {
         return res.status(400).json({ message: 'Email and password required' });
     }
 
-    if (users.find((user) => user.email === email)) {
-        return res.status(400).json({ message: 'Email is already registered' });
-    }
-
-    try {
-        users.push({ email, password }); 
-        res.status(201).json({ message: 'Account created successfully!' });
-    } catch (error) {
-        console.error('Error creating account:', error);
-        res.status(500).json({ message: 'Failed to create account.' });
-    }
+    UserController.createAccount(email, password)
+        .then(msg => {
+            res.status(201).json({ message: 'Account created successfully!' });
+        })
+        .catch(err => {
+            console.error('Error creating account:', err);
+            res.status(500).json({ message: 'Failed to create account.' });
+        })
 });
 
 // login route
