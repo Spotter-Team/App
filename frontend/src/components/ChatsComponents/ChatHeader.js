@@ -44,8 +44,6 @@ const styles = StyleSheet.create({
     userInfoContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: 130,
     },
     userAvatar: {
         height: 34,
@@ -55,6 +53,7 @@ const styles = StyleSheet.create({
     userName: {
         color: 'white',
         fontSize: 15,
+        marginLeft: 10,
     }
 });
 
