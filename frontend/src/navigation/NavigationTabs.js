@@ -3,9 +3,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
-import AccountInfo from '../screens/AccountInfo';
-import Messages from '../screens/Messages';
+import AccountInfo from '../screens/Profile/AccountInfo';
+import Messages from '../screens/Chats/Messages';
+import GymHub from '../screens/GymHub/GymHub';
+import Match from '../screens/Home/Match';
 import COLORS from '../utils/theme';
+import Header from '../components/Header';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +18,16 @@ const BlankScreen = ({ title }) => (
 );
 
 export default function NavigationTabs() {
+
+    const WithHeader = ({ children, title }) => {
+        return (
+            <View style={{ flex: 1, backgroundColor: 'black' }}>
+                <Header activeScreen={title} />
+                {children}
+            </View>
+        );
+    };
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -32,26 +45,47 @@ export default function NavigationTabs() {
                     let iconName;
                     switch (route.name) {
                         case 'Matching':
-                            iconName = 'barbell-outline';
+                            iconName = 'barbell';
                             break;
                         case 'Explore':
-                            iconName = 'search-outline';
+                            iconName = 'grid';
                             break;
                         case 'Messages':
-                            iconName = 'chatbubble-outline';
+                            iconName = 'chatbox';
                             break;
                         case 'Profile':
-                            iconName = 'person-outline';
+                            iconName = 'person';
                             break;
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
             })}
         >
-            <Tab.Screen name="Matching">{() => <BlankScreen title="Matching" />}</Tab.Screen>
-            <Tab.Screen name="Explore">{() => <BlankScreen title="Explore" />}</Tab.Screen>
-            <Tab.Screen name="Messages" component={Messages} />
-            <Tab.Screen name="Profile" component={AccountInfo} />
+            <Tab.Screen name="Matching" children={() => (
+                <WithHeader title="Matching">
+                    <Match />
+                </WithHeader>
+            )} />
+
+            <Tab.Screen name="Explore" children={() => (
+                <WithHeader title="Explore">
+                    <GymHub />
+                </WithHeader>
+            )} />
+
+            <Tab.Screen name="Messages" children={() => (
+                <WithHeader title="Messages">
+                    <Messages />
+                </WithHeader>
+            )} />
+
+            <Tab.Screen name="Profile" children={() => (
+                <WithHeader title="Profile">
+                    <AccountInfo />
+                </WithHeader>
+            )
+            
+            } />
         </Tab.Navigator>
     );
 }
