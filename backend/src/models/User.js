@@ -108,9 +108,65 @@ class User extends Model {
     static getUser(username) {
         return new Promise((resolve, reject) => {
             // Try to get the user's row in the db
-            User.findOne({ attributes: [ 'pwd' ], where: { username: username }})
+            User.findOne(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'userLocation',
+                        'fitnessLevel',
+                        'trainerBadge'
+                    ], 
+                    where: {
+                        username: username
+                    }
+                })
                 .then(user => {
-                    resolve(user.dataValues);
+                    if (user !== null) {
+                        resolve(user.dataValues);
+                    } else {
+                        reject({ code: 'USER_NOT_FOUND', msg: `User with username '${username}' was not found! ` })
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * 
+     * @param { number } userID The userID to get the user for
+     * @returns { Promise<object> } A promise that resolves to an object which contains the data values for the user
+     */
+    static getUserByID(userID) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findOne(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'userLocation',
+                        'fitnessLevel',
+                        'trainerBadge'
+                    ], 
+                    where: {
+                        userID: userID
+                    }
+                })
+                .then(user => {
+                    if (user !== null) {
+                        resolve(user.dataValues);
+                    } else {
+                        reject({ code: 'USER_NOT_FOUND', msg: `User with userID '${userID}' was not found! ` })
+                    }
                 })
                 .catch(err => {
                     reject(err);

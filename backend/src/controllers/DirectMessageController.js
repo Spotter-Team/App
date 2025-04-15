@@ -1,4 +1,5 @@
 const { DirectMessage } = require('../models/DirectMessage');
+const UserController = require('./UserController');
 
 class DirectMessageController {
     /** PUBLIC METHODS */
@@ -11,21 +12,55 @@ class DirectMessageController {
      */
     static sendMessageToUser(toUserID, fromUserID, msg) {
         return new Promise((resolve, reject) => {
-            // Check to see if the user is registered
-
-            // Check to see if the user sending the message is blocked by the user they are sending the message to
-            
+            // Check to see if both the users are registered
+            UserController.userIDIsRegistered(toUserID)
+                .then(toUserIsRegistered => {
+                    if (toUserIsRegistered) {
+                        UserController.userIDIsRegistered(fromUserID)
+                            .then(fromUserIsRegistered => {
+                                if (fromUserIsRegistered) {
+                                    // TODO: Check to see if the user sending the message is blocked by the user they are sending the message to
+                                    // Add the message to the DirectMessage table
+                                    DirectMessage.addMessage(fromUserID, toUserID, msg)
+                                        .then(() => {
+                                            resolve();
+                                        })
+                                        .catch(err => {
+                                            reject(err);
+                                        })
+                                } else {
+                                    reject(`A message from a user with userID '${fromUserID}' could not be sent! The sender is not registered!`)
+                                }
+                            })
+                            .catch(err => {
+                                reject(err);
+                            })
+                    } else {
+                        reject(`A message to a recipient with userID '${toUserID}' could not be sent! The intended recipient is not registered!`)
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                })
         })
     }
 
     /**
-     * 
-     * @param { number } toUserID 
-     * @param { number } fromUserID 
-     * @param { string } msg 
+     * Gets all the messages sent to a user from another user
+     * @param { number } userOneID The userID for the user to get the messages for
+     * @param { number } userTwoID The userID for the user who send
+     * @returns { Promise<DirectMessage[]> } A promise that resolves to an array of messages between users
      */
-    static getMessagesFromUser(toUserID, fromUserID, msg) {
-
+    static getMessagesBetweenUsers(userOneID, userTwoID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.getMessages(userOneID, userTwoID)
+                .then(messages => {
+                    resolve(messages);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
     }
 }
 

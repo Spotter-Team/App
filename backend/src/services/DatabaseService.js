@@ -153,6 +153,7 @@ class DatabaseService {
 
     /**
      * Loads all the model files from the 'models' directory
+     * @returns { Promise<string> } A promise that resolves to a string message after the models are loaded
      */
     loadModels() {
         return new Promise(async (resolve, reject) => {
@@ -186,6 +187,30 @@ class DatabaseService {
                 })
         });
     }    
+
+    /**
+     * Checks to see if the database is connected
+     * @returns { Promise<boolean> } A promise that resolved to a boolean value that indicates if the DB is connected
+     */
+    isConnected() {
+        return new Promise((resolve, reject) => {
+            this.sequelize.authenticate()
+                .then(() => {
+                    resolve(true);
+                })
+                .catch(() => {
+                    resolve(false);
+                })
+        })
+    }
+
+    /**
+     * Closed the DB connection
+     * @returns { Promise<void> } A promise that resolves once the DB connection has been closed
+     */
+    closeDBConnection() {
+        return this.sequelize.close();
+    }
 
 
     /**

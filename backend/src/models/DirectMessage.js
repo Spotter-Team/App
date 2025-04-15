@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Op } = require('sequelize');
 const { User } = require('./User');
 
 const sequelize = require('./sequelize')
@@ -6,22 +6,25 @@ const sequelize = require('./sequelize')
 class DirectMessage extends Model {
 
     /**
-     * Gets all the messages sent to the user
-     * @param { string } username The user to find the messages for
-     * @returns { Promise<Object[]>} A promise that resolves to an array which contain message records 
+     * Gets all the messages between two users
+     * @param { number } userOneID The first userID to find the messages
+     * @param { number } userTwoID The second userID to find the messages
+     * @returns { Promise<DirectMessage[]>} A promise that resolves to an array which contain message records 
      */
-    static getMessages(username) {
+    static getMessages(userOneID, userTwoID) {
         return new Promise((resolve, reject) => {
-            // Get the userID from the username
-            User.getUserID(username)
-                .then(userID => {
-                    DirectMessage.findAll({ attributes: [ 'tStamp', 'senderID', 'receiverID', 'msg'], where: { receiverID: userID } })
-                        .then(messages => {
-                            resolve(messages);
-                        })
-                        .catch(err => {
-                            reject(err);
-                        })
+            DirectMessage.findAll(
+                {
+                    attributes: [ 'tStamp', 'senderID', 'receiverID', 'msg'],
+                    where: {
+                        [Op.or]: [ { receiverID: userOneID }, { receiverID: userTwoID }, { senderID: userOneID }, { senderID: userTwoID } ]
+                    }
+                })
+                .then(messages => {
+                    resolve(messages);
+                })
+                .catch(err => {
+                    reject(err);
                 })
         })
     }
@@ -31,11 +34,17 @@ class DirectMessage extends Model {
      * @param { number } senderID The userID of the user sending the message
      * @param { number } receiverID The userID of the user receiving the message
      * @param { string } message The message text to add
-     * @returns { Promise<void> } A promise that resolves if the message was successfully added
+     * @returns { Promise<DirectMessage> } A promise that resolves if the message was successfully added
      */
     static addMessage(senderID, receiverID, message) {
         return new Promise((resolve, reject) => {
-
+            DirectMessage.create({ msg: message, senderID, receiverID })
+                .then(msg => {
+                    resolve(msg);
+                })
+                .catch(err => {
+                    reject(err);
+                })
         })
     }
 }

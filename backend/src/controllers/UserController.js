@@ -66,7 +66,7 @@ class UserController {
 
     /**
      * Checks to see if the user has been registerd
-     * @param { string } username 
+     * @param { string } username The username to check
      * @returns { Promise<boolean> } A Promise that resolves to true if the user exists in the DB
      */
     static userIsRegistered(username) {
@@ -76,7 +76,32 @@ class UserController {
                     resolve(!unregistered);
                 })
                 .catch(err => {
-                    reject(err);
+                    if (err.code == 'USER_NOT_FOUND') {
+                        resolve(false);
+                    } else {
+                        reject(err);
+                    }
+                })
+        })
+    }
+
+    /**
+     * Checks to see if the user has been registered
+     * @param { number } userID The userID for the user to check
+     * @returns { Promise<boolean> } A Promise that resolves to true if the user exists in the DB
+     */
+    static userIDIsRegistered(userID) {
+        return new Promise((resolve, reject) => {
+            User.getUserByID(userID)
+                .then(unregistered => {
+                    resolve(!unregistered);
+                })
+                .catch(err => {
+                    if (err.code == 'USER_NOT_FOUND') {
+                        resolve(false);
+                    } else {
+                        reject(err);
+                    }
                 })
         })
     }
@@ -87,6 +112,23 @@ class UserController {
      */
     static getAllUsers() {
         // TODO: implement getAllUsers() function
+    }
+
+    /**
+     * Gets information about one user
+     * @param { string } username 
+     * @returns { Promise<object> } A promise that resolves to a user object if the user is found
+     */
+    static getUser(username) {
+        return new Promise((resolve, reject) => {
+            User.getUser(username)
+                .then(userObj => {
+                    resolve(userObj);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
     }
 
     /**
