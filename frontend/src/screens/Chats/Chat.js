@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView } from 'react-n
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ChatHeader from '../../components/ChatsComponents/ChatHeader';
+import ChatBubbleSender from '../../components/ChatsComponents/ChatBubbleSender';
 
 
 const Chat = () => {
@@ -11,11 +12,10 @@ const Chat = () => {
             <ChatHeader />
 
             <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1 }}>
-                <View style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: 'white', fontFamily: 'Bebas Neue', fontSize: 50 }}>
-                        Chat Area
-                    </Text>
-                </View>
+
+
+                <ChatBubbleSender />
+
             </ScrollView>
 
             
