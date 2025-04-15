@@ -21,6 +21,9 @@
 
 > **WARNING**: The 'data' directory is for local db files and is ignored by source control
 
+<br>
+<br>
+
 ## Database Setup
 
 Initialize the backend if you have not already
@@ -79,6 +82,9 @@ To reset your local database environment run this NPM command
 $ npm run clean-local-db
 ```
 
+<br>
+<br>
+
 ## API Documentation
 --------------------
 REST API routes are segmented into the following groups:
@@ -87,7 +93,6 @@ REST API routes are segmented into the following groups:
 - Direct Messaging - `/api/msg`
 
 ### User routes
-----------------------
 #### Create an Account
 <details>
     <summary><code>POST</code> <code><b>/api/user/create-account</b></code></summary>
@@ -143,7 +148,11 @@ REST API routes are segmented into the following groups:
 
 </details>
 
+<br>
+<br>
+
 ## Database Architecture
+-----------------------
 ```mermaid
 erDiagram
     User ||--|{ DirectMessage : sends

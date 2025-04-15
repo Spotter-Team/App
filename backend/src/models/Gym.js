@@ -23,7 +23,7 @@ const gymSchema = {
         allowNull: false
     },
     gymLocation: {
-        type: DataTypes.LOCATION,
+        type: DataTypes.GEOGRAPHY,
         allowNull: false
     },
     gymAddress: {
