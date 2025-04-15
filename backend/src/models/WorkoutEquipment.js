@@ -13,26 +13,29 @@ const sequelize = new Sequelize({
 
 class WorkoutEquipment extends Model {}
 
-// Define Meetup Model attributes
-WorkoutEquipment.init(
-    {
-        equipmentID: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        equipmentName: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-        equipmentDescription: {
-            type: DataTypes.TEXT
-        }
+const workoutEquipmentSchema = {
+    equipmentID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    {
-        sequelize,
+    equipmentName: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    equipmentDescription: {
+        type: DataTypes.TEXT
+    }
+};
+
+// Define Meetup Model attributes
+WorkoutEquipment.init(workoutEquipmentSchema,{
+        sequelize: sequelize,
         modelName: 'WorkoutEquipment'
     }
 );
 
-module.exports = WorkoutEquipment;
+module.exports = {
+    workoutEquipmentSchema,
+    WorkoutEquipment
+};
