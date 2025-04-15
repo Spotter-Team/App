@@ -1,13 +1,11 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-const ChatBubbleSender = () => {
+const ChatBubbleReceiver = () => {
     return (
-        <View style={styles.senderContainer}>
-            <Image source={require('../../mock/Chats/pfp/haley.jpg')} style={styles.senderAvatar}></Image>
-
-            <View style={styles.senderBubble}>
+        <View style={styles.receiverContainer}>
+            <View style={styles.receiverBubble}>
                 <Text style={styles.textMessage}>
-                    Hey, do you want to hit the gym?
+                    Yeah, let's do it!
                 </Text>
             </View>
         </View>
@@ -15,28 +13,28 @@ const ChatBubbleSender = () => {
 };
 
 const styles = StyleSheet.create({
-    senderContainer: {
+    receiverContainer: {
         flexDirection: 'row',
         alignItems: 'flex-end',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-end',
         marginVertical: 5,
-        marginLeft: 20,
+        marginRight: 20,
     },
-    senderAvatar: {
+    receiverAvatar: {
         marginTop: 12,
         height: 34,
         width: 34,
         borderRadius: '100%',
     },
-    senderBubble: {
+    receiverBubble: {
         justifyContent: 'center',
         marginLeft: 8,
         padding: 13,
         borderTopLeftRadius: 20,
         borderTopEndRadius: 20,
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 4,
-        backgroundColor: '#21262E',
+        borderBottomRightRadius: 4,
+        borderBottomLeftRadius: 20,
+        backgroundColor: '#B42B23',
         maxWidth: '60%',
     },
     textMessage: {
@@ -45,4 +43,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ChatBubbleSender;
+export default ChatBubbleReceiver;
