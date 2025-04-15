@@ -14,7 +14,7 @@ const sequelize = new Sequelize({
 
 class CommunityType extends Model {}
 
-CommunityType.init({
+const communityTypeSchema = {
     typeID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -27,9 +27,14 @@ CommunityType.init({
     typeDescription: {
         type: DataTypes.TEXT
     }
-}, {
+};
+
+CommunityType.init(communityTypeSchema, {
     sequelize: sequelize,
     modelName: 'CommunityType'
 });
 
-module.exports = CommunityType;
+module.exports = {
+    communityTypeSchema,
+    CommunityType
+};

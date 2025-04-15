@@ -15,43 +15,43 @@ const sequelize = new Sequelize({
 
 class UserReport extends Model {}
 
-// Define Meetup Model attributes
-UserReport.init(
-    {
-        reportID: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        userID: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: User,
-                key: 'userID'
-            }
-        },
-        reporterID: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: User,
-                key: 'userID'
-            }
-        },
-        reportTypeID: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: UserReportType,
-                key: 'reportTypeID'
-            }
-        },
-        reportDetail: {
-            type: DataTypes.TEXT
+const userReportSchema = {
+    reportID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    userID: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: User,
+            key: 'userID'
         }
     },
-    {
-        sequelize,
+    reporterID: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: User,
+            key: 'userID'
+        }
+    },
+    reportTypeID: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: UserReportType,
+            key: 'reportTypeID'
+        }
+    }
+};
+
+// Define Meetup Model attributes
+UserReport.init(userReportSchema, {
+        sequelize: sequelize,
         modelName: 'UserReport'
     }
 );
 
-module.exports = UserReport;
+module.exports = {
+    userReportSchema,
+    UserReport
+};

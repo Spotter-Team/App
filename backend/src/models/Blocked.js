@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
 
 class Blocked extends Model {}
 
-Blocked.init({
+const blockedSchema = {
     userID: {
         type: DataTypes.INTEGER,
         references: {
@@ -28,9 +28,14 @@ Blocked.init({
             key: 'userID'
         }
     }
-}, {
+};
+
+Blocked.init(blockedSchema, {
     sequelize: sequelize,
     modelName: 'Blocked'
 });
 
-module.exports = Blocked;
+module.exports = {
+    Blocked,
+    blockedSchema
+};

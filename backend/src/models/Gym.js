@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
 
 class Gym extends Model {}
 
-Gym.init({
+const gymSchema = {
     gymID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -32,9 +32,14 @@ Gym.init({
     gymURL: {
         type: DataTypes.TEXT,
     }
-}, {
+};
+
+Gym.init(gymSchema, {
     sequelize: sequelize,
     modelName: 'Gym'
 });
 
-module.exports = Gym;
+module.exports = {
+    gymSchema,
+    Gym
+};

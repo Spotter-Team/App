@@ -1,6 +1,6 @@
 CREATE TABLE User (
     userID INTEGER PRIMARY KEY,
-    email TEXT NOT NULL,
+    username TEXT NOT NULL,
     pwd TEXT NOT NULL,
     phoneNumber TEXT,
     firstName TEXT,
