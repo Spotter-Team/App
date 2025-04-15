@@ -1,21 +1,32 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const MatchItem = () => {
+const MatchItem = ({ name, isProfessionalTrainer, workouts, avatarUri, isNew }) => {
+
+    const renderNewBadge = (isNew) => {
+        if(isNew) {
+            return (
+                <View style={styles.newBadge}>
+                    <Text style={styles.newText}>NEW</Text>
+                </View>
+            );
+        };
+    };
+
     return (
         <View style={styles.matchItemContainer}>
             
             <View style={styles.matchInfoContainer}>
 
                 <View>
-                    <Text style={styles.name}>Haley</Text>
-                    <Text style={styles.userInfo}>Professional Trainer</Text>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.userInfo}>
+                        {isProfessionalTrainer ? 'Professional Trainer' : workouts.join(', ')}
+                    </Text>
                 </View>
                 
                 <View style={styles.avatarContainer}>
-                    <Image source={require('../../mock/Chats/pfp/haley.jpg')} style={styles.avatar} />
-                    <View style={styles.newBadge}>
-                        <Text style={styles.newText}>NEW</Text>
-                    </View>
+                    <Image source={avatarUri} style={styles.avatar} />
+                    {renderNewBadge(isNew)}
                 </View>
 
             </View>
