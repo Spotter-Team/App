@@ -5,7 +5,7 @@ const ChatBubbleReceiver = () => {
         <View style={styles.receiverContainer}>
             <View style={styles.receiverBubble}>
                 <Text style={styles.textMessage}>
-                    Yeah, let's do it!
+                    Yeah, let's do it! 😎
                 </Text>
             </View>
         </View>
