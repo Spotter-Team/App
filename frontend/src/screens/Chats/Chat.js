@@ -15,6 +15,7 @@ const Chat = () => {
     const chatData = mockChat.find((val) => val.id === chatId);
 
     const [value, onChangeText] = useState('');
+    const [messages, setMessages] = useState(chatData.messages);
 
     const renderContent = (chat, userId, userAvatar) => {
         if(chat.senderId === userId) {
@@ -25,15 +26,28 @@ const Chat = () => {
         }
     }
 
+    const handleSendMessage = () => {
+
+        const newMessage = {
+            id: `msg${messages.length + 1}`,
+            senderId: mockUserId,
+            content: value,
+            type: 'text',
+        }
+
+        setMessages([...messages, newMessage]);
+        onChangeText('');
+    }
+
     return (
         <KeyboardAvoidingView style={styles.chatScreen} behavior={Platform === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={-45}>
             <SafeAreaView style={styles.safeArea}>
                 <ChatHeader avatar={chatData.avatarUri} name={chatData.name} />
                 <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1, marginTop: 10 }}>
-                    {chatData.messages.map((val) => renderContent(val, mockUserId, chatData.avatarUri))}
+                    {messages.map((val) => renderContent(val, mockUserId, chatData.avatarUri))}
                 </ScrollView>
             </SafeAreaView> 
-            <ChatInput value={value} onChangeText={onChangeText} />
+            <ChatInput value={value} onChangeText={onChangeText} onSend={handleSendMessage} />
         </KeyboardAvoidingView>
     );
 };

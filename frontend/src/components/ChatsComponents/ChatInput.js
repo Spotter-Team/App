@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const ChatInput = ({value, onChangeText}) => {
+const ChatInput = ({ value, onChangeText, onSend }) => {
     return (
         <>
             <View style={styles.inputContainer}>
@@ -15,7 +15,9 @@ const ChatInput = ({value, onChangeText}) => {
                     onChangeText={text => onChangeText(text)}
                 >
                 </TextInput>
-                <Text style={styles.sendBtn}>SEND</Text>
+                <TouchableOpacity onPress={onSend} style={styles.sendBtnContainer} >
+                    <Text style={styles.sendBtn}>SEND</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.inputFooter}>
                 <Ionicons name="images-outline" size={28} style={styles.footerIcon}></Ionicons>
@@ -45,12 +47,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         width: '80%',
     },
-    sendBtn: {
+    sendBtnContainer: {
+        width: '20%',
         marginRight: 20,
+    },
+    sendBtn: {
         color: '#B42B23',
         fontSize: 16,
         fontWeight: 600,
-        width: '20%',
     },
     inputFooter: {
         flexDirection: 'row',
