@@ -101,7 +101,7 @@ const mockChat = [
     {
         id: 4,
         name: 'Michael Thomas',
-        avatarUri: require('./pfp/joseph.jpg'),
+        avatarUri: require('./pfp/michael.jpg'),
         messages: [
             {
                 id: 'msg1',
@@ -132,7 +132,7 @@ const mockChat = [
     {
         id: 5,
         name: 'Maria Jones',
-        avatarUri: require('./pfp/joseph.jpg'),
+        avatarUri: require('./pfp/maria.jpg'),
         messages: [
             {
                 id: 'msg1',

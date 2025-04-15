@@ -20,12 +20,6 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         marginRight: 20,
     },
-    receiverAvatar: {
-        marginTop: 12,
-        height: 34,
-        width: 34,
-        borderRadius: '100%',
-    },
     receiverBubble: {
         justifyContent: 'center',
         marginLeft: 8,

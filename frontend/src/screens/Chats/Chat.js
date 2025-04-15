@@ -12,16 +12,16 @@ const Chat = () => {
 
     const route = useRoute();
     const { chatId } = route.params;
-    const chatData = mockChat.find((val) => val.id === chatId).messages;
+    const chatData = mockChat.find((val) => val.id === chatId);
 
     const [value, onChangeText] = useState('');
 
-    const renderContent = (chat, userId) => {
+    const renderContent = (chat, userId, userAvatar) => {
         if(chat.senderId === userId) {
             return <ChatBubbleReceiver content={chat.content} />
         }
         else {
-            return <ChatBubbleSender content={chat.content} />
+            return <ChatBubbleSender content={chat.content} avatar={userAvatar} />
         }
     }
 
@@ -30,7 +30,7 @@ const Chat = () => {
             <SafeAreaView style={styles.safeArea}>
                 <ChatHeader />
                 <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1, marginTop: 10 }}>
-                    {chatData.map((val) => renderContent(val, mockUserId))}
+                    {chatData.messages.map((val) => renderContent(val, mockUserId, chatData.avatarUri))}
                 </ScrollView>
             </SafeAreaView> 
             <ChatInput value={value} onChangeText={onChangeText} />

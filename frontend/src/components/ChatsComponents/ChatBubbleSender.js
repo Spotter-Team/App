@@ -1,9 +1,9 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-const ChatBubbleSender = ({ content }) => {
+const ChatBubbleSender = ({ content, avatar }) => {
     return (
         <View style={styles.senderContainer}>
-            <Image source={require('../../mock/Chats/pfp/haley.jpg')} style={styles.senderAvatar}></Image>
+            <Image source={avatar} style={styles.senderAvatar}></Image>
 
             <View style={styles.senderBubble}>
                 <Text style={styles.textMessage}>
