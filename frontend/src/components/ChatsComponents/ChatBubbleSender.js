@@ -18,8 +18,7 @@ const styles = StyleSheet.create({
     senderContainer: {
         flexDirection: 'row',
         alignItems: 'flex-end',
-        marginTop: 20,
-        marginBottom : 20,
+        marginBottom: 5,
         marginLeft: 20,
     },
     senderAvatar: {

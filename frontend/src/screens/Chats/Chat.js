@@ -11,7 +11,7 @@ const Chat = () => {
 
             <ChatHeader />
 
-            <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1 }}>
+            <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1, marginTop: 20 }}>
 
 
                 <ChatBubbleSender />
