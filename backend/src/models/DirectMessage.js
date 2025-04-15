@@ -1,17 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const { User } = require('./User');
 
-const dbPath = process.env.LOCAL_DB_PATH;
-
-if (!dbPath) {
-    console.error(`Error: Variable LOCAL_DB_PATH was not found .env file!`);
-    process.exit(1);
-}
-
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: this.dbFilePath
-});
+const sequelize = require('./sequelize')
 
 class DirectMessage extends Model {
 
@@ -35,6 +25,19 @@ class DirectMessage extends Model {
                 })
         })
     }
+
+    /**
+     * Adds a message to the DirectMessage table
+     * @param { number } senderID The userID of the user sending the message
+     * @param { number } receiverID The userID of the user receiving the message
+     * @param { string } message The message text to add
+     * @returns { Promise<void> } A promise that resolves if the message was successfully added
+     */
+    static addMessage(senderID, receiverID, message) {
+        return new Promise((resolve, reject) => {
+
+        })
+    }
 }
 
 const directMessageSchema = {
@@ -49,7 +52,10 @@ const directMessageSchema = {
     },
     msg: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        get() {
+            return this.getDataValue();
+        }
     },
     senderID: {
         type: DataTypes.INTEGER,
@@ -68,10 +74,18 @@ const directMessageSchema = {
 };
 
 // Define User Model attributes
-DirectMessage.init(directMessageSchema, {
-        sequelize: sequelize,
-        modelName: 'DirectMessage'
-});
+DirectMessage.init(
+    directMessageSchema,
+    {
+        sequelize,
+        modelName: 'DirectMessage',
+        hooks: {
+            beforeCreate: (message, options) => {
+                message.tStamp = new Date();
+            }
+        }
+    }
+);
 
 module.exports = {
     directMessageSchema,
