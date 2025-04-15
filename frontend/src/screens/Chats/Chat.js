@@ -28,7 +28,7 @@ const Chat = () => {
     return (
         <KeyboardAvoidingView style={styles.chatScreen} behavior={Platform === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={-45}>
             <SafeAreaView style={styles.safeArea}>
-                <ChatHeader />
+                <ChatHeader avatar={chatData.avatarUri} name={chatData.name} />
                 <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1, marginTop: 10 }}>
                     {chatData.messages.map((val) => renderContent(val, mockUserId, chatData.avatarUri))}
                 </ScrollView>

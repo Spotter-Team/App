@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const ChatHeader = () => {
+const ChatHeader = ({ avatar, name }) => {
 
     const navigation = useNavigation();
     const handleBackBtnPress = () => navigation.goBack();
@@ -14,8 +14,8 @@ const ChatHeader = () => {
             </TouchableOpacity>
 
             <View style={styles.userInfoContainer}>
-                <Image source={require('../../mock/Chats/pfp/haley.jpg')} style={styles.userAvatar}></Image>
-                <Text style={styles.userName}>Haley Smith</Text>
+                <Image source={avatar} style={styles.userAvatar}></Image>
+                <Text style={styles.userName}>{name}</Text>
             </View>
             <Ionicons name="ellipsis-horizontal" size={25} style={styles.moreButton}></Ionicons>
         </View>
