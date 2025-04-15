@@ -28,12 +28,16 @@ const Chat = () => {
 
     const handleSendMessage = () => {
 
+        if(value.trim() === '') {
+            return;
+        };
+
         const newMessage = {
             id: `msg${messages.length + 1}`,
             senderId: mockUserId,
             content: value,
             type: 'text',
-        }
+        };
 
         setMessages([...messages, newMessage]);
         onChangeText('');
@@ -43,7 +47,7 @@ const Chat = () => {
         <KeyboardAvoidingView style={styles.chatScreen} behavior={Platform === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={-45}>
             <SafeAreaView style={styles.safeArea}>
                 <ChatHeader avatar={chatData.avatarUri} name={chatData.name} />
-                <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1, marginTop: 10 }}>
+                <ScrollView style={styles.chatArea} contentContainerStyle={{ marginTop: 10 }}>
                     {messages.map((val) => renderContent(val, mockUserId, chatData.avatarUri))}
                 </ScrollView>
             </SafeAreaView> 
