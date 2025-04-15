@@ -25,10 +25,10 @@ CREATE TABLE CommunityType (
 
 CREATE TABLE DirectMessage (
     msgID INTEGER PRIMARY KEY,
-    tStamp TEXT NOT NULL,
     msg TEXT NOT NULL,
     senderID INTEGER NOT NULL,
     receiverID INTEGER NOT NULL,
+    read BOOLEAN DEFAULT FALSE,
     FOREIGN KEY(senderID) REFERENCES User(userID),
     FOREIGN KEY(receiverID) REFERENCES User(userID)
 );

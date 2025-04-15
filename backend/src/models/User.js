@@ -113,6 +113,7 @@ class User extends Model {
                     attributes: [
                         'userID',
                         'username',
+                        'pwd',
                         'phoneNumber',
                         'firstName',
                         'lastName',
@@ -150,6 +151,7 @@ class User extends Model {
                     attributes: [
                         'userID',
                         'username',
+                        'pwd',
                         'phoneNumber',
                         'firstName',
                         'lastName',

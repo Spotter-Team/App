@@ -62,6 +62,24 @@ class DirectMessageController {
                 })
         })
     }
+
+    /**
+     * Gets all the users a user has messaged with
+     * @param { number } userID The user to check for recipients
+     * @returns { Promise<User[]> } A promise that resolves to an array of User objects
+     */
+    static getAllRecipientsForUser(userID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.getMessages(userID)
+                .then(messages => {
+                    // TODO: parse messages to get all the unique users the user has sent or received messages from
+                    
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
 }
 
 module.exports = DirectMessageController;

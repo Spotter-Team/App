@@ -47,7 +47,7 @@ class UserController {
                     bcrypt.compare(pwd, userObj.pwd)
                         .then(isMatch => {
                             if (isMatch) {
-                                const token = jwt.sign( { userId: userObj.userID}, jwtSecret, { expiresIn: '1h' });
+                                const token = jwt.sign( { userID: userObj.userID}, jwtSecret, { expiresIn: '1h' });
 
                                 resolve(token);
                             } else {
@@ -93,8 +93,8 @@ class UserController {
     static userIDIsRegistered(userID) {
         return new Promise((resolve, reject) => {
             User.getUserByID(userID)
-                .then(unregistered => {
-                    resolve(!unregistered);
+                .then(() => {
+                    resolve(true);
                 })
                 .catch(err => {
                     if (err.code == 'USER_NOT_FOUND') {

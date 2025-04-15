@@ -25,7 +25,6 @@ router.post('/create-account', (req, res) => {
 // login route
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log('Login attempt:', email, password);
 
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password required' });
@@ -38,8 +37,8 @@ router.post('/login', (req, res) => {
                     .then(token => {
                         return res.status(200).json({ message: 'Logged in successfully!', token });
                     })
-                    .catch(() => {
-                        return res.status(400).json({ message: 'Generic database error!' });
+                    .catch(err => {
+                        return res.status(400).json({ message: err });
                     })
             } else {
                 return res.status(400).json({ message: 'Email not found.' });
