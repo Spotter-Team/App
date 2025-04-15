@@ -1,11 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "dotenvx run -- node src/server.js",
     "setup-local-db": "node src/utils/setup-local-sqlite-db.js",
-    "clean-local-db": "node src/utils/clean-local-sqlite-db.js"
+    "clean-local-db": "node src/utils/clean-local-sqlite-db.js",
+    "test": "dotenvx run -f test.env -- npx cucumber-js"
   },
   "keywords": [],
   "author": "",
@@ -15,11 +16,15 @@
     "eslint": "^9.23.0"
   },
   "dependencies": {
+    "@cucumber/cucumber": "^11.2.0",
     "@dotenvx/dotenvx": "^1.39.1",
     "@react-navigation/native": "^7.0.19",
     "@react-navigation/native-stack": "^7.3.3",
+    "bcrypt": "^5.1.1",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "sequelize": "^6.37.7",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "ws": "^8.18.1"
   }
 }
