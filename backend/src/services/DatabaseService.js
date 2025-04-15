@@ -4,8 +4,25 @@ const { Sequelize } = require('sequelize');
 
 // Import common sequelize config
 const sequelize = require('../models/sequelize');
-const { User } = require('../models/schema');
-const { DirectMessage } = require('../models/DirectMessage');
+const {
+    Availability,
+    Blocked,
+    Community, 
+    CommunityType,
+    DirectMessage,
+    GoesTo,
+    Gym,
+    Match,
+    Meetup,
+    MemberOf,
+    RequiredEquipment,
+    TimeSlot,
+    User,
+    UserReport,
+    UserReportType,
+    Workout,
+    WorkoutEquipment
+} = require('../models/schema');
 
 class DatabaseService {
     /** CLASS PROPERTIES */
@@ -17,10 +34,40 @@ class DatabaseService {
     dataPath;
 
     /** MODELS */
-    /** @type { User } */
-    user;
+    /** @type { Availability } */
+    availability;
+    /** @type { Blocked } */
+    blocked;
+    /** @type { Community } */
+    community;
+    /** @type { CommunityType } */
+    communityType;
     /** @type { DirectMessage } */
     directMessage;
+    /** @type { GoesTo } */
+    goesTo;
+    /** @type { Gym } */
+    gym;
+    /** @type { Match } */
+    match;
+    /** @type { Meetup } */
+    meetup;
+    /** @type { MemberOf } */
+    memberOf;
+    /** @type { RequiredEquipment } */
+    requiredEquipment;
+    /** @type { TimeSlot } */
+    timeSlot;
+    /** @type { User } */
+    user;
+    /** @type { UserReport } */
+    userReport;
+    /** @type { UserReportType } */
+    userReportType;
+    /** @type { Workout } */
+    workout;
+    /** @type { WorkoutEquipment } */
+    workoutEquipment;
 
     constructor() {
         this.sequelize = sequelize;
@@ -110,8 +157,24 @@ class DatabaseService {
     loadModels() {
         return new Promise(async (resolve, reject) => {
             // Initialize the models
-            this.user = User;
+            /** MODELS */
+            this.availability = Availability;
+            this.blocked = Blocked;
+            this.community = Community;
+            this.communityType = CommunityType;
             this.directMessage = DirectMessage;
+            this.goesTo = GoesTo;
+            this.gym = Gym;
+            this.match = Match;
+            this.meetup = Meetup;
+            this.memberOf = MemberOf;
+            this.requiredEquipment = RequiredEquipment;
+            this.timeSlot = TimeSlot;
+            this.user = User;
+            this.userReport = UserReport;
+            this.userReportType = UserReportType;
+            this.workout = Workout;
+            this.workoutEquipment = WorkoutEquipment;
 
             // Sync the new tables with the db
             sequelize.sync()
