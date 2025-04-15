@@ -124,7 +124,7 @@ const mockChat = [
             {
                 id: 'msg4',
                 senderId: 'michael123',
-                content: '/sent-image.png',
+                content: require('./sent-image.png'),
                 type: 'image',
             },
         ]

@@ -1,13 +1,27 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
-const ChatBubbleReceiver = ({ content }) => {
+const ChatBubbleReceiver = ({ content, type }) => {
+
+    const renderMessage = (content, type) => {
+        if(type === 'text') {
+            return (
+                <View style={styles.receiverBubble}>
+                    <Text style={styles.textMessage}>
+                        {content}
+                    </Text>
+                </View>
+            );
+        }
+        else if(type === 'image') {
+            return (
+                <Image source={content} style={styles.textImage} />
+            );
+        };
+    };
+
     return (
         <View style={styles.receiverContainer}>
-            <View style={styles.receiverBubble}>
-                <Text style={styles.textMessage}>
-                    {content}
-                </Text>
-            </View>
+            {renderMessage(content, type)}
         </View>
     );
 };
@@ -35,6 +49,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
     },
+    textImage: {
+        marginLeft: 8,
+        height: 200,
+        width: 200,
+        borderTopLeftRadius: 20,
+        borderTopEndRadius: 20,
+        borderBottomRightRadius: 4,
+        borderBottomLeftRadius: 20,
+    }
 });
 
 export default ChatBubbleReceiver;

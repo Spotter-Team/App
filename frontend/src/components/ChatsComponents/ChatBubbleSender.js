@@ -1,15 +1,28 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-const ChatBubbleSender = ({ content, avatar }) => {
+const ChatBubbleSender = ({ content, type, avatar }) => {
+
+    const renderMessage = (content, type) => {
+        if(type === 'text') {
+            return (
+                <View style={styles.senderBubble}>
+                    <Text style={styles.textMessage}>
+                        {content}
+                    </Text>
+                </View>
+            );
+        }
+        else if(type === 'image') {
+            return (
+               <Image source={content} style={styles.textImage} />
+            );
+        };
+    };
+
     return (
         <View style={styles.senderContainer}>
-            <Image source={avatar} style={styles.senderAvatar}></Image>
-
-            <View style={styles.senderBubble}>
-                <Text style={styles.textMessage}>
-                    {content}
-                </Text>
-            </View>
+            <Image source={avatar} style={styles.senderAvatar} />
+            {renderMessage(content, type)}
         </View>
     );
 };
@@ -43,6 +56,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
     },
+    textImage: {
+        marginLeft: 8,
+        height: 200,
+        width: 200,
+        borderTopLeftRadius: 20,
+        borderTopEndRadius: 20,
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 4,
+    }
 });
 
 export default ChatBubbleSender;
