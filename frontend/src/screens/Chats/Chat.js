@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, StyleSheet, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ChatHeader from '../../components/ChatsComponents/ChatHeader';
@@ -9,21 +9,24 @@ import ChatBubbleReceiver from '../../components/ChatsComponents/ChatBubbleRecei
 
 const Chat = () => {
 
-    const [value, onChangeText] = useState('Type a message ...')
+    const [value, onChangeText] = useState('')
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView style={{ flex: 1, backgroundColor: '#141417' }} behavior={Platform === 'ios' ? 'padding' : 'height'}>
+            <SafeAreaView style={styles.safeArea}>
 
-            <ChatHeader />
+                <ChatHeader />
 
-            <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1, marginTop: 10 }}>
+                <ScrollView style={styles.chatArea} contentContainerStyle={{ flex: 1, marginTop: 10 }}>
 
 
-                <ChatBubbleSender />                
-                <ChatBubbleReceiver />
-                
-            </ScrollView>
+                    <ChatBubbleSender />                
+                    <ChatBubbleReceiver />
+                    
+                </ScrollView>
 
+
+            </SafeAreaView>
             <View style={styles.inputContainer}>
                 <TextInput
                     multiline
@@ -31,6 +34,7 @@ const Chat = () => {
                     style={styles.input}
                     placeholder='Type a message...'
                     placeholderTextColor={'#737373'}
+                    value={value}
                     onChangeText={text => onChangeText(text)}
                 >
                 </TextInput>
@@ -43,9 +47,9 @@ const Chat = () => {
             <View style={styles.inputFooter}>
                 <Ionicons name="images-outline" size={25} style={styles.footerIcon}></Ionicons>
                 <Ionicons name="camera-outline" size={25} style={styles.footerIcon}></Ionicons>
-            </View>
-
-        </SafeAreaView>
+            </View>      
+                  
+        </KeyboardAvoidingView>
     );
 };
 
@@ -61,7 +65,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        paddingVertical: 15,
+        paddingTop: 10,
+        paddingBottom: 15,
         paddingLeft: 20,
         backgroundColor: '#141417',
         color: 'white',
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
     },
     footerIcon: {
         color: "#737373",
-        paddingLeft: 10,
+        paddingLeft: 25,
     }
 });
 
