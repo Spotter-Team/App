@@ -13,26 +13,29 @@ const sequelize = new Sequelize({
 
 class Workout extends Model {}
 
-// Define Meetup Model attributes
-Workout.init(
-    {
-        workoutID: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        workoutName: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-        workoutDescription: {
-            type: DataTypes.TEXT
-        }
+const workoutSchema = {
+    workoutID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    {
-        sequelize,
+    workoutName: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    workoutDescription: {
+        type: DataTypes.TEXT
+    }
+};
+
+// Define Meetup Model attributes
+Workout.init(workoutSchema, {
+        sequelize: sequelize,
         modelName: 'Workout'
     }
 );
 
-module.exports = Workout;
+module.exports = {
+    workoutSchema,
+    Workout
+};

@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
 
 class Match extends Model {}
 
-Match.init({
+const matchSchema = {
     matchID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -36,9 +36,14 @@ Match.init({
     matchScore: {
         type: DataTypes.INTEGER,
     }
-}, {
+};
+
+Match.init(matchSchema, {
     sequelize: sequelize,
     modelName: 'Match'
 });
 
-module.exports = Match;
+module.exports = {
+    matchSchema,
+    Match
+};

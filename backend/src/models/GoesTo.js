@@ -16,7 +16,7 @@ const sequelize = new Sequelize({
 
 class GoesTo extends Model {}
 
-GoesTo.init({
+const goesToSchema = {
     userID: {
         type: DataTypes.INTEGER,
         references: {
@@ -31,9 +31,14 @@ GoesTo.init({
             key: 'gymID'
         }
     }
-}, {
+};
+
+GoesTo.init(goesToSchema, {
     sequelize: sequelize,
     modelName: 'GoesTo'
 });
 
-module.exports = GoesTo;
+module.exports = {
+    goesToSchema,
+    GoesTo
+};
