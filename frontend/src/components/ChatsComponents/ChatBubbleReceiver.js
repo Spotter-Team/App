@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-const ChatBubbleReceiver = () => {
+const ChatBubbleReceiver = ({ content }) => {
     return (
         <View style={styles.receiverContainer}>
             <View style={styles.receiverBubble}>
                 <Text style={styles.textMessage}>
-                    Yeah, let's do it! 😎
+                    {content}
                 </Text>
             </View>
         </View>
