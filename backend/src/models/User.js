@@ -117,6 +117,27 @@ class User extends Model {
                 })
         })
     }
+
+    /**
+     * Gets the userID for a passed username if the username is registered
+     * @param { string } username 
+     * @returns { Promise<number> } A promise which resolves to the userID if the user is found
+     */
+    static getUserID(username) {
+        return new Promise((resolve, reject) => {
+            User.getUser(username)
+                .then(userObj => {
+                    if (userObj.userID != undefined) {
+                        resolve(userObj.userID);
+                    } else {
+                        reject(`An error occurred! No parameter 'userID' found on the object returned by the query.`)
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
 }
 
 // Define User Model attributes

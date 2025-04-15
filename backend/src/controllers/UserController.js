@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('../models/User');
+const { Blocked } = require('../models/Blocked');
 
 // Load JWT_secret
 const jwtSecret = process.env.JWT_SECRET;
@@ -86,6 +87,18 @@ class UserController {
      */
     static getAllUsers() {
         // TODO: implement getAllUsers() function
+    }
+
+    /**
+     * Checks to see if a user is blocked by another user
+     * @param { number } userID The userID for the user whose block list you want to check
+     * @param { number } userToCheckID The userID to check for on the block list
+     * @returns 
+     */
+    static isBlocked(userID, userToCheckID) {
+        return new Promise((resolve, reject) => {
+            // TODO: Implement logic to check if a user is blocked by another user
+        })
     }
 }
 

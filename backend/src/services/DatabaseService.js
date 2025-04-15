@@ -5,6 +5,7 @@ const { Sequelize } = require('sequelize');
 // Import common sequelize config
 const sequelize = require('../models/sequelize');
 const { User } = require('../models/schema');
+const { DirectMessage } = require('../models/DirectMessage');
 
 class DatabaseService {
     /** CLASS PROPERTIES */
@@ -18,6 +19,8 @@ class DatabaseService {
     /** MODELS */
     /** @type { User } */
     user;
+    /** @type { DirectMessage } */
+    directMessage;
 
     constructor() {
         this.sequelize = sequelize;
@@ -108,6 +111,7 @@ class DatabaseService {
         return new Promise(async (resolve, reject) => {
             // Initialize the models
             this.user = User;
+            this.directMessage = DirectMessage;
 
             // Sync the new tables with the db
             sequelize.sync()
