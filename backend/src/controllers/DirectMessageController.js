@@ -72,8 +72,27 @@ class DirectMessageController {
         return new Promise((resolve, reject) => {
             DirectMessage.getMessages(userID)
                 .then(messages => {
-                    // TODO: parse messages to get all the unique users the user has sent or received messages from
+                    const userIDSet = new Set();
 
+                    messages.forEach(msg => {
+                        if (msg.receiverID != userID) {
+                            userIDSet.add(msg.receiverID);
+                        }
+
+                        if (msg.senderID != userID) { 
+                            userIDSet.add(msg.senderID);
+                        }
+                    })
+
+                    // For each userID the user has send or received messages, get the user objects
+                    const userIDs = Array.from(userIDSet);
+                    UserController.getUsersForUserIDs(userIDs)
+                        .then(users => {
+                            resolve(users);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
                 })
                 .catch(err => {
                     reject(err);

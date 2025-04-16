@@ -6,7 +6,16 @@ const router = express.Router();
 
 // Get all the accounts you have conversations with
 router.get('/conversations', auth, (req, res) => {
+    const userID = req.userID;
+    if (!userID) return res.status(500).json({ message: `The auth token once decoded did not include the sender userID!` });
 
+    DirectMessageController.getAllRecipientsForUser(userID)
+        .then(users => {
+            res.status(200).json({ message: `Successfully received all the users the requester has conversations with!`, users });
+        })
+        .catch(err => {
+            res.status(500).json({ message: `Messages recipients could not be retrieved!` });
+        })
 });
 
 // Get messages between you and another user

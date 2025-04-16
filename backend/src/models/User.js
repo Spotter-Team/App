@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 const sequelize = require('./sequelize')
@@ -64,7 +64,7 @@ class User extends Model {
     /**
      * Queries the database for a specific user and returns rows that are found
      * @param { string } username the query parameter to perform the search
-     * @returns { Promise<User[]>>} A promise that resolves to an array of users
+     * @returns { Promise<User[]> } A promise that resolves to an array of users
      */
     static findUser(username) {
         return new Promise((resolve, reject) => {
@@ -169,6 +169,41 @@ class User extends Model {
                     } else {
                         reject({ code: 'USER_NOT_FOUND', msg: `User with userID '${userID}' was not found! ` })
                     }
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Gets an array of user objects from an array of userIDs
+     * @param { number[] } userIDs The userIDs to get the users for
+     * @returns { Promise<User[]> } A promise that resolves to an array of User objects which contains the data values for the users
+     */
+    static getUsersByIDs(userIDs) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findAll(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'userLocation',
+                        'fitnessLevel',
+                        'trainerBadge'
+                    ], 
+                    where: {
+                        userID: {
+                            [Op.in]: userIDs
+                        }
+                    }
+                })
+                .then(users => {
+                    resolve(users);
                 })
                 .catch(err => {
                     reject(err);

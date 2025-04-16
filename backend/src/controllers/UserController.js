@@ -115,6 +115,23 @@ class UserController {
     }
 
     /**
+     * Gets the User objects for the passed userIDs
+     * @param { number[] } userIDs An array of userIDs to find the users for
+     * @returns { Promise<User[]> } A promise that resolves to an array of User objects
+     */
+    static getUsersForUserIDs(userIDs){
+        return new Promise((resolve, reject) => {
+            User.getUsersByIDs(userIDs)
+                .then(users => {
+                    resolve(users)
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    } 
+
+    /**
      * Gets information about one user
      * @param { string } username 
      * @returns { Promise<object> } A promise that resolves to a user object if the user is found
