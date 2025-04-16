@@ -19,10 +19,10 @@ const Chat = () => {
 
     const renderContent = (chat, userId, userAvatar) => {
         if(chat.senderId === userId) {
-            return <ChatBubbleReceiver content={chat.content} type={chat.type} />
+            return <ChatBubbleReceiver key={chat.id} content={chat.content} type={chat.type} />
         }
         else {
-            return <ChatBubbleSender content={chat.content} avatar={userAvatar} type={chat.type} />
+            return <ChatBubbleSender key={chat.id} content={chat.content} avatar={userAvatar} type={chat.type} />
         }
     }
 
