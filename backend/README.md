@@ -92,6 +92,8 @@ REST API routes are segmented into the following groups:
 - User - `/api/user`
 - Direct Messaging - `/api/msg`
 
+<br>
+
 ### User routes
 #### Create an Account
 <details>
@@ -153,7 +155,7 @@ REST API routes are segmented into the following groups:
 ### Direct Messaging routes
 #### Send a message to a user
 <details>
-    <summary><code>POST</code> <code><b>/api/msg/:userID</b></code></summary>
+    <summary><code>POST</code> <code><b>/api/msg/conversations/:userID</b></code></summary>
 
 ##### Headers
 
@@ -181,14 +183,14 @@ REST API routes are segmented into the following groups:
 ##### Example cURL
 
 > ```bash
-> curl --location 'http://localhost:3000/api/msg/1' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTc0NDc1NjI3NSwiZXhwIjoxNzQ0NzU5ODc1fQ.DrVonD1OHVB5dNlPyuN8HMxiON7Y-94nELQSIAPXmHg' --header 'Content-Type: application/json' --data '{ "message": "This is a test!" }'
+> curl --location 'http://localhost:3000/api/msg/conversations/1' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImlhdCI6MTc0NDc1NjI3NSwiZXhwIjoxNzQ0NzU5ODc1fQ.DrVonD1OHVB5dNlPyuN8HMxiON7Y-94nELQSIAPXmHg' --header 'Content-Type: application/json' --data '{ "message": "This is a test!" }'
 > ```
 
 </details>
 
 #### Get your messages with a user
 <details>
-    <summary><code>GET</code> <code><b>/api/msg/:userID</b></code></summary>
+    <summary><code>GET</code> <code><b>/api/msg/conversations/:userID</b></code></summary>
 
 ##### Headers
 
@@ -205,15 +207,79 @@ REST API routes are segmented into the following groups:
 
 > | http code     | content-type         | response                                                                                      |
 > |---------------|----------------------|-----------------------------------------------------------------------------------------------|
-> | `200`         | `application/json`   | `{"message: "Successfully retrieved messages with userID '${otherUserID}'!" }`                |
-> | `400`         | `application/json`   | `{"message: "The userID for the user your want to see messages from must be included in your request URL!" }`  |
-> | `500`         | `application/json`   | `{"message: "Messages could not be retrieved! Maybe the recipient was not registered?" }`     |
-> | `500`         | `application/json`   | `{"message: "The auth token once decoded did not include the sender userID!" }`               |
+> | `200`         | `application/json`   | `{"message": "Successfully retrieved messages with userID '${otherUserID}'!" }`                |
+> | `400`         | `application/json`   | `{"message": "The userID for the user your want to see messages from must be included in your request URL!" }`  |
+> | `500`         | `application/json`   | `{"message": "Messages could not be retrieved! Maybe the recipient was not registered?" }`     |
+> | `500`         | `application/json`   | `{"message": "The auth token once decoded did not include the sender userID!" }`               |
 
 ##### Example cURL
 
 > ```bash
-> curl --location 'http://localhost:3000/api/msg/:userID' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
+> curl --location 'http://localhost:3000/api/msg/conversations/:userID' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
+> ```
+
+</details>
+
+#### Get your unread messages
+<details>
+    <summary><code>GET</code> <code><b>/api/msg/unread</b></code></summary>
+
+##### Headers
+
+> | name          |  type     | data type        | description                                             |
+> |---------------|-----------|------------------| --------------------------------------------------------|
+> | Authorization |  JWT      | text             | A JSON web token issued by the server                   |
+
+##### Parameters
+
+> None
+
+
+##### Responses
+
+> | http code     | content-type         | response                                                                                      |
+> |---------------|----------------------|-----------------------------------------------------------------------------------------------|
+> | `200`         | `application/json`   | `{"message": "Successfully retrieved unread messages for userID 2!", "messages": [] }`        |
+> | `500`         | `application/json`   | `{"message": "Unread messages for user with userID 2 could not be retrieved!" }`              |
+> | `500`         | `application/json`   | `{"message": "The auth token once decoded did not include the sender userID!" }`              |
+
+##### Example cURL
+
+> ```bash
+> curl --location 'http://localhost:3000/api/msg/unread' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
+> ```
+
+</details>
+
+#### Read a message
+<details>
+    <summary><code>PUT</code> <code><b>/api/msg/read/:msgID</b></code></summary>
+
+##### Headers
+
+> | name          |  type     | data type        | description                                             |
+> |---------------|-----------|------------------| --------------------------------------------------------|
+> | Authorization |  JWT      | text             | A JSON web token issued by the server                   |
+
+##### Parameters
+
+> None
+
+
+##### Responses
+
+> | http code     | content-type         | response                                                                                      |
+> |---------------|----------------------|-----------------------------------------------------------------------------------------------|
+> | `200`         | `application/json`   | `{"message": "Successfully read the message!" }`                                              |
+> | `400`         | `application/json`   | `{"message": "The msgID for the message to read must be included in your request URL!" }`     |
+> | `400`         | `application/json`   | `{"message": "The message could not be read! Maybe the requesting user was not the message's recipient." }` |
+> | `500`         | `application/json`   | `{"message": "Message could not be read! Maybe the message was not found in the database?" }` |
+> | `500`         | `application/json`   | `{"message": "The auth token once decoded did not include the sender userID!" }`              |
+
+##### Example cURL
+
+> ```bash
+> curl --location 'http://localhost:3000/api/msg/read/:msgID' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
 > ```
 
 </details>

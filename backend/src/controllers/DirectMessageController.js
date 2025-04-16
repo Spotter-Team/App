@@ -73,7 +73,42 @@ class DirectMessageController {
             DirectMessage.getMessages(userID)
                 .then(messages => {
                     // TODO: parse messages to get all the unique users the user has sent or received messages from
-                    
+
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Gets all the unread messages for a user
+     * @param { number } userID The user to find unread messages for
+     * @returns { Promise<DirectMessage[]> } A promise that resolves to an array of DirectMessage objects
+     */
+    static getAllUnreadMessagesForUser(userID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.getUnreadMessages(userID)
+                .then(messages => {
+                    resolve(messages);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Attempts to mark a message as read
+     * @param { number } userID The id of the message to mark as read
+     * @param { number } msgID The user who is reading the message
+     * @returns { Promise<boolean> } A promise that resolves to true if the message was successfully marked as read
+     */
+    static readMessage(userID, msgID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.markMessageAsRead(userID, msgID)
+                .then(updateSucceeded => {
+                    resolve(updateSucceeded);
                 })
                 .catch(err => {
                     reject(err);

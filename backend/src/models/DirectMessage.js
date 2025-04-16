@@ -17,7 +17,7 @@ class DirectMessage extends Model {
             if (userTwoID == null) {
                 DirectMessage.findAll(
                     {
-                        attributes: [ 'createdAt', 'senderID', 'receiverID', 'msg'],
+                        attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
                         where: {
                             [Op.or]: [ { receiverID: userOneID }, { senderID: userOneID } ]
                         }
@@ -31,7 +31,7 @@ class DirectMessage extends Model {
             } else {
                 DirectMessage.findAll(
                     {
-                        attributes: [ 'createdAt', 'senderID', 'receiverID', 'msg'],
+                        attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
                         where: {
                             [Op.or]: [ { receiverID: userOneID }, { receiverID: userTwoID }, { senderID: userOneID }, { senderID: userTwoID } ]
                         }
@@ -58,6 +58,60 @@ class DirectMessage extends Model {
             DirectMessage.create({ msg: message, senderID, receiverID })
                 .then(msg => {
                     resolve(msg);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Looks for a specific message and marks it as read if the the user reading is the recipient
+     * @param { number } userID The id of the user who read the message
+     * @param { number } msgID The id of the message to mark as read
+     * @returns { Promise<boolean> } A promise that resolves to a boolean value that indicates if the update was successful
+     */
+    static markMessageAsRead(userID, msgID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.update(
+                { read: true },
+                {
+                    where: {
+                        msgID,
+                        receiverID: userID,
+                        read: false
+                    }
+                }
+            ).then(rowsMod => {
+                const rowsAffected = rowsMod[0];
+
+                if (rowsAffected == 1) {
+                    resolve(true);
+                } else {
+                    resolve(false)
+                }
+            }).catch(err => {
+                reject(err);
+            })
+        })
+    }
+
+    /**
+     * Gets unread messages send to a particular user
+     * @param { number } userID The id of the recipient user to get unread messages
+     * @returns { Promise<DirectMessage[]> } A promise that resolves to an array of DirectMessage objects
+     */
+    static getUnreadMessages(userID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.findAll(
+                {
+                    attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
+                    where: {
+                        [Op.and]: [ { receiverID: userID }, { read: false } ]
+                    }
+                })
+                .then(messages => {
+                    resolve(messages);
                 })
                 .catch(err => {
                     reject(err);
