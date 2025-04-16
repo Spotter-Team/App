@@ -14,31 +14,34 @@ const sequelize = new Sequelize({
 
 class Meetup extends Model {}
 
-// Define Meetup Model attributes
-Meetup.init(
-    {
-        meetupID: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        meetupLocation: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-        meetupTime: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: TimeSlot,
-                key: 'slotID'
-            }
-        }
+const meetupSchema = {
+    meetupID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    {
-        sequelize,
+    meetupLocation: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    meetupTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: TimeSlot,
+            key: 'slotID'
+        }
+    }
+};
+
+// Define Meetup Model attributes
+Meetup.init(meetupSchema, {
+        sequelize: sequelize,
         modelName: 'Meetup'
     }
 );
 
-module.exports = Meetup;
+module.exports = {
+    meetupSchema,
+    Meetup
+};
