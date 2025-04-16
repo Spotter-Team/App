@@ -1,21 +1,12 @@
 require('@dotenvx/dotenvx').config();
 
-const DatabaseUtility = require('./DatabaseUtility');
+const DatabaseService = require('../services/DatabaseService');
 
 // Initialize the tables
-const dbUtility = new DatabaseUtility();
-dbUtility.initLocalDB(true)
+const dbSrv = new DatabaseService();
+dbSrv.initLocalDB(true)
     .then(msg => {
         console.log(msg);
-
-        // Define the tables
-        dbUtility.loadModels()
-            .then(msg => {
-                console.log(msg);
-            })
-            .catch(err => {
-                console.error('Database setup failed:', err);
-            })
     })
     .catch(err => {
         console.error('Database setup failed:', err);

@@ -13,30 +13,33 @@ const sequelize = new Sequelize({
 
 class TimeSlot extends Model {}
 
-// Define TimeSlot Model attributes
-TimeSlot.init(
-    {
-        slotID: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        startTStamp: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        endTStamp: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
-        available: {
-            type: DataTypes.BOOLEAN
-        }
+const timeSlotSchema = {
+    slotID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    {
-        sequelize,
+    startTStamp: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    endTStamp: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    available: {
+        type: DataTypes.BOOLEAN
+    }
+};
+
+// Define TimeSlot Model attributes
+TimeSlot.init(timeSlotSchema, {
+        sequelize: sequelize,
         modelName: 'TimeSlot'
     }
 );
 
-module.exports = TimeSlot;
+module.exports = {
+    timeSlotSchema,
+    TimeSlot
+};

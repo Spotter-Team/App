@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
-//import AccountInfo from '../screens/Profile/AccountInfo';
 import UserProfile from '../screens/Profile/UserProfile';
 import Messages from '../screens/Chats/Messages';
 import GymHub from '../screens/GymHub/GymHub';

@@ -15,7 +15,7 @@ const sequelize = new Sequelize({
 
 class Community extends Model {}
 
-Community.init({
+const communitySchema = {
     cID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -41,9 +41,14 @@ Community.init({
     isPublic: {
         type: DataTypes.BOOLEAN,
     },
-}, {
+};
+
+Community.init(communitySchema, {
     sequelize: sequelize,
     modelName: 'Community'
 });
 
-module.exports = Community;
+module.exports = {
+    communitySchema,
+    Community
+};

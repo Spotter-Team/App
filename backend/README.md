@@ -36,7 +36,7 @@ erDiagram
     
     User {
         int userID PK
-        text email
+        text username
         text pwd
         text phoneNumber
         text firstName
@@ -138,6 +138,12 @@ $ cd backend
 $ npm install
 ```
 
+Generate or download your JWT secret
+```
+$ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+$ 9b8add1489bab5c885752a4326bb94c126c619f56945d0c60c1ff1f0341e9658
+```
+
 Create an environment variable file (.env) in the 'backend' directory
 ```
 $ touch .env
@@ -148,12 +154,25 @@ Add variables to your .env file with a text editor
 # Nodejs
 NODE_ENV=development
 
+# Cryptography
+JWT_SECRET=9b8add1489bab5c885752a4326bb94c126c619f56945d0c60c1ff1f0341e9658 # This is just an example secret
+
 # Database Stuff
 DB_MODE=local # Options: local
 DATA_PATH=data
 LOCAL_DB_PATH=data/local.db
 LOCAL_DB_USERNAME=test
 LOCAL_DB_PASSWORD=somethingSecure*
+```
+
+You should also create an environment variable specifically for testing called test.env in /backend
+```
+$ touch test.env
+```
+
+The variable names and values can be mostly the same, but you might want your local db path to be different for testing
+```text
+LOCAL_DB_PATH=data/test.local.db
 ```
 
 Run the NPM command to initialize the local sqlite environment

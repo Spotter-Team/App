@@ -13,26 +13,29 @@ const sequelize = new Sequelize({
 
 class UserReportType extends Model {}
 
-// Define Meetup Model attributes
-UserReportType.init(
-    {
-        reportTypeID: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        reportTypeName: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-        reportTypeDescription: {
-            type: DataTypes.TEXT
-        }
+const userReportTypeSchema = {
+    reportTypeID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    {
-        sequelize,
+    reportTypeName: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    reportTypeDescription: {
+        type: DataTypes.TEXT
+    }
+};
+
+// Define Meetup Model attributes
+UserReportType.init(userReportTypeSchema, {
+        sequelize: sequelize,
         modelName: 'UserReportType'
     }
 );
 
-module.exports = UserReportType;
+module.exports = {
+    userReportTypeSchema,
+    UserReportType
+};

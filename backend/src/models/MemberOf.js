@@ -15,28 +15,31 @@ const sequelize = new Sequelize({
 
 class MemberOf extends Model {}
 
-// Define Meetup Model attributes
-MemberOf.init(
-    {
-        userID: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: User,
-                key: 'userID'
-            }
-        },
-        communityID: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: Community,
-                key: 'cID'
-            }
+const memberOfSchema = {
+    userID: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: User,
+            key: 'userID'
         }
     },
-    {
-        sequelize,
+    communityID: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Community,
+            key: 'cID'
+        }
+    }
+};
+
+// Define Meetup Model attributes
+MemberOf.init(memberOfSchema, {
+        sequelize: sequelize,
         modelName: 'MemberOf'
     }
 );
 
-module.exports = MemberOf;
+module.exports = {
+    memberOfSchema,
+    MemberOf
+};

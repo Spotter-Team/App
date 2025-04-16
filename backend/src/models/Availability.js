@@ -16,7 +16,7 @@ const sequelize = new Sequelize({
 
 class Availability extends Model {}
 
-Availability.init({
+const availabilitySchema = {
     userID: {
         type: DataTypes.INTEGER,
         references: {
@@ -31,9 +31,14 @@ Availability.init({
             key: 'tSlotID'
         }
     }
-}, {
+};
+
+Availability.init(availabilitySchema, {
     sequelize: sequelize,
     modelName: 'Availability'
 });
 
-module.exports = Availability;
+module.exports = {
+    availabilitySchema,
+    Availability
+};
