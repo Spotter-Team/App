@@ -18,41 +18,38 @@ import { ActivityIndicator } from 'react-native';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
 
 const UserProfile = () => {
-    const route = useRoute();
-    const { name: routeName = 'User' } = route.params || {};
+    const [selectedDay, setSelectedDay] = useState(null); // availability
+    const [log, setLog] = useState(''); // since workout log is text based
 
-    const [user, setUser] = useState(null);
-    const [log, setLog] = useState('');
-    const [selectedDay, setSelectedDay] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // hardcode to test visuals before pulling user data dynamically
+    const user = {
+        name: 'Mariyah',
+        username: 'mjselreynolds',
+        avatar: require('../../assets/gymGirl.png'),
+        trainerBadge: true,
+        buddyBadge: true,
+        gymBuddies: 5,
+        fitnessLevel: 2, // beginner = 1, intermediate = 2, etc..
+        location: 'Gainesville, FL',
+        preferredWorkout: 'HIIT + Lifting',
+        availability: {
+        Mon: true,
+        Tue: false,
+        Wed: true,
+        Thu: false,
+        Fri: true,
+        Sat: false,
+        Sun: true,
+        },
+        times: {
+        Mon: '7-9am',
+        Wed: '6-8pm',
+        Fri: '5-7pm',
+        Sun: '8-10am',
+        },
+    };
 
-    useEffect(() => {
-        if (routeName) {
-            axios.get(`${API_BASE_URL}/api/user/name/${routeName}`)
-                .then(res => {
-                    setUser(res.data);
-                    setLoading(false);
-                })
-                .catch(err => {
-                    setError('Error fetching user data');
-                    setLoading(false);
-                });
-        } else {
-            setError('No username provided');
-            setLoading(false);
-        }
-    }, [routeName]);
-
-    if (loading) {
-        return <SafeAreaView style={styles.loading}><ActivityIndicator size="large" color={COLORS.accent} /></SafeAreaView>;
-    }
-
-    if (error || !user) {
-        return <SafeAreaView style={styles.loading}><Text style={styles.errorText}>{error || 'User not found'}</Text></SafeAreaView>;
-    }
-
-    const days = user ? Object.keys(user.availability || {}) : [];
+    const days = Object.keys(user.availability);
 
 
     return (
