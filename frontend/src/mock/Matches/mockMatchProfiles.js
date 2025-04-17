@@ -1,5 +1,6 @@
 const mockMatchProfiles = [
     {
+        userId: 'steve123',
         name: 'Steve',
         username: 'steve',
         avatar: require('../../mock/Matches/pfp/steve.jpg'),
@@ -44,6 +45,7 @@ const mockMatchProfiles = [
         ],
     },
     {
+        userId: 'henry123',
         name: 'Henry',
         username: 'henry',
         avatar: require('../../mock/Matches/pfp/henry.jpg'),
@@ -103,6 +105,7 @@ const mockMatchProfiles = [
         ],
     },
     {
+        userId: 'haley123',
         name: 'Haley',
         username: 'haley',
         avatar: require('../../mock/Matches/pfp/haley.jpg'),
@@ -152,6 +155,7 @@ const mockMatchProfiles = [
         ],
     },
     {
+        userId: 'jessica123',
         name: 'Jessica',
         username: 'jessica',
         avatar: require('../../mock/Matches/pfp/jessica.jpg'),
@@ -201,6 +205,7 @@ const mockMatchProfiles = [
         ],
     },
     {
+        userId: 'joseph123',
         name: 'Joseph',
         username: 'joseph',
         avatar: require('../../mock/Matches/pfp/joseph.jpg'),
@@ -240,6 +245,7 @@ const mockMatchProfiles = [
         ],
     },
     {
+        userId: 'michael123',
         name: 'Michael',
         username: 'michael',
         avatar: require('../../mock/Matches/pfp/michael.jpg'),
@@ -289,6 +295,7 @@ const mockMatchProfiles = [
         ],
     },
     {
+        userId: 'maria123',
         name: 'Maria',
         username: 'maria',
         avatar: require('../../mock/Matches/pfp/maria.jpg'),
@@ -308,8 +315,8 @@ const mockMatchProfiles = [
             Sun: true,
         },
         times: {
-            Fri: '9-11am',
-            Sat: '9-11am'
+            Sat: '9-11am',
+            Sun: '9-11am'
         },
         workoutLog: [
             {

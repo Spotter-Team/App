@@ -18,59 +18,19 @@ import COLORS from '../../utils/theme';
 import { ActivityIndicator } from 'react-native';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
 import { Ionicons } from '@expo/vector-icons';
+import mockMatchProfiles from '../../mock/Matches/mockMatchProfiles';
 
 const UserProfile = () => {
-    const [selectedDay, setSelectedDay] = useState('Mon'); // availability
-    const [log, setLog] = useState(''); // since workout log is text based
 
-    // hardcode to test visuals before pulling user data dynamically
-    const user = {
-        name: 'Steve',
-        username: 'steve',
-        avatar: require('../../mock/Matches/pfp/steve.jpg'),
-        trainerBadge: true,
-        buddyBadge: true,
-        gymBuddies: 5,
-        fitnessLevel: 4, // beginner = 1, intermediate = 2, etc..
-        location: 'Gainesville, FL',
-        preferredWorkout: 'HIIT, Lifting',
-        availability: {
-            Mon: true,
-            Tue: false,
-            Wed: true,
-            Thu: false,
-            Fri: true,
-            Sat: false,
-            Sun: true,
-        },
-        times: {
-            Mon: '7-9am',
-            Wed: '6-8pm',
-            Fri: '5-7pm',
-            Sun: '8-10am',
-        },
-        workoutLog: [
-            {
-                day: 'Mon',
-                content: 'HIIT + Upper Body Strength\n • Bench press + shoulder press (4 sets each)\n • Bench press + shoulder press (4 sets each)\n • Quick stretch and foam roll cooldown'
-            },
-            {
-                day: 'Wed',
-                content: 'HIIT + Lower Body Strength\n • EMOM: KB swings, jump squats\n • Back squats + walking lunges\n • Hamstring + hip stretches'
-            },
-            {
-                day: 'Fri',
-                content: 'Full Body HIIT\n • 3-round circuit: jumps, swings, wall balls, thrusters\n • 5-min total plank challenge\n • Full body cooldown stretch'
-            },
-            {
-                day: 'Sun',
-                content: 'Core Focus + Conditioning\n • Mountain climbers, v-ups\n • Weighted sit-ups + hanging leg raises\n • 10-min incline treadmill walk cooldown'
-            }
-        ],
-    };
+    const route = useRoute();
+    const userId = route.params['userId'];
+    const userData = mockMatchProfiles.find((val) => val.userId === userId);
+
+    const [selectedDay, setSelectedDay] = useState('Mon'); 
 
     const renderWorkoutLog = (day, workoutLog) => {
         const workoutLogData = workoutLog.find((workout) => workout.day === day);
+        console.log(`\n${userData.name}'s workoutLogData:\n ${workoutLogData.content}`)
         return (
             <View style={{ flex: 1 }}>
                 <Text style={{ color: 'white' }}>{workoutLogData.content}</Text>
@@ -81,7 +41,7 @@ const UserProfile = () => {
     const navigation = useNavigation();
     const handleBackBtnPress = () => navigation.goBack();
 
-    const days = Object.keys(user.availability);
+    const days = Object.keys(userData.availability);
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
@@ -97,16 +57,16 @@ const UserProfile = () => {
 
                 <View style={styles.profileRow}>
                     <View style={styles.placeholder}></View>
-                    <Image source={user.avatar} style={styles.avatarSquare} />
+                    <Image source={userData.avatar} style={styles.avatarSquare} />
                     {/* Badges */}
                     <View style={styles.badges}>
-                        {user.trainerBadge && 
+                        {userData.trainerBadge && 
                         <View style={styles.badge}>
                             <Text style={styles.badgeIcon}>🏅</Text>
                             <Text style={styles.badgeText}>Professional Trainer</Text>
                         </View>
                         }
-                        {user.buddyBadge && 
+                        {userData.buddyBadge && 
                             <View style={styles.badge}>
                                 <Text style={styles.badgeIcon}>💪</Text>
                                 <Text style={styles.badgeText}>Looking for Gym Buddy</Text>
@@ -115,12 +75,12 @@ const UserProfile = () => {
                     </View>
                 </View>
 
-                <Text style={styles.name}>{user.name}</Text>
-                <Text style={styles.username}>@{user.username.toLowerCase().replace(/\s/g, '')}</Text>
+                <Text style={styles.name}>{userData.name}</Text>
+                <Text style={styles.username}>@{userData.username.toLowerCase().replace(/\s/g, '')}</Text>
 
                 {/* Stats */}
                 <View style={styles.statsRow}>
-                    <Text style={styles.statLabel}>Gym Buddies: {user.gymBuddies}</Text>
+                    <Text style={styles.statLabel}>Gym Buddies: {userData.gymBuddies}</Text>
                     <View style={styles.fitnessContainer}>
                         <View style={styles.fitnessLevel}>
                             {[...Array(4)].map((_, i) => (
@@ -130,7 +90,7 @@ const UserProfile = () => {
                                 style={{
                                     width: 15,
                                     height: 15,
-                                    tintColor: i < user.fitnessLevel ? COLORS.accent : 'gray',
+                                    tintColor: i < userData.fitnessLevel ? COLORS.accent : 'gray',
                                     marginHorizontal: 2,
                                 }}
                             />
@@ -141,8 +101,8 @@ const UserProfile = () => {
 
                 {/* More Stats */}
                 <View style={styles.infoRow}>
-                    <Text style={styles.infoBox}> {user.location}</Text>
-                    <Text style={styles.infoBox}> {user.preferredWorkout}</Text>
+                    <Text style={styles.infoBox}> {userData.location}</Text>
+                    <Text style={styles.infoBox}> {userData.preferredWorkout}</Text>
                 </View>
 
                 {/* Schedule */}
@@ -159,11 +119,11 @@ const UserProfile = () => {
                                 // { color: user.availability[day] ? 'white' : '#353537' },
                                 selectedDay === day && styles.daySelected,
                                 ]}
-                                onTouchEnd={() => user.availability[day] && setSelectedDay(day)}
+                                onTouchEnd={() => userData.availability[day] && setSelectedDay(day)}
                             >
                                 <Text style={{ 
-                                        color: user.availability[day] ? 'white' : '#626264',
-                                        fontWeight: user.availability[day] ? 800 : 400, 
+                                        color: userData.availability[day] ? 'white' : '#626264',
+                                        fontWeight: userData.availability[day] ? 800 : 400, 
                                     }}>{day[0]}</Text>
                             </View>
                         ))}
@@ -172,9 +132,9 @@ const UserProfile = () => {
   
 
                     {/* Workout Log */}
-                    {selectedDay && user.availability[selectedDay] && (
+                    {selectedDay && userData.availability[selectedDay] && (
                         <View style={styles.availabilitySection}>
-                            <Text style={styles.availabilityHeader}>Available: {user.times[selectedDay]}</Text>
+                            <Text style={styles.availabilityHeader}>Available: {userData.times[selectedDay]}</Text>
                         </View>
                     )}
 
@@ -187,7 +147,7 @@ const UserProfile = () => {
                         value={log}
                         onChangeText={setLog}
                     /> */}
-                    {renderWorkoutLog(selectedDay, user.workoutLog)}
+                    {renderWorkoutLog(selectedDay, userData.workoutLog)}
                 </View>
             </ScrollView>
         </SafeAreaView>

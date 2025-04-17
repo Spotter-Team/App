@@ -1,7 +1,8 @@
 const mockMatchList = [
     {
-        user: 'steve123',
+        userId: 'steve123',
         name: 'Steve Stonecutter',
+        username: 'steve',
         isProfessionalTrainer: true,
         workouts: ['Body Building'],
         avatarUri: require('./pfp/steve.jpg'),
@@ -9,8 +10,9 @@ const mockMatchList = [
         matchedAt: '2025-04-15T14:29:00Z',
     },
     {
-        user: 'henry123',
+        userId: 'henry123',
         name: 'Henry Garcia',
+        username: 'henry',
         isProfessionalTrainer: true,
         workouts: ['Body Building'],
         avatarUri: require('./pfp/henry.jpg'),
@@ -18,8 +20,9 @@ const mockMatchList = [
         matchedAt: '2025-04-15T14:20:00Z',
     },
     {
-        user: 'haley123',
+        userId: 'haley123',
         name: 'Haley Smith',
+        username: 'haley',
         isProfessionalTrainer: false,
         workouts: ['HIIT', 'CrossFit'],
         avatarUri: require('./pfp/haley.jpg'),
@@ -27,8 +30,9 @@ const mockMatchList = [
         matchedAt: '2025-04-10T16:00:00Z',
     },
     {
-        user: 'jessica123',
+        userId: 'jessica123',
         name: 'Jessica Anderson',
+        username: 'jessica',
         isProfessionalTrainer: false,
         workouts: ['Powerlifting', 'Running'],
         avatarUri: require('./pfp/jessica.jpg'),
@@ -36,8 +40,9 @@ const mockMatchList = [
         matchedAt: '2025-04-11T10:03:00Z',
     },
     {
-        user: 'joseph123',
+        userId: 'joseph123',
         name: 'Joseph Hernandez',
+        username: 'joseph',
         isProfessionalTrainer: false,
         workouts: ['Cycling', 'Hiking'],
         avatarUri: require('./pfp/joseph.jpg'),
@@ -45,8 +50,9 @@ const mockMatchList = [
         matchedAt: '2025-04-09T19:28:00Z',
     },
     {
-        user: 'michael123',
+        userId: 'michael123',
         name: 'Michael Thomas',
+        username: 'michael',
         isProfessionalTrainer: false,
         workouts: ['Weightlifting'],
         avatarUri: require('./pfp/michael.jpg'),
@@ -54,8 +60,9 @@ const mockMatchList = [
         matchedAt: '2025-04-07T14:28:00Z',
     },
     {
-        user: 'maria123',
+        userId: 'maria123',
         name: 'Maria Jones',
+        username: 'maria',
         isProfessionalTrainer: false,
         workouts: ['Weightlifting'],
         avatarUri: require('./pfp/maria.jpg'),
