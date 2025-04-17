@@ -18,7 +18,7 @@ import { ActivityIndicator } from 'react-native';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
 
 const UserProfile = () => {
-    const [selectedDay, setSelectedDay] = useState(null); // availability
+    const [selectedDay, setSelectedDay] = useState('Mon'); // availability
     const [log, setLog] = useState(''); // since workout log is text based
 
     // hardcode to test visuals before pulling user data dynamically
@@ -47,6 +47,33 @@ const UserProfile = () => {
             Fri: '5-7pm',
             Sun: '8-10am',
         },
+        workoutLog: [
+            {
+                day: 'Mon',
+                content: 'HIIT + Upper Body Strength\n • Bench press + shoulder press (4 sets each)\n • Bench press + shoulder press (4 sets each)\n • Quick stretch and foam roll cooldown'
+            },
+            {
+                day: 'Wed',
+                content: 'HIIT + Lower Body Strength\n • EMOM: KB swings, jump squats\n • Back squats + walking lunges\n • Hamstring + hip stretches'
+            },
+            {
+                day: 'Fri',
+                content: 'Full Body HIIT\n • 3-round circuit: jumps, swings, wall balls, thrusters\n • 5-min total plank challenge\n • Full body cooldown stretch'
+            },
+            {
+                day: 'Sun',
+                content: 'Core Focus + Conditioning\n • Mountain climbers, v-ups\n • Weighted sit-ups + hanging leg raises\n • 10-min incline treadmill walk cooldown'
+            }
+        ],
+    };
+
+    const renderWorkoutLog = (day, workoutLog) => {
+        const workoutLogData = workoutLog.find((workout) => workout.day === day);
+        return (
+            <View style={{ flex: 1 }}>
+                <Text style={{ color: 'white' }}>{workoutLogData.content}</Text>
+            </View>
+        );
     };
 
     const days = Object.keys(user.availability);
@@ -101,16 +128,16 @@ const UserProfile = () => {
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.daysContainer}>
                         {days.map(day => (
                             <View
-                            key={day}
-                            style={[
-                            styles.dayCircle,
-                            { backgroundColor: user.availability[day] ? COLORS.background : '#333' },
-                            selectedDay === day && styles.daySelected,
-                            ]}
-                            onTouchEnd={() => user.availability[day] && setSelectedDay(day)}
-                        >
-                            <Text style={styles.dayText}>{day[0]}</Text>
-                        </View>
+                                key={day}
+                                style={[
+                                styles.dayCircle,
+                                { backgroundColor: user.availability[day] ? COLORS.background : '#333' },
+                                selectedDay === day && styles.daySelected,
+                                ]}
+                                onTouchEnd={() => user.availability[day] && setSelectedDay(day)}
+                            >
+                                <Text style={styles.dayText}>{day[0]}</Text>
+                            </View>
                         ))}
                     </ScrollView>
 
@@ -126,14 +153,15 @@ const UserProfile = () => {
                     )}
 
                     {/* Tab Bar Placeholder */}
-                    <TextInput
+                    {/* <TextInput
                         style={styles.logInput}
                         placeholder="Log your workout..."
                         placeholderTextColor={COLORS.lightText}
                         multiline
                         value={log}
                         onChangeText={setLog}
-                    />
+                    /> */}
+                    {renderWorkoutLog(selectedDay, user.workoutLog)}
                 </View>
             </ScrollView>
         </SafeAreaView>
