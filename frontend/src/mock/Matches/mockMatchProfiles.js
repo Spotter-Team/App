@@ -311,8 +311,8 @@ const mockMatchProfiles = [
             Wed: false,
             Thu: false,
             Fri: false,
-            Sat: true,
-            Sun: true,
+            Sat: false,
+            Sun: false,
         },
         times: {
             Sat: '9-11am',

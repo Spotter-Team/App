@@ -28,17 +28,17 @@ const UserProfile = () => {
     const firstAvailableDay = Object.keys(userData.availability).find((day) => userData.availability[day]);
     console.log("First Available Day: ", firstAvailableDay);
 
-    const [selectedDay, setSelectedDay] = useState(firstAvailableDay); 
+    const [selectedDay, setSelectedDay] = useState(firstAvailableDay ? firstAvailableDay : ''); 
 
     const renderWorkoutLog = (day, workoutLog) => {
         const workoutLogData = workoutLog.find((workout) => workout.day === day);
-        return (
-            <View style={{ flex: 1 }}>
-                <Text style={{ color: 'white' }}>
-                    {selectedDay === '' ? '' : workoutLogData.content}
-                </Text>
-            </View>
-        );
+        
+        if(firstAvailableDay === undefined) {
+            return "Current Unavailable";
+        }
+        else {
+            return selectedDay === '' ? '' : workoutLogData.content;
+        };
     };
 
     const navigation = useNavigation();
@@ -132,8 +132,6 @@ const UserProfile = () => {
                         ))}
                     </ScrollView>
 
-  
-
                     {/* Workout Log */}
                     {selectedDay && userData.availability[selectedDay] && (
                         <View style={styles.availabilitySection}>
@@ -141,16 +139,12 @@ const UserProfile = () => {
                         </View>
                     )}
 
-                    {/* Tab Bar Placeholder */}
-                    {/* <TextInput
-                        style={styles.logInput}
-                        placeholder="Log your workout..."
-                        placeholderTextColor={COLORS.lightText}
-                        multiline
-                        value={log}
-                        onChangeText={setLog}
-                    /> */}
-                    {renderWorkoutLog(selectedDay, userData.workoutLog)}
+                    <View style={{ flex: 1 }}>
+                        <Text style={{ color: 'white' }}>
+                            {renderWorkoutLog(selectedDay, userData.workoutLog)}
+                        </Text>
+                    </View>
+
                 </View>
             </ScrollView>
         </SafeAreaView>
