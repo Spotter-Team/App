@@ -82,11 +82,22 @@ const UserProfile = () => {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.profileRow}>
+                    <View style={styles.placeholder}></View>
                     <Image source={user.avatar} style={styles.avatarSquare} />
                     {/* Badges */}
                     <View style={styles.badges}>
-                        {user.trainerBadge && <Text style={styles.badge}>🏅 Trainer</Text>}
-                        {user.buddyBadge && <Text style={styles.badge}>💪 Buddy</Text>}
+                        {user.trainerBadge && 
+                        <View style={styles.badge}>
+                            <Text style={styles.badgeIcon}>🏅</Text>
+                            <Text style={styles.badgeText}>Professional Trainer</Text>
+                        </View>
+                        }
+                        {user.buddyBadge && 
+                            <View style={styles.badge}>
+                                <Text style={styles.badgeIcon}>💪</Text>
+                                <Text style={styles.badgeText}>Looking for Gym Buddy</Text>
+                            </View>
+                        }
                     </View>
                 </View>
 
@@ -174,7 +185,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     profileRow: { 
-        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
         marginBottom: 10,
     },
     avatarSquare: { 
@@ -190,26 +202,35 @@ const styles = StyleSheet.create({
         textAlign: 'center', 
         marginTop: 10 
     },
+    placeholder: {
+        width: '30%',
+    },
     username: { 
         color: COLORS.lightText, 
         fontSize: 16, 
         textAlign: 'center', 
         marginBottom: 10,
     },
-    badges: { 
-        position: 'absolute',
-        right: 5,
-        top: 0,
-        justifyContent: 'center',
-        gap: 20,
+    badges: {
+        width: '30%',
+        paddingTop: 10,
     },
     badge: { 
+        flexDirection: 'row',
         backgroundColor: COLORS.background, 
         paddingHorizontal: 10, 
         paddingVertical: 6, 
         borderRadius: 10, 
         color: COLORS.text, 
         fontSize: 14,
+    },
+    badgeIcon: {
+        paddingTop: 3,
+    },
+    badgeText: {
+        color: COLORS.text,
+        fontSize: 12,
+        fontStyle: 'italic',
     },
     statsRow: { 
         flexDirection: 'row', 
