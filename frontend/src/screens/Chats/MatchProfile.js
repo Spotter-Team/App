@@ -26,14 +26,15 @@ const UserProfile = () => {
     const userId = route.params['userId'];
     const userData = mockMatchProfiles.find((val) => val.userId === userId);
 
-    const [selectedDay, setSelectedDay] = useState('Mon'); 
+    const [selectedDay, setSelectedDay] = useState(''); 
 
     const renderWorkoutLog = (day, workoutLog) => {
         const workoutLogData = workoutLog.find((workout) => workout.day === day);
-        console.log(`\n${userData.name}'s workoutLogData:\n ${workoutLogData.content}`)
         return (
             <View style={{ flex: 1 }}>
-                <Text style={{ color: 'white' }}>{workoutLogData.content}</Text>
+                <Text style={{ color: 'white' }}>
+                    {selectedDay === '' ? '' : workoutLogData.content}
+                </Text>
             </View>
         );
     };
