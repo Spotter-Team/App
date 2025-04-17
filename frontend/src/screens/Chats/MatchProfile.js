@@ -9,13 +9,15 @@ import {
     SafeAreaView,
     Alert,
     Image,
+    TouchableOpacity,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { API_BASE_URL } from '@env';
 import COLORS from '../../utils/theme';
 import { ActivityIndicator } from 'react-native';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
+import { Ionicons } from '@expo/vector-icons';
 
 const UserProfile = () => {
     const [selectedDay, setSelectedDay] = useState('Mon'); // availability
@@ -29,9 +31,9 @@ const UserProfile = () => {
         trainerBadge: true,
         buddyBadge: true,
         gymBuddies: 5,
-        fitnessLevel: 2, // beginner = 1, intermediate = 2, etc..
+        fitnessLevel: 4, // beginner = 1, intermediate = 2, etc..
         location: 'Gainesville, FL',
-        preferredWorkout: 'HIIT + Lifting',
+        preferredWorkout: 'HIIT, Lifting',
         availability: {
             Mon: true,
             Tue: false,
@@ -76,11 +78,23 @@ const UserProfile = () => {
         );
     };
 
+    const navigation = useNavigation();
+    const handleBackBtnPress = () => navigation.goBack();
+
     const days = Object.keys(user.availability);
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+
+            <View style={styles.matchProfileHeader}>
+                <TouchableOpacity onPress={() => handleBackBtnPress()}>
+                    <Ionicons name="chevron-back" size={25} style={styles.backButton}></Ionicons>         
+                </TouchableOpacity>
+                <Ionicons name="ellipsis-horizontal" size={25} style={styles.moreButton}></Ionicons>    
+            </View>
+
             <ScrollView contentContainerStyle={styles.container}>
+
                 <View style={styles.profileRow}>
                     <View style={styles.placeholder}></View>
                     <Image source={user.avatar} style={styles.avatarSquare} />
@@ -142,24 +156,25 @@ const UserProfile = () => {
                                 key={day}
                                 style={[
                                 styles.dayCircle,
-                                { backgroundColor: user.availability[day] ? COLORS.background : '#333' },
+                                // { color: user.availability[day] ? 'white' : '#353537' },
                                 selectedDay === day && styles.daySelected,
                                 ]}
                                 onTouchEnd={() => user.availability[day] && setSelectedDay(day)}
                             >
-                                <Text style={styles.dayText}>{day[0]}</Text>
+                                <Text style={{ 
+                                        color: user.availability[day] ? 'white' : '#626264',
+                                        fontWeight: user.availability[day] ? 800 : 400, 
+                                    }}>{day[0]}</Text>
                             </View>
                         ))}
                     </ScrollView>
 
-                    <View style={styles.unavailableBlock}>
-                        <Text style={styles.unavailableText}>Unavailable</Text>
-                    </View>
+  
 
                     {/* Workout Log */}
                     {selectedDay && user.availability[selectedDay] && (
                         <View style={styles.availabilitySection}>
-                        <Text style={styles.availabilityHeader}>Available: {user.times[selectedDay]}</Text>
+                            <Text style={styles.availabilityHeader}>Available: {user.times[selectedDay]}</Text>
                         </View>
                     )}
 
@@ -187,7 +202,6 @@ const styles = StyleSheet.create({
     profileRow: { 
         flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: 10,
     },
     avatarSquare: { 
         width: 140, 
@@ -257,7 +271,7 @@ const styles = StyleSheet.create({
         marginVertical: 10 
     },
     infoBox: { 
-        backgroundColor: '#333', 
+        backgroundColor: '#131416', 
         padding:10, 
         borderRadius: 8, 
         color: COLORS.lightText, 
@@ -267,19 +281,24 @@ const styles = StyleSheet.create({
         color: COLORS.lightText, 
         fontSize: 18, 
         fontWeight: 'bold', 
-        marginBottom: 10 
+        paddingBottom: 10,
+        marginBottom: 10, 
+        borderBottomColor: '#2A2B2E',
+        borderBottomWidth: 0.2,
     },
     grayWrapper: {
-        backgroundColor: COLORS.background,
+        backgroundColor: '#111315',
         borderRadius: 8,
         paddingHorizontal: 10,
-        paddingVertical: 20,
+        paddingTop: 15,
+        paddingBottom: 50,
         marginTop: 10,
         marginBottom: 20,
     },
     daysContainer: { 
         flexDirection: 'row', 
-        marginVertical: 10 
+        marginVertical: 10, 
+        paddingBottom: 10,
     },
     dayCircle: {
         width: 40,
@@ -288,6 +307,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 5,
+        backgroundColor: '#1E1F21',
     },
     daySelected: {
         borderWidth: 2,
@@ -325,6 +345,21 @@ const styles = StyleSheet.create({
         height: 250,
         textAlignVertical: 'top',
         marginTop: 10,
+    },
+    backButton: {
+        color: '#B42B23',
+        paddingLeft: 20,
+    },
+    moreButton: {
+        color: '#B42B23',
+        paddingRight: 20,
+    },
+    matchProfileHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 10,
     },
 }); 
 
