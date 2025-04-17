@@ -51,6 +51,7 @@ NODE_ENV=development
 
 # Cryptography
 JWT_SECRET=9b8add1489bab5c885752a4326bb94c126c619f56945d0c60c1ff1f0341e9658 # This is just an example secret
+DEFAULT_TOKEN_LIFE=8h
 
 # Database Stuff
 DB_MODE=local # Options: local
@@ -244,6 +245,37 @@ REST API routes are segmented into the following groups:
 
 > ```bash
 > curl --location 'http://localhost:3000/api/msg/unread' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
+> ```
+
+</details>
+
+#### Get your chat list
+<details>
+    <summary><code>GET</code> <code><b>/api/msg/chat-list</b></code></summary>
+
+##### Headers
+
+> | name          |  type     | data type        | description                                             |
+> |---------------|-----------|------------------| --------------------------------------------------------|
+> | Authorization |  JWT      | text             | A JSON web token issued by the server                   |
+
+##### Parameters
+
+> None
+
+
+##### Responses
+
+> | http code     | content-type         | response                                                                          |
+> |---------------|----------------------|-----------------------------------------------------------------------------------|
+> | `200`         | `application/json`   | `{"message": "Successfully got the user's chat list!", "chatList": [] }`          |
+> | `500`         | `application/json`   | `{"message": "The chat list for the user could not be retrieved!" }`              |
+> | `500`         | `application/json`   | `{"message": "The auth token once decoded did not include the sender userID!" }`  |
+
+##### Example cURL
+
+> ```bash
+> curl --location 'http://localhost:3000/api/msg/chat-list' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
 > ```
 
 </details>

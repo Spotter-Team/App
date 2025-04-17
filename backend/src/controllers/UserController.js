@@ -4,10 +4,17 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/User');
 const { Blocked } = require('../models/Blocked');
 
-// Load JWT_secret
+// Load JWT_SECRET
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
     console.error(`Error: Variable JWT_SECRET was not found .env file!`);
+    process.exit(1);
+}
+
+// Load DEFAULT_TOKEN_LIFE
+const defaultTokenLife = process.env.DEFAULT_TOKEN_LIFE;
+if (!defaultTokenLife) {
+    console.error(`Error: Variable DEFAULT_TOKEN_LIFE was not found .env file!`);
     process.exit(1);
 }
 
@@ -47,7 +54,7 @@ class UserController {
                     bcrypt.compare(pwd, userObj.pwd)
                         .then(isMatch => {
                             if (isMatch) {
-                                const token = jwt.sign( { userID: userObj.userID}, jwtSecret, { expiresIn: '1h' });
+                                const token = jwt.sign( { userID: userObj.userID}, jwtSecret, { expiresIn: defaultTokenLife });
 
                                 resolve(token);
                             } else {
@@ -65,7 +72,7 @@ class UserController {
     }
 
     /**
-     * Checks to see if the user has been registerd
+     * Checks to see if the user has been registered
      * @param { string } username The username to check
      * @returns { Promise<boolean> } A Promise that resolves to true if the user exists in the DB
      */

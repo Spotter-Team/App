@@ -142,13 +142,84 @@ class DirectMessageController {
      */
     static getChatList(userID) {
         return new Promise((resolve, reject) => {
-            DirectMessage.getUnreadMessageCount(userID)
-                .then(unreadMessageObj => {
-                    console.log(unreadMessageObj);
-                    resolve();
+            // Get the users this user has conversations with
+            DirectMessageController.getAllRecipientsForUser(userID)
+                .then(users => {
+                    DirectMessage.getUnreadMessageCount(userID)
+                        .then(async unreadDict => {
+                            /** @type { Array<{ id: number,  name: string, lastMessage: object, unreadCount number }> } */
+                            let chatList = [];
+
+                            // For each user get the info for the 
+                            for (const user of users) {
+                                let chatListItem =  await DirectMessageController.getChatListItem(userID, user, unreadDict);
+                                chatList.push(chatListItem);
+                            };
+
+                            // Order the messages by createdAt and assign ids
+                            chatList.sort((a, b) => {
+                                return new Date(b.lastMessage.timestamp) - new Date(a.lastMessage.timestamp);
+                            });
+    
+                            let id = 1;
+                            chatList.forEach(chatListItem => {
+                                chatListItem.id = id;
+                                id++;
+                            })
+
+                            resolve(chatList);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        })
                 })
                 .catch(err => {
-                    reject(err)
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Gets the chat list item for a conversation between a user and another user
+     * @param { number } userID The id of the user accessing the chat list
+     * @param { User } secondUser The User object of a user in the accessing user's chat list
+     * @param { { number: number } } unreadDict An object containing userIDs and corresponding unread counts
+     * @returns { Promise<{ name: string, lastMessage: object, unreadCount number }> } A promise that resolves to a chat list item
+     */
+    static getChatListItem(userID, secondUser, unreadDict) {
+        return new Promise((resolve, reject) => {
+            const secondUserID = secondUser.userID;
+
+            // Get the last message for each user
+            let chatListItem = {};
+
+            // Check to see if the user has unread messages with a user in their chat list
+            if (unreadDict[secondUserID] != undefined) {
+                chatListItem.unreadCount = unreadDict[secondUserID];
+            } else {
+                chatListItem.unreadCount = 0;
+            }
+
+            // Add the user's name to the chatListItem
+            chatListItem.name = `${secondUser.firstName} ${secondUser.lastName}`;
+
+            DirectMessage.getLastMessageBetweenUsers(userID, secondUserID)
+                .then(lastMessage => {
+                    if (lastMessage !== null) {
+                        chatListItem.lastMessage = {
+                            senderID: lastMessage.senderID,
+                            content: lastMessage.msg,
+                            type: 'text',
+                            timestamp: lastMessage.createdAt
+                        };
+                    } else {
+                        chatListItem.lastMessage = null;
+                    }
+
+                    resolve(chatListItem);
+                })
+                .catch(err => {
+                    reject(err);
                 })
         })
     }

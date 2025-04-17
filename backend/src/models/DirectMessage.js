@@ -121,7 +121,7 @@ class DirectMessage extends Model {
     /**
      * Gets the unread message count per user the user has unread messages with
      * @param { number } userID The id of the recipient user to get unread messages
-     * @returns { Promise<object[]>} A promise that resolves to an array of objects containing the user and number of unread messages
+     * @returns { Promise<{ number: number }>} A promise that resolves to an array of objects containing the user and number of unread messages
      */
     static getUnreadMessageCount(userID) {
         return new Promise((resolve, reject) => {
@@ -136,7 +136,13 @@ class DirectMessage extends Model {
                 },
                 group: ['senderID']
             })
-            .then(unreadMsgCounts => {
+            .then(unreadMsgCountArray => {
+                /** @type { { number: number } } */
+                let unreadMsgCounts = {};
+                unreadMsgCountArray.forEach(unreadCountRaw => {
+                    unreadMsgCounts[unreadCountRaw.dataValues.senderID] = unreadCountRaw.dataValues.unreadCount;
+                })
+
                 resolve(unreadMsgCounts);
             })
             .catch(err => {
