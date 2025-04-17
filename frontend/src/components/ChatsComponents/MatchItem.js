@@ -1,17 +1,6 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 
 const MatchItem = ({ name, isProfessionalTrainer, workouts, avatarUri, isNew }) => {
-
-    const renderNewBadge = (isNew) => {
-        if(isNew) {
-            return (
-                <View style={styles.newBadge}>
-                    <Text style={styles.newText}>NEW</Text>
-                </View>
-            );
-        };
-    };
-
     return (
         <View style={styles.matchItemContainer}>
             
@@ -26,7 +15,7 @@ const MatchItem = ({ name, isProfessionalTrainer, workouts, avatarUri, isNew }) 
                 
                 <View style={styles.avatarContainer}>
                     <Image source={avatarUri} style={styles.avatar} />
-                    {renderNewBadge(isNew)}
+                    {isNew && <View style={styles.newBadge}><Text style={styles.newText}>NEW</Text></View>}
                 </View>
 
             </View>
