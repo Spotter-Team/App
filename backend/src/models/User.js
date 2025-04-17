@@ -52,7 +52,7 @@ class User extends Model {
                         //         reject(err);
                         //     })
                         // Attempt to add then new user record to the db
-                        User.create({ username: username, pwd: hashedPwd })
+                        User.create({ username: username, pwd: password })
                             .then(newUser => {
                                 resolve(newUser);
                             })
