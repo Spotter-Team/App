@@ -25,8 +25,10 @@ const UserProfile = () => {
     const route = useRoute();
     const userId = route.params['userId'];
     const userData = mockMatchProfiles.find((val) => val.userId === userId);
+    const firstAvailableDay = Object.keys(userData.availability).find((day) => userData.availability[day]);
+    console.log("First Available Day: ", firstAvailableDay);
 
-    const [selectedDay, setSelectedDay] = useState(''); 
+    const [selectedDay, setSelectedDay] = useState(firstAvailableDay); 
 
     const renderWorkoutLog = (day, workoutLog) => {
         const workoutLogData = workoutLog.find((workout) => workout.day === day);

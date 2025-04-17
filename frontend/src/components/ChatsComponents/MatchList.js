@@ -12,7 +12,6 @@ const MatchList = () => {
         <View style={styles.container}>
             {mockMatchList.map((val, index) => (
                 <TouchableOpacity onPress={() => handleMatchPress(val.userId)} key={val.id || index}>
-                    {console.log(val.userId)}
                     <MatchItem 
                         name={val.name.split(' ')[0]} 
                         isProfessionalTrainer={val.isProfessionalTrainer}
