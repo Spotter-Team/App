@@ -1,0 +1,93 @@
+{
+    "modelName": "DirectMessage",
+    "data": [
+        {
+            "msg": "Hey Haley, I need a gym buddy!",
+            "senderID": 1,
+            "receiverID": 2,
+            "read": true
+        },
+        {
+            "msg": "Hey! I'd love to. What are your fitness goals?",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true
+        },
+        {
+            "msg": "Building upper body!",
+            "senderID": 1,
+            "receiverID": 2,
+            "read": true
+        },
+        {
+            "msg": "Want to workout at Southwest 5PM tomorrow?",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true
+        },
+        {
+            "msg": "Yup!",
+            "senderID": 1,
+            "receiverID": 2,
+            "read": true
+        },
+        {
+            "msg": "Great job on the deadlifts",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true
+        },
+        {
+            "msg": "Hi Joseph!",
+            "senderID": 1,
+            "receiverID": 3,
+            "read": true
+        },
+        {
+            "msg": "Hey! What's up?",
+            "senderID": 3,
+            "receiverID": 1,
+            "read": true
+        },
+        {
+            "msg": "Wanna hit the gym tomorrow?",
+            "senderID": 1,
+            "receiverID": 3,
+            "read": true
+        },
+        {
+            "msg": "Yeah, I'm down!",
+            "senderID": 3,
+            "receiverID": 1
+        },
+        {
+            "msg": "Hey!",
+            "senderID": 4,
+            "receiverID": 1,
+            "read": true
+        },
+        {
+            "msg": "Hey, just wondering, what creatine do you recommend?",
+            "senderID": 1,
+            "receiverID": 4,
+            "read": true
+        },
+        {
+            "msg": "I'll send you a screenshot!",
+            "senderID": 4,
+            "receiverID": 1,
+            "read": true
+        },
+        {
+            "msg": "Hey, wanna workout!",
+            "senderID": 1,
+            "receiverID": 5,
+            "read": true
+        },
+        {
+            "msg": "Next time!",
+            "senderID": 5,
+            "receiverID": 1
+        }
+    ]
+}

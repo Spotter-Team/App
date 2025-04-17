@@ -134,6 +134,24 @@ class DirectMessageController {
                 })
         })
     }
+
+    /**
+     * Get the information needed to populate a user's chat list
+     * @param { number } userID The id of the user whose chat list you want to get
+     * @returns { Promise<object[]> } A promise that resolves to an array of objects containing the chat list
+     */
+    static getChatList(userID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.getUnreadMessageCount(userID)
+                .then(unreadMessageObj => {
+                    console.log(unreadMessageObj);
+                    resolve();
+                })
+                .catch(err => {
+                    reject(err)
+                })
+        })
+    }
 }
 
 module.exports = DirectMessageController;

@@ -271,7 +271,8 @@ const userSchema = {
         type: DataTypes.INTEGER,
     },
     trainerBadge: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }
 
@@ -279,7 +280,14 @@ User.init(
     userSchema, 
     {
         sequelize,
-        modelName: 'User'
+        modelName: 'User',
+        hooks: {
+            beforeCreate: async (user) => {
+                const hashedPwd = await bcrypt.hash(user.dataValues.pwd, 10);
+                user.pwd = hashedPwd;
+            }
+        }
+    
     }
 );
 

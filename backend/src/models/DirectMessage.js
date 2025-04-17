@@ -1,4 +1,4 @@
-const { DataTypes, Model, Op } = require('sequelize');
+const { DataTypes, Model, Op, Sequelize } = require('sequelize');
 const { User } = require('./User');
 
 const sequelize = require('./sequelize')
@@ -103,19 +103,75 @@ class DirectMessage extends Model {
      */
     static getUnreadMessages(userID) {
         return new Promise((resolve, reject) => {
-            DirectMessage.findAll(
-                {
-                    attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
-                    where: {
-                        [Op.and]: [ { receiverID: userID }, { read: false } ]
-                    }
-                })
-                .then(messages => {
-                    resolve(messages);
-                })
-                .catch(err => {
-                    reject(err);
-                })
+            DirectMessage.findAll({
+                attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
+                where: {
+                    [Op.and]: [ { receiverID: userID }, { read: false } ]
+                }
+            })
+            .then(messages => {
+                resolve(messages);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    }
+
+    /**
+     * Gets the unread message count per user the user has unread messages with
+     * @param { number } userID The id of the recipient user to get unread messages
+     * @returns { Promise<object[]>} A promise that resolves to an array of objects containing the user and number of unread messages
+     */
+    static getUnreadMessageCount(userID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.findAll({
+                attributes: [
+                    'senderID',
+                    [Sequelize.fn('COUNT', Sequelize.col('msgID')), 'unreadCount']
+                ],
+                where: {
+                    receiverID: userID,
+                    read: false
+                },
+                group: ['senderID']
+            })
+            .then(unreadMsgCounts => {
+                resolve(unreadMsgCounts);
+            })
+            .catch(err => {
+                reject(err);
+            })
+        })
+    }
+
+    /**
+     * Gets the last message between two users
+     * @param { number } primaryUserID 
+     * @param { number } secondaryUserID 
+     * @returns { Promise<DirectMessage?> } A promise that resolves to a DirectMessage object or null
+     */
+    static getLastMessageBetweenUsers(primaryUserID, secondaryUserID) {
+        return new Promise((resolve, reject) => {
+            DirectMessage.findOne({
+                where: {
+                    [Op.or]: [
+                        { senderID: primaryUserID, receiverID: secondaryUserID },
+                        { senderID: secondaryUserID, receiverID: primaryUserID }
+                    ]
+                },
+                order: [['createdAt', 'DESC']]
+            })
+            .then(message => {
+                if (message != null) {
+                    resolve(message.dataValues);
+                } else {
+                    resolve(null)
+                }
+            })
+            .catch(err => {
+                reject(err);
+            })
         })
     }
 }

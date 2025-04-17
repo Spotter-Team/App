@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
-const { Sequelize } = require('sequelize');
+const { Sequelize, Model } = require('sequelize');
 
 // Import common sequelize config
 const sequelize = require('../models/sequelize');
@@ -32,6 +32,8 @@ class DatabaseService {
     dbFilePath;
     /** @type { string } */
     dataPath;
+    /** @type { string[] } */
+    requiredTables = [ 'Users', 'TimeSlots', 'Availabilities', 'Blockeds', 'CommunityTypes', 'Communities', 'Gyms', 'GoesTos', 'Matches', 'Meetups', 'MemberOfs', 'Workouts', 'WorkoutEquipments', 'RequiredEquipments', 'UserReportTypes', 'UserReports', 'DirectMessages' ];
 
     /** MODELS */
     /** @type { Availability } */
@@ -212,10 +214,84 @@ class DatabaseService {
         return this.sequelize.close();
     }
 
+    /**
+     * Performs a bulk import of data into the database
+     * @param { string } filePath The path to the file that contains the data to import
+     * @returns { Promise<Model[]> } A promise that resolves after the bulk import is completed
+     */
+    bulkImport(filePath) {
+        return new Promise((resolve, reject) => {
+            if (!filePath){
+                reject(`Parameter 'filePath' is required! The bulk import was aborted!`);
+            } else {
+                this.isConnected()
+                    .then(isConnected => {
+                        if (isConnected) {
+                            // Check for the file
+                            DatabaseService._checkForFile(filePath)
+                                .then(() => {
+                                    // Read the file contents as JSON
+                                    DatabaseService._getFileContents(filePath)
+                                        .then(contents => {
+                                            // Parse the JSON data
+                                            /** @type { { modelName: string, data: string[] } } */
+                                            const jsonData = JSON.parse(contents);
+
+                                            // Get the model name and data
+                                            const { modelName, data } = jsonData;
+
+                                            // Import the data to the specified table
+                                            const model = this.sequelize.models[modelName];
+                                            if (model != undefined) {
+                                                model.bulkCreate(data, { individualHooks: true })
+                                                    .then(insertedRecords => {
+                                                        resolve(insertedRecords);
+                                                    })
+                                                    .catch(err => {
+                                                        reject(err);
+                                                    })
+                                            } else {
+                                                reject(`The specified model name '${modelName}' was not found in the connected database! The bulk import has been aborted!`);
+                                            }
+                                        })
+                            })
+                            .catch(err => {
+                                reject(err);
+                            })
+                        } else {
+                            reject(`The Database service is not connected to a database!`)
+                        }
+                    })
+                    .catch(err => {
+                        reject(err);
+                    })
+            }
+        })
+    }
+
 
     /**
      * ========== INTERNAL FUNCTIONS ==========
      */
+
+    /**
+     * Verifies that all of the required tables exist in the connected database
+     * @returns { Promise<boolean> } A promise that resolves to true if all the required tables exist in the database
+     */
+    _verifyTables() {
+        return new Promise((resolve, reject) => {
+            // Verify that the database has been initialized
+            sequelize.showAllSchemas()
+                .then(schemaInfo => {
+                    const tables = schemaInfo.map(item => item.name);
+
+                    resolve (this.requiredTables.length === tables.length && tables.every(item => this.requiredTables.includes(item)));
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
 
 
     /**
@@ -225,7 +301,7 @@ class DatabaseService {
     /**
      * Checks for a file and if it doesn't exist it's created
      * @param {path} filePath - The path to the file to check
-     * @returns A Promise which resolves if the files exists and rejects if there is an error checking for the file of creating it
+     * @returns { Promise<void> } A Promise which resolves if the files exists and rejects if there is an error checking for the file of creating it
      */
     static _checkForFile(filePath) {
         return new Promise((resolve, reject) => {
@@ -286,7 +362,7 @@ class DatabaseService {
     /**
      * Gets the contents from a file
      * @param {path} filePath The path to the file to read
-     * @returns A Promise which resolves with the contents of the file and rejects if there is any other unhandled error
+     * @returns { Promise<Buffer<ArrayBufferLike>> } A Promise which resolves with the contents of the file and rejects if there is any other unhandled error
      */
     static _getFileContents(filePath) {
         return new Promise((resolve, reject) => {

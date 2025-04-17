@@ -46,7 +46,21 @@ router.get('/unread', auth, (req, res) => {
             res.status(200).json({ message: `Successfully retrieved unread messages for userID '${userID}'!`, messages });
         })
         .catch(err => {
-            res.status(500).json({ message: `Unread messages for user with userID ${userID} could not be retrieved!` });
+            res.status(500).json({ message: `Unread messages for user with userID ${userID} could not be retrieved!`, error: err });
+        })
+})
+
+// Gets the chat list package for a user
+router.get('/chat-list', auth, (req, res) => {
+    const userID = req.userID;
+    if (!userID) return res.status(500).json({ message: `The auth token once decoded did not include the sender userID!` });
+
+    DirectMessageController.getChatList(userID)
+        .then(chatList => {
+            res.status(200).json({ message: `Successfully got the user's chat list!`, chatList})
+        })
+        .catch(err => {
+            res.status(500).json({ message: `The chat list for the user could not be retrieved!`, error: err });
         })
 })
 
@@ -67,7 +81,7 @@ router.put('/read/:msgID', auth, (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).json({ message: `Message could not be read! Maybe the message was not found in the database?` });
+            res.status(500).json({ message: `Message could not be read! Maybe the message was not found in the database?`, error: err });
         })
 })
 
@@ -88,7 +102,7 @@ router.post('/conversations/:userID', auth, (req, res) => {
             res.status(200).json({ message: `Successfully send a message to the user with userID '${recipientUserID}'!` });
         })
         .catch(err => {
-            res.status(500).json({ message: `Message could not be sent! Maybe the recipient was not registered?` });
+            res.status(500).json({ message: `Message could not be sent! Maybe the recipient was not registered?`, error: err });
         })
 })
 

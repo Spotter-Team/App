@@ -1,0 +1,40 @@
+{
+    "modelName": "User",
+    "data": [
+        {
+            "username": "testUser1@spotter.com",
+            "pwd": "password",
+            "phoneNumber": "+15555555",
+            "firstName": "Haley",
+            "lastName": "Smith"
+        },
+        {
+            "username": "testUser2@spotter.com",
+            "pwd": "password",
+            "phoneNumber": "+15555556",
+            "firstName": "Jessica",
+            "lastName": "Anderson"
+        },
+        {
+            "username": "testUser3@spotter.com",
+            "pwd": "password",
+            "phoneNumber": "+15555557",
+            "firstName": "Joseph",
+            "lastName": "Hernandez"
+        },
+        {
+            "username": "testUser4@spotter.com",
+            "pwd": "password",
+            "phoneNumber": "+15555558",
+            "firstName": "Michael",
+            "lastName": "Thomas"
+        },
+        {
+            "username": "testUser5@spotter.com",
+            "pwd": "password",
+            "phoneNumber": "+15555558",
+            "firstName": "Maria",
+            "lastName": "Jones"
+        }
+    ]
+}
