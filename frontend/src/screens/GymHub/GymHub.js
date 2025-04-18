@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import HubCommunityScroll from './HubCommunityScroll';
 
 const GymHub = () => {
 
@@ -22,14 +23,14 @@ const GymHub = () => {
                 </TouchableOpacity>
             </View>
 
+            <HubCommunityScroll />
+            <View style={styles.divider} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
+
     titleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -44,7 +45,28 @@ const styles = StyleSheet.create({
     },
     viewAllText: {
         color: 'white',
-    }
+    },
+    communityListContainer: {
+        paddingHorizontal: 17,
+        flexDirection: 'row',
+    },
+    communityLogo: {
+        height: 60,
+        width: 60,
+        borderRadius: '100%',
+        borderColor: 'red',
+        borderWidth: 2,
+    },
+    divider: {
+        height: 2,
+        marginHorizontal: 17,
+        borderRadius: 5,
+        backgroundColor: '#B42B23',
+    },
+    hubListContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
 });
 
 export default GymHub;

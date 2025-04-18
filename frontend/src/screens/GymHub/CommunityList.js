@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 50,
         fontFamily: 'Bebas Neue',
-    }
+    },
 });
 
 export default CommunityList;
