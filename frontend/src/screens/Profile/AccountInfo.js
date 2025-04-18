@@ -1,149 +1,152 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    Button,
-    StyleSheet,
-    ScrollView,
-    SafeAreaView,
-    Alert,
-    Image,
-} from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import COLORS from '../../utils/theme';
-import DumbbellLogo from '../../assets/dumbbell-logo.png';
 
 const AccountInfo = () => {
-    const route = useRoute();
-    const { name: routeName = 'User' } = route.params || {};
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [zipcode, setZipcode] = useState('');
+    const [password, setPassword] = useState('');
+    const [availabilityDays, setAvailabilityDays] = useState('');
+    const [availabilityTime, setAvailabilityTime] = useState('');
+    const [interests, setInterests] = useState('');
+    const [meetup, setMeetup] = useState('');
 
-    const [name, setName] = useState(routeName);
-    const [zip, setZip] = useState('');
-    const [availability, setAvailability] = useState('');
-    const [saved, setSaved] = useState(false);
-
-    const handleSave = () => {
-        if (!name || !zip || !availability) {
-            Alert.alert('Missing Info', 'Please fill out all fields.');
-            return;
-        }
-
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
+    const handleUpdate = () => {
+        console.log('Saving preferences...');
+        // Todo: logic to store preferences
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
-            <ScrollView contentContainerStyle={styles.container}>
-                <Image source={DumbbellLogo} style={styles.logo} />
-
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.username}>@{name.toLowerCase().replace(/\s/g, '')}</Text>
-
-                <View style={styles.badgeContainer}>
-                    <Text style={styles.badge}> Trainer</Text>
-                    <Text style={styles.badge}> Gym Buddy</Text>
-                </View>
-
-                <Text style={styles.sectionHeader}>Edit Profile</Text>
-
+        <ScrollView style={styles.container}>
+            {/* Profile section*/}
+            <Text style={styles.sectionTitle}>Profile</Text>
+            <View style={styles.formGroup}>
+                <Text style={styles.label}>Username</Text>
                 <TextInput
+                    value={username}
+                    onChangeText={setUsername}
                     style={styles.input}
-                    placeholder="Name"
-                    placeholderTextColor={COLORS.lightText}
-                    value={name}
-                    onChangeText={setName}
                 />
+
+                <Text style={styles.label}>Email</Text>
                 <TextInput
+                    value={email}
+                    onChangeText={setEmail}
                     style={styles.input}
-                    placeholder="Zip Code"
-                    placeholderTextColor={COLORS.lightText}
-                    value={zip}
-                    onChangeText={setZip}
+                />
+
+                <Text style={styles.label}>Zipcode</Text>
+                <TextInput
+                    value={zipcode}
+                    onChangeText={setZipcode}
                     keyboardType="numeric"
+                    style={styles.input}
                 />
+
+                <Text style={styles.label}>Password</Text>
                 <TextInput
-                    style={[styles.input, { height: 100, textAlignVertical: 'top' }]}
-                    placeholder="Workout availability (e.g. M/W/F 5-7PM)"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    style={styles.input}
+                />
+            </View>
+
+            {/* preferences section*/}
+            <Text style={styles.sectionTitle}>Preferences</Text>
+            <View style={styles.formGroup}>
+                <Text style={styles.label}>Days Available</Text>
+                <TextInput
+                    placeholder="e.g. M/W/F"
                     placeholderTextColor={COLORS.lightText}
-                    multiline
-                    value={availability}
-                    onChangeText={setAvailability}
+                    value={availabilityDays}
+                    onChangeText={setAvailabilityDays}
+                    style={styles.input}
                 />
 
-                <View style={styles.buttonWrapper}>
-                    <Button title="Save Info" color={COLORS.accent} onPress={handleSave} />
-                </View>
+                <Text style={styles.label}>Available Time</Text>
+                <TextInput
+                    placeholder="e.g. 7pm"
+                    placeholderTextColor={COLORS.lightText}
+                    value={availabilityTime}
+                    onChangeText={setAvailabilityTime}
+                    style={styles.input}
+                />
 
-                {saved && <Text style={styles.savedText}> Saved!</Text>}
-            </ScrollView>
-        </SafeAreaView>
+                <Text style={styles.label}>Fitness Interests</Text>
+                <TextInput
+                    placeholder="e.g. HIIT, yoga"
+                    placeholderTextColor={COLORS.lightText}
+                    value={interests}
+                    onChangeText={setInterests}
+                    style={styles.input}
+                />
+
+                <Text style={styles.label}>Meetup Type</Text>
+                <TextInput
+                    placeholder="e.g. Trainer, Buddy"
+                    placeholderTextColor={COLORS.lightText}
+                    value={meetup}
+                    onChangeText={setMeetup}
+                    style={styles.input}
+                />
+            </View>
+
+            {/* submit button */}
+            <TouchableOpacity onPress={handleUpdate} style={styles.button}>
+                <Text style={styles.buttonText}>Update</Text>
+            </TouchableOpacity>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 40,
-        paddingHorizontal: 20,
-        paddingBottom: 60,
-        alignItems: 'center',
+        flex: 1,
+        backgroundColor: COLORS.background,
+        padding: 20,
     },
-    logo: {
-        width: 40,
-        height: 40,
-        resizeMode: 'contain',
+    sectionTitle: {
+        color: COLORS.text,
+        fontWeight: 'bold',
+        fontSize: 22,
+        marginTop: 40,
         marginBottom: 10,
     },
-    name: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        color: COLORS.text,
-        marginTop: 10,
+    formGroup: {
+        backgroundColor: 'transparent',
+        borderRadius: 10,
+        padding: 5,
+        marginBottom: 5,
     },
-    username: {
-        fontSize: 16,
+    label: {
         color: COLORS.lightText,
-        marginBottom: 10,
-    },
-    badgeContainer: {
-        flexDirection: 'row',
-        gap: 10,
-        marginBottom: 30,
-    },
-    badge: {
-        backgroundColor: COLORS.accent,
-        color: '#fff',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 20,
-        fontSize: 12,
-    },
-    sectionHeader: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: COLORS.text,
-        alignSelf: 'flex-start',
-        marginBottom: 10,
+        marginTop: 10,
+        fontSize: 16,
     },
     input: {
-        width: '100%',
-        backgroundColor: '#1C1C1C',
+        backgroundColor: '#333',
         color: COLORS.text,
         padding: 10,
-        marginBottom: 12,
         borderRadius: 6,
-        borderColor: COLORS.border,
-        borderWidth: 1,
+        marginTop: 5,
     },
-    buttonWrapper: {
-        width: '100%',
-        marginTop: 10,
+    button: {
+        backgroundColor: COLORS.accent,
+        paddingVertical: 12,
+        paddingHorizontal: 5,
+        borderRadius: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 25,
+        marginBottom: 40,
+        width: 200,
     },
-    savedText: {
-        marginTop: 10,
-        color: COLORS.accent,
+    buttonText: {
+        color: 'white',
         fontWeight: 'bold',
+        fontSize: 16,
     },
 });
 
