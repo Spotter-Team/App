@@ -1,37 +1,17 @@
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import mockCommunities from '../../mock/GymHub/mockCommunities';
 
 const HubCommunityScroll = ({ hubURI, hubName }) => {
-    
-    const communities = [
-        {
-            name: 'UF',
-            logo: require('../../mock/GymHub/uflogo.jpg'),
-        },
-        {
-            name: 'Workouts',
-            logo: require('../../mock/GymHub/workoutlogo.jpg'),
-        },
-        {
-            name: 'Cardio',
-            logo: require('../../mock/GymHub/cardiologo.jpg'),
-        },
-        {
-            name: 'Yoga',
-            logo: require('../../mock/GymHub/yogalogo.jpg'),
-        },
-    ]
-
     return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.communityListContainer} >
      
-            {communities.map((val) => (
-                <TouchableOpacity style={styles.communityItemContainer} >
+            {mockCommunities.map((val, index) => (
+                <TouchableOpacity style={styles.communityItemContainer} key={index}>
                     <Image source={val.logo} style={styles.communityLogo} />
                     <Text style={styles.communityName}>{val.name}</Text>
                 </TouchableOpacity>
-                
             ))}
           
             

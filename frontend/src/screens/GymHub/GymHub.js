@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import HubCommunityScroll from './HubCommunityScroll';
+import HubCommunityScroll from '../../components/GymHubComponents/HubCommunityScroll';
 
 const GymHub = () => {
 
