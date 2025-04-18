@@ -3,12 +3,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
-import UserProfile from '../screens/Profile/UserProfile';
 import Messages from '../screens/Chats/Messages';
 import GymHub from '../screens/GymHub/GymHub';
 import Match from '../screens/Home/Match';
 import COLORS from '../utils/theme';
 import Header from '../components/Header';
+import UserProfile from '../screens/Profile/UserProfile';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,10 +32,10 @@ export default function NavigationTabs() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
-                tabBarStyle: { 
+                tabBarStyle: {
                     backgroundColor: '#141417',
                     height: 80,
-                    borderTopWidth: 0 
+                    borderTopWidth: 0
                 },
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: COLORS.accent,
@@ -85,7 +85,7 @@ export default function NavigationTabs() {
                     <UserProfile />
                 </WithHeader>
             )
-            
+
             } />
         </Tab.Navigator>
     );

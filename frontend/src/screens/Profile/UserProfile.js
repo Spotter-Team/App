@@ -33,19 +33,19 @@ const UserProfile = () => {
         location: 'Gainesville, FL',
         preferredWorkout: 'HIIT + Lifting',
         availability: {
-        Mon: true,
-        Tue: false,
-        Wed: true,
-        Thu: false,
-        Fri: true,
-        Sat: false,
-        Sun: true,
+            Mon: true,
+            Tue: false,
+            Wed: true,
+            Thu: false,
+            Fri: true,
+            Sat: false,
+            Sun: true,
         },
         times: {
-        Mon: '7-9am',
-        Wed: '6-8pm',
-        Fri: '5-7pm',
-        Sun: '8-10am',
+            Mon: '7-9am',
+            Wed: '6-8pm',
+            Fri: '5-7pm',
+            Sun: '8-10am',
         },
     };
 
@@ -73,16 +73,16 @@ const UserProfile = () => {
                     <View style={styles.fitnessContainer}>
                         <View style={styles.fitnessLevel}>
                             {[...Array(4)].map((_, i) => (
-                            <Image
-                                key={i}
-                                source={DumbbellLogo}
-                                style={{
-                                width: 15,
-                                height: 15,
-                                tintColor: i < user.fitnessLevel ? COLORS.accent : 'gray',
-                                marginHorizontal: 2,
-                                }}
-                            />
+                                <Image
+                                    key={i}
+                                    source={DumbbellLogo}
+                                    style={{
+                                        width: 15,
+                                        height: 15,
+                                        tintColor: i < user.fitnessLevel ? COLORS.accent : 'gray',
+                                        marginHorizontal: 2,
+                                    }}
+                                />
                             ))}
                         </View>
                     </View>
@@ -102,16 +102,16 @@ const UserProfile = () => {
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.daysContainer}>
                         {days.map(day => (
                             <View
-                            key={day}
-                            style={[
-                            styles.dayCircle,
-                            { backgroundColor: user.availability[day] ? COLORS.background : '#333' },
-                            selectedDay === day && styles.daySelected,
-                            ]}
-                            onTouchEnd={() => user.availability[day] && setSelectedDay(day)}
-                        >
-                            <Text style={styles.dayText}>{day[0]}</Text>
-                        </View>
+                                key={day}
+                                style={[
+                                    styles.dayCircle,
+                                    { backgroundColor: user.availability[day] ? COLORS.background : '#333' },
+                                    selectedDay === day && styles.daySelected,
+                                ]}
+                                onTouchEnd={() => user.availability[day] && setSelectedDay(day)}
+                            >
+                                <Text style={styles.dayText}>{day[0]}</Text>
+                            </View>
                         ))}
                     </ScrollView>
 
@@ -122,18 +122,18 @@ const UserProfile = () => {
                     {/* Workout Log */}
                     {selectedDay && user.availability[selectedDay] && (
                         <View style={styles.availabilitySection}>
-                        <Text style={styles.availabilityHeader}>Available: {user.times[selectedDay]}</Text>
+                            <Text style={styles.availabilityHeader}>Available: {user.times[selectedDay]}</Text>
                         </View>
                     )}
 
                     {/* Tab Bar Placeholder */}
                     <TextInput
-                            style={styles.logInput}
-                            placeholder="Log your workout..."
-                            placeholderTextColor={COLORS.lightText}
-                            multiline
-                            value={log}
-                            onChangeText={setLog}
+                        style={styles.logInput}
+                        placeholder="Log your workout..."
+                        placeholderTextColor={COLORS.lightText}
+                        multiline
+                        value={log}
+                        onChangeText={setLog}
                     />
                 </View>
             </ScrollView>
@@ -144,9 +144,9 @@ const UserProfile = () => {
 const styles = StyleSheet.create({
     container: { flexGrow: 1, padding: 20 },
     profileRow: { alignItems: 'center', marginBottom: 10 },
-    avatarSquare: { width: 140, height: 140, borderRadius: 20, marginBottom: 5},
+    avatarSquare: { width: 140, height: 140, borderRadius: 20, marginBottom: 5 },
     name: { fontSize: 26, fontWeight: 'bold', color: COLORS.text, textAlign: 'center', marginTop: 10 },
-    username: { color: COLORS.lightText, fontSize: 16, textAlign: 'center', marginBottom: 10},
+    username: { color: COLORS.lightText, fontSize: 16, textAlign: 'center', marginBottom: 10 },
     badges: { position: 'absolute', right: 5, top: 0, justifyContent: 'center', gap: 20 },
     badge: { backgroundColor: COLORS.background, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 10, color: COLORS.text, fontSize: 14 },
     statsRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 },
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     fitnessContainer: { flexDirection: 'row', alignItems: 'center' },
     fitnessLevel: { flexDirection: 'row', gap: 5 },
     infoRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 },
-    infoBox: { backgroundColor: '#333', padding:10, borderRadius: 8, color: COLORS.lightText, width: '48%' },
+    infoBox: { backgroundColor: '#333', padding: 10, borderRadius: 8, color: COLORS.lightText, width: '48%' },
     sectionHeader: { color: COLORS.lightText, fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
     grayWrapper: {
         backgroundColor: COLORS.background,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: COLORS.accent,
     },
-    dayText: { color: COLORS.text, fontWeight: 'bold'},
+    dayText: { color: COLORS.text, fontWeight: 'bold' },
     unavailableBlock: {
         backgroundColor: '#333',
         paddingVertical: 6,
@@ -201,6 +201,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top',
         marginTop: 10,
     },
-}); 
+});
 
 export default UserProfile;
