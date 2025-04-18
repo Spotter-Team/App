@@ -10,6 +10,7 @@ import Header from './components/Header';
 import Chat from './screens/Chats/Chat';
 import Filter from './screens/Home/Filter';
 import Settings from './screens/Profile/Settings';
+import MatchProfile from './screens/Chats/MatchProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ export default function App() {
                 <Stack.Screen name="HomeTabs" component={NavigationTabs} />
                 <Stack.Screen name="AccountInfo" component={AccountInfo} />
                 <Stack.Screen name="Chat" component={Chat} />
+                <Stack.Screen name="MatchProfile" component={MatchProfile} options={{ presentation: 'modal' }}/>
                 <Stack.Screen name="Filter" component={Filter} options={{ presentation: 'modal' }}/>
                 <Stack.Screen name="Settings" component={Settings}  />
             </Stack.Navigator>
