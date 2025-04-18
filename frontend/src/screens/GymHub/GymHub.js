@@ -1,13 +1,26 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const GymHub = () => {
+
+    const navigation = useNavigation();
+    const handleViewAllPress = () => navigation.navigate('CommunityList');
+
+
     return (
         <View style={styles.container}>
-                    
-            <Text style={styles.text}>
-                Gym Hub Screen
-            </Text>
+            
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>
+                    Gym Hub
+                </Text>
+                <TouchableOpacity onPress={handleViewAllPress}>
+                    <Text style={styles.viewAllText}>
+                        View All
+                    </Text>
+                </TouchableOpacity>
+            </View>
 
         </View>
     );
@@ -15,15 +28,22 @@ const GymHub = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center', alignItems: 'center' 
+        flex: 1,
     },
-    text: {
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: 19,
+    },
+    title: {
         fontFamily: 'Bebas Neue',
         color: 'white',
-        fontSize: 50,
+        fontSize: 26,
+        marginLeft: 8,
+    },
+    viewAllText: {
+        color: 'white',
     }
 });
 
