@@ -6,11 +6,12 @@ class DirectMessageController {
 
     /**
      * 
-     * @param { string } toUserID The userID for the user to send the message to 
-     * @param { string } msg The message to send to the user
+     * @param { number } toUserID The userID for the user sending the message
+     * @param { number } fromUserID The userID to send the message to
+     * @param { string } content The content to send to the user
      * @returns { Promise<void> } A promise that resolves if the message was sent to the user
      */
-    static sendMessageToUser(toUserID, fromUserID, msg) {
+    static sendMessageToUser(toUserID, fromUserID, content) {
         return new Promise((resolve, reject) => {
             // Check to see if both the users are registered
             UserController.userIDIsRegistered(toUserID)
@@ -21,7 +22,7 @@ class DirectMessageController {
                                 if (fromUserIsRegistered) {
                                     // TODO: Check to see if the user sending the message is blocked by the user they are sending the message to
                                     // Add the message to the DirectMessage table
-                                    DirectMessage.addMessage(fromUserID, toUserID, msg)
+                                    DirectMessage.addMessage(fromUserID, toUserID, content, 'text')
                                         .then(() => {
                                             resolve();
                                         })
@@ -56,6 +57,80 @@ class DirectMessageController {
             DirectMessage.getMessages(userOneID, userTwoID)
                 .then(messages => {
                     resolve(messages);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    
+    /**
+     * Get the chat messages between two users
+     * @param { number } userID The id of the user requesting the chat messages
+     * @param { User } otherUser The id of the user the requesting user has chatted with
+     * @returns { Promise<{ id: number, senderID: number, content: string, type: string, timestamp: string }> }
+     */
+    static getChat(userID, otherUser) {
+        return new Promise((resolve, reject) => {
+            // Get the messages between the users
+            DirectMessage.getMessages(userID, otherUser.userID)
+                .then(messages => {
+                    // Refactor the messages for frontend format
+                    let newMessages = [];
+                    messages.forEach(msg => {
+                        newMessages.push({
+                            id: msg.msgID,
+                            senderId: messages.senderID,
+                            content: msg.content,
+                            type: msg.type,
+                            timestamp: msg.timestamp
+                        })
+                    })
+
+                    resolve({
+                        senderId: otherUser.userID,
+                        avatarUri: otherUser.avatarUri,
+                        messages
+                    })
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Gets all the chats the user has with other users
+     * @param { number } userID The id of the user
+     * @returns { Promise<{ id: number, name: string, avatarUri: string, messages: { id: number, senderID: number, content: string, type: string, timestamp: string }[] }[]> }
+     */
+    static getAllChats(userID) {
+        return new Promise((resolve, reject) => {
+            // Get all the users the user has direct messages with
+            DirectMessageController.getAllRecipientsForUser(userID)
+                .then(async recipients => {
+                    /** @type { id: number, senderID: number, content: string, type: string, timestamp: string } */
+                    let allChats = [];
+
+                    // Get the chat for each recipient 
+                    for (const otherUser of recipients) {
+                        let chat = await DirectMessageController.getChat(userID, otherUser);
+                        allChats.push(chat);
+                    }
+
+                    // Sort the chats by last message for each recipient
+                    allChats.sort((a, b) => {
+                        return new Date(b.messages[b.messages.length - 1].timestamp) - new Date(a.messages[a.messages.length - 1].timestamp);
+                    });
+
+                    let id = 1;
+                    allChats.forEach(chat => {
+                        chat.id = id;
+                        id++;
+                    })
+
+                    resolve(allChats);
                 })
                 .catch(err => {
                     reject(err);
@@ -156,7 +231,7 @@ class DirectMessageController {
                                 chatList.push(chatListItem);
                             };
 
-                            // Order the messages by createdAt and assign ids
+                            // Order the messages by timestamp and assign ids
                             chatList.sort((a, b) => {
                                 return new Date(b.lastMessage.timestamp) - new Date(a.lastMessage.timestamp);
                             });
@@ -182,13 +257,13 @@ class DirectMessageController {
     /**
      * Gets the chat list item for a conversation between a user and another user
      * @param { number } userID The id of the user accessing the chat list
-     * @param { User } secondUser The User object of a user in the accessing user's chat list
+     * @param { User } otherUser The User object of a user in the accessing user's chat list
      * @param { { number: number } } unreadDict An object containing userIDs and corresponding unread counts
      * @returns { Promise<{ name: string, lastMessage: object, unreadCount number }> } A promise that resolves to a chat list item
      */
-    static getChatListItem(userID, secondUser, unreadDict) {
+    static getChatListItem(userID, otherUser, unreadDict) {
         return new Promise((resolve, reject) => {
-            const secondUserID = secondUser.userID;
+            const secondUserID = otherUser.userID;
 
             // Get the last message for each user
             let chatListItem = {};
@@ -201,16 +276,19 @@ class DirectMessageController {
             }
 
             // Add the user's name to the chatListItem
-            chatListItem.name = `${secondUser.firstName} ${secondUser.lastName}`;
+            chatListItem.name = `${otherUser.firstName} ${otherUser.lastName}`;
+
+            // Add the user's avatarUri to the chatListItem
+            chatListItem.avatarUri = otherUser.avatarUri;
 
             DirectMessage.getLastMessageBetweenUsers(userID, secondUserID)
                 .then(lastMessage => {
                     if (lastMessage !== null) {
                         chatListItem.lastMessage = {
-                            senderID: lastMessage.senderID,
-                            content: lastMessage.msg,
-                            type: 'text',
-                            timestamp: lastMessage.createdAt
+                            senderId: lastMessage.senderID,
+                            content: lastMessage.content,
+                            type: lastMessage.type,
+                            timestamp: lastMessage.timestamp
                         };
                     } else {
                         chatListItem.lastMessage = null;

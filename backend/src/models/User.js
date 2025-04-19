@@ -36,22 +36,6 @@ class User extends Model {
             User.usernameIsAvailable(username)
                 .then(isAvailable => {
                     if (isAvailable) {
-                        // // Hash the user's password
-                        // bcrypt.hash(password, 10)
-                        //     .then(hashedPwd => {
-                        //         // Attempt to add then new user record to the db
-                        //         User.create({ username: username, pwd: hashedPwd })
-                        //             .then(newUser => {
-                        //                 resolve(newUser);
-                        //             })
-                        //             .catch(err => {
-                        //                 reject(err);
-                        //             })
-                        //     })
-                        //     .catch(err => {
-                        //         reject(err);
-                        //     })
-                        // Attempt to add then new user record to the db
                         User.create({ username: username, pwd: password })
                             .then(newUser => {
                                 resolve(newUser);
@@ -127,7 +111,8 @@ class User extends Model {
                         'lastName',
                         'userLocation',
                         'fitnessLevel',
-                        'trainerBadge'
+                        'trainerBadge',
+                        'avatarUri'
                     ], 
                     where: {
                         username: username
@@ -165,7 +150,8 @@ class User extends Model {
                         'lastName',
                         'userLocation',
                         'fitnessLevel',
-                        'trainerBadge'
+                        'trainerBadge',
+                        'avatarUri'
                     ], 
                     where: {
                         userID: userID
@@ -202,7 +188,8 @@ class User extends Model {
                         'lastName',
                         'userLocation',
                         'fitnessLevel',
-                        'trainerBadge'
+                        'trainerBadge',
+                        'avatarUri'
                     ], 
                     where: {
                         userID: {
@@ -252,6 +239,7 @@ const userSchema = {
     username: {
         type: DataTypes.TEXT,
         allowNull: false,
+        unique: true,
         get() {
             return this.getDataValue();
         }
@@ -281,6 +269,9 @@ const userSchema = {
     trainerBadge: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    avatarUri: {
+        type: DataTypes.TEXT
     }
 }
 

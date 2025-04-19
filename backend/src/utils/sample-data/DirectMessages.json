@@ -2,92 +2,130 @@
     "modelName": "DirectMessage",
     "data": [
         {
-            "msg": "Hey Haley, I need a gym buddy!",
+            "content": "Hey Haley, I need a gym buddy!",
+            "type": "text",
             "senderID": 1,
             "receiverID": 2,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-10T16:03:00Z"
         },
         {
-            "msg": "Hey! I'd love to. What are your fitness goals?",
+            "content": "Hey! I'd love to. What are your fitness goals?",
+            "type": "text",
             "senderID": 2,
             "receiverID": 1,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-10T16:05:12Z"
         },
         {
-            "msg": "Building upper body!",
+            "content": "Building upper body!",
+            "type": "text",
             "senderID": 1,
             "receiverID": 2,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-10T16:06:45Z"
         },
         {
-            "msg": "Want to workout at Southwest 5PM tomorrow?",
+            "content": "Want to workout at Southwest 5PM tomorrow?",
+            "type": "text",
             "senderID": 2,
             "receiverID": 1,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-10T16:08:30Z"
         },
         {
-            "msg": "Yup!",
+            "content": "Yup!",
+            "type": "text",
             "senderID": 1,
             "receiverID": 2,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-10T16:09:10Z"
         },
         {
-            "msg": "Great job on the deadlifts",
+            "content": "Sounds good, see you then!",
+            "type": "text",
             "senderID": 2,
             "receiverID": 1,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-10T16:09:45Z"
         },
         {
-            "msg": "Hi Joseph!",
+            "content": "Great job on the deadlifts",
+            "type": "text",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-12T14:15:00Z"
+        },
+        {
+            "content": "Hi Joseph!",
+            "type": "text",
             "senderID": 1,
             "receiverID": 3,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-09T19:28:00Z"
         },
         {
-            "msg": "Hey! What's up?",
+            "content": "Hey! What's up?",
+            "type": "text",
             "senderID": 3,
             "receiverID": 1,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-09T19:28:30Z"
         },
         {
-            "msg": "Wanna hit the gym tomorrow?",
+            "content": "Wanna hit the gym tomorrow?",
+            "type": "text",
             "senderID": 1,
             "receiverID": 3,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-09T19:29:00Z"
         },
         {
-            "msg": "Yeah, I'm down!",
+            "content": "Yeah, I'm down!",
+            "type": "text",
             "senderID": 3,
-            "receiverID": 1
+            "receiverID": 1,
+            "timestamp": "2025-04-09T19:30:00Z"
         },
         {
-            "msg": "Hey!",
+            "content": "Hey!",
+            "type": "text",
             "senderID": 4,
             "receiverID": 1,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-07T14:28:00Z"
         },
         {
-            "msg": "Hey, just wondering, what creatine do you recommend?",
+            "content": "Hey, just wondering, what creatine do you recommend?",
+            "type": "text",
             "senderID": 1,
             "receiverID": 4,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-07T14:29:00Z"
         },
         {
-            "msg": "I'll send you a screenshot!",
+            "content": "I'll send you a screenshot!",
+            "type": "text",
             "senderID": 4,
             "receiverID": 1,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-07T14:29:30Z"
         },
         {
-            "msg": "Hey, wanna workout!",
+            "content": "Hey, wanna workout!",
+            "type": "text",
             "senderID": 1,
             "receiverID": 5,
-            "read": true
+            "read": true,
+            "timestamp": "2025-04-04T14:29:00Z"
         },
         {
-            "msg": "Next time!",
+            "content": "Next time!",
+            "type": "text",
             "senderID": 5,
-            "receiverID": 1
+            "receiverID": 1,
+            "timestamp": "2025-04-04T14:30:00Z"
         }
     ]
 }

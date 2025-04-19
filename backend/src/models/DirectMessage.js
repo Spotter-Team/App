@@ -17,10 +17,11 @@ class DirectMessage extends Model {
             if (userTwoID == null) {
                 DirectMessage.findAll(
                     {
-                        attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
+                        attributes: [ 'msgID', 'senderID', 'receiverID', 'content', 'type', 'read', 'timestamp' ],
                         where: {
                             [Op.or]: [ { receiverID: userOneID }, { senderID: userOneID } ]
-                        }
+                        },
+                        order: [['timestamp', 'DESC']]
                     })
                     .then(messages => {
                         resolve(messages);
@@ -31,9 +32,14 @@ class DirectMessage extends Model {
             } else {
                 DirectMessage.findAll(
                     {
-                        attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
+                        attributes: [ 'msgID', 'senderID', 'receiverID', 'content', 'type', 'read', 'timestamp' ],
                         where: {
-                            [Op.or]: [ { receiverID: userOneID }, { receiverID: userTwoID }, { senderID: userOneID }, { senderID: userTwoID } ]
+                            receiverID: {
+                                [Op.or]: [ userOneID, userTwoID ]
+                            },
+                            senderID: {
+                                [Op.or]: [ userOneID, userTwoID ]
+                            }
                         }
                     })
                     .then(messages => {
@@ -50,12 +56,13 @@ class DirectMessage extends Model {
      * Adds a message to the DirectMessage table
      * @param { number } senderID The userID of the user sending the message
      * @param { number } receiverID The userID of the user receiving the message
-     * @param { string } message The message text to add
+     * @param { string } content The message text to add
+     * @param { string } type The type of message to add
      * @returns { Promise<DirectMessage> } A promise that resolves if the message was successfully added
      */
-    static addMessage(senderID, receiverID, message) {
+    static addMessage(senderID, receiverID, content, type) {
         return new Promise((resolve, reject) => {
-            DirectMessage.create({ msg: message, senderID, receiverID })
+            DirectMessage.create({ content, senderID, receiverID, type })
                 .then(msg => {
                     resolve(msg);
                 })
@@ -104,7 +111,7 @@ class DirectMessage extends Model {
     static getUnreadMessages(userID) {
         return new Promise((resolve, reject) => {
             DirectMessage.findAll({
-                attributes: [ 'msgID', 'createdAt', 'senderID', 'receiverID', 'msg', 'read' ],
+                attributes: [ 'msgID', 'senderID', 'receiverID', 'content', 'type', 'read', 'timestamp' ],
                 where: {
                     [Op.and]: [ { receiverID: userID }, { read: false } ]
                 }
@@ -166,7 +173,7 @@ class DirectMessage extends Model {
                         { senderID: secondaryUserID, receiverID: primaryUserID }
                     ]
                 },
-                order: [['createdAt', 'DESC']]
+                order: [['timestamp', 'DESC']]
             })
             .then(message => {
                 if (message != null) {
@@ -188,7 +195,11 @@ const directMessageSchema = {
         autoIncrement: true,
         primaryKey: true
     },
-    msg: {
+    content: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    type: {
         type: DataTypes.TEXT,
         allowNull: false
     },
@@ -209,6 +220,10 @@ const directMessageSchema = {
     read: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    timestamp: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
     }
 };
 

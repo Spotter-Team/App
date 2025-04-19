@@ -34,7 +34,7 @@ router.get('/conversations/:userID', auth, (req, res) => {
         .catch(err => {
             res.status(500).json({ message: `Messages could not be retrieved! Maybe the recipient was not registered?` });
         })
-})
+});
 
 // Gets the unread messages for a user
 router.get('/unread', auth, (req, res) => {
@@ -48,7 +48,7 @@ router.get('/unread', auth, (req, res) => {
         .catch(err => {
             res.status(500).json({ message: `Unread messages for user with userID ${userID} could not be retrieved!`, error: err });
         })
-})
+});
 
 // Gets the chat list package for a user
 router.get('/chat-list', auth, (req, res) => {
@@ -62,7 +62,21 @@ router.get('/chat-list', auth, (req, res) => {
         .catch(err => {
             res.status(500).json({ message: `The chat list for the user could not be retrieved!`, error: err });
         })
-})
+});
+
+// Gets all the chats the user has with other users ordered by last message
+router.get('/all-chats', auth, (req, res) => {
+    const userID = req.userID;
+    if (!userID) return res.status(500).json({ message: `The auth token once decoded did not include the sender userID!` });
+
+    DirectMessageController.getAllChats(userID)
+        .then(chats => {
+            res.status(200).json({ message: `Successfully got all the chats for the user!`, chats });
+        })
+        .catch(err => {
+            res.status(500).json({ message: `The the chats for the user could not be retrieved!`, error: err });
+        })
+});
 
 // Updates a message record to be read
 router.put('/read/:msgID', auth, (req, res) => {
@@ -83,7 +97,7 @@ router.put('/read/:msgID', auth, (req, res) => {
         .catch(err => {
             res.status(500).json({ message: `Message could not be read! Maybe the message was not found in the database?`, error: err });
         })
-})
+});
 
 // Send a message to a user
 router.post('/conversations/:userID', auth, (req, res) => {
@@ -104,6 +118,6 @@ router.post('/conversations/:userID', auth, (req, res) => {
         .catch(err => {
             res.status(500).json({ message: `Message could not be sent! Maybe the recipient was not registered?`, error: err });
         })
-})
+});
 
 module.exports = router;
