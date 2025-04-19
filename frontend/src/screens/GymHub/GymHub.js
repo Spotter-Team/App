@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import HubCommunityScroll from '../../components/GymHubComponents/HubCommunityScroll';
+import GymHubTabs from '../../components/GymHubComponents/GymHubTabs';
 
 const GymHub = () => {
 
@@ -28,14 +29,6 @@ const GymHub = () => {
         };
     };
 
-    const handleFeedPress = () => {
-        setActiveTab('feed');  
-    };
-
-    const handleCommunitiesPress = () => {
-        setActiveTab('communities');
-    }
-
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
@@ -50,17 +43,8 @@ const GymHub = () => {
             </View>
             <HubCommunityScroll />
             <View style={styles.divider} />
+            <GymHubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-            <View style={styles.tabContainer}>
-                <TouchableOpacity onPress={handleFeedPress}>
-                    <Text style={activeTab === 'feed' ? styles.activeTab : styles.inactiveTab}>My Feed</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={handleCommunitiesPress}>
-                    <Text style={activeTab === 'communities' ? styles.activeTab : styles.inactiveTab}>Communities</Text>
-                </TouchableOpacity>
-                
-            </View>
 
             {renderContent()}
 
@@ -117,22 +101,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Bebas Neue',
         fontSize: 23,
     },
-    tabContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 26,
-        marginHorizontal: 47,
-    },
-    activeTab: {
-        color: '#B42B23',
-        fontFamily: 'Bebas Neue',
-        fontSize: 26,
-    },
-    inactiveTab: {
-        color: 'white',
-        fontFamily: 'Bebas Neue',
-        fontSize: 26,
-    }
 });
 
 export default GymHub;
