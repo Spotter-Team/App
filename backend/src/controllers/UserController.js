@@ -126,7 +126,7 @@ class UserController {
      * @param { number[] } userIDs An array of userIDs to find the users for
      * @returns { Promise<User[]> } A promise that resolves to an array of User objects
      */
-    static getUsersForUserIDs(userIDs){
+    static getUsersForUserIDs(userIDs) {
         return new Promise((resolve, reject) => {
             User.getUsersByIDs(userIDs)
                 .then(users => {

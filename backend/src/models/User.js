@@ -252,19 +252,37 @@ const userSchema = {
         }
     },
     phoneNumber: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
     },
     firstName: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
     },
     lastName: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
+    },
+    addressLine1: {
+        type: DataTypes.TEXT
+    },
+    addressLine2: {
+        type: DataTypes.TEXT
+    },
+    addressState: {
+        type: DataTypes.TEXT
+    },
+    addressCity: {
+        type: DataTypes.TEXT
+    },
+    addressZipCode: {
+        type: DataTypes.NUMBER
+    },
+    addressCounty: {
+        type: DataTypes.TEXT
     },
     userLocation: {
         type: DataTypes.TEXT
     },
     fitnessLevel: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER
     },
     trainerBadge: {
         type: DataTypes.BOOLEAN,
