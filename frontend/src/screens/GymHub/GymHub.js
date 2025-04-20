@@ -6,6 +6,7 @@ import HubCommunityScroll from '../../components/GymHubComponents/HubCommunitySc
 import GymHubTabs from '../../components/GymHubComponents/GymHubTabs';
 import FeedInput from '../../components/GymHubComponents/FeedInput';
 import FeedPost from '../../components/GymHubComponents/FeedPost';
+import mockPosts from '../../mock/GymHub/mockPosts';
 
 const GymHub = () => {
 
@@ -20,11 +21,16 @@ const GymHub = () => {
             return (
                 <View style={styles.feedContainer}>
                     <FeedInput />
-                    <FeedPost />
-                    <FeedPost />
-                    <FeedPost />
-                    <FeedPost />
-                    <FeedPost />
+                    {mockPosts.map((post) => (
+                        <FeedPost 
+                            key={post.id} 
+                            category={post.category}
+                            name={post.user.name}
+                            location={post.user.location}
+                            avatarURI={post.user.avatarURI}
+                            content={post.content}
+                        />
+                    ))}
                 </View>
             );
         }

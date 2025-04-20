@@ -1,11 +1,11 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-const FeedPost = () => {
+const FeedPost = ({ category, name, location, avatarURI, content }) => {
     return (
         <View style={styles.container}>
             <View style={styles.postHeader}>
                 <Text style={styles.postHeaderText}>
-                    Posted in <Text style={styles.postHeaderHub}>Bodybuilding</Text>
+                    Posted in <Text style={styles.postHeaderHub}>{category}</Text>
                 </Text>
                 <TouchableOpacity>
                     <Text style={styles.viewHubText}>
@@ -15,19 +15,17 @@ const FeedPost = () => {
             </View>
 
             <View style={styles.userInfoContainer}>
-                <Image source={require('../../mock/GymHub/feedpfp1.jpg')} style={styles.userAvatar}/>
+                <Image source={avatarURI} style={styles.userAvatar}/>
 
                 <View style={{ paddingLeft: 7 }}>
-                    <Text style={styles.userName}>User Name</Text>
-                    <Text style={styles.userLocation}>Florida, United States</Text>
+                    <Text style={styles.userName}>{name}</Text>
+                    <Text style={styles.userLocation}>{location}</Text>
                 </View>
             </View>
 
             <View style={styles.postContentContainer}>
                 <Text style={styles.postContentText}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit!
-
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam alias rem eum accusantium fugit, assumenda ad suscipit porro dolor modi repellendus velit iste aliquam voluptate nulla consectetur, id cumque. Voluptatem. 
+                    {content}
                 </Text>
             </View>
 
@@ -39,9 +37,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#0D0E0D',
         width: 340,
-        marginTop: 17,
+        marginVertical: 8.5,
         paddingHorizontal: 10,
-        paddingVertical: 12,
+        paddingTop: 12,
+        paddingBottom: 16,
         borderRadius: 10,
         borderColor: '#222525',
         borderWidth: 1,

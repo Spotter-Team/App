@@ -28,7 +28,7 @@ const GymHubTabs = ({ activeTab, setActiveTab }) => {
 const styles = StyleSheet.create({
     tabContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         marginTop: 26,
         marginHorizontal: 47,
     },
