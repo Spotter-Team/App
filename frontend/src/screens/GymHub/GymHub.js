@@ -41,19 +41,21 @@ const GymHub = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <HubCommunityScroll />
-            <View style={styles.divider} />
-            <GymHubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-
-            {renderContent()}
+            <View style={{ flexShrink: 0 }}>
+                <HubCommunityScroll />
+                <View style={styles.divider} />
+                <GymHubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            </View>
 
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1,
+    },
     titleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -100,6 +102,14 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Bebas Neue',
         fontSize: 23,
+    },
+    redDots: {
+        position: 'absolute',
+        width: 57,
+        height: 100,
+        bottom: 0,
+        right: 0,
+        height: 100,
     },
 });
 
