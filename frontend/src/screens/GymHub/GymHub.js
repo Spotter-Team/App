@@ -21,6 +21,10 @@ const GymHub = () => {
                 <View style={styles.feedContainer}>
                     <FeedInput />
                     <FeedPost />
+                    <FeedPost />
+                    <FeedPost />
+                    <FeedPost />
+                    <FeedPost />
                 </View>
             );
         }
@@ -121,13 +125,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-        
+
     },
     redLines: {
         width: 120,
         height: 372,
         position: 'absolute',
-        bottom: -40,
+        bottom: -50,
         zIndex: -1,
     },
     redDots: {

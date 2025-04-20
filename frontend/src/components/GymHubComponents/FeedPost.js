@@ -23,6 +23,14 @@ const FeedPost = () => {
                 </View>
             </View>
 
+            <View style={styles.postContentContainer}>
+                <Text style={styles.postContentText}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit!
+
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam alias rem eum accusantium fugit, assumenda ad suscipit porro dolor modi repellendus velit iste aliquam voluptate nulla consectetur, id cumque. Voluptatem. 
+                </Text>
+            </View>
+
         </View>
     );
 };
@@ -31,7 +39,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#0D0E0D',
         width: 340,
-        marginVertical: 17,
+        marginTop: 17,
         paddingHorizontal: 10,
         paddingVertical: 12,
         borderRadius: 10,
@@ -77,6 +85,13 @@ const styles = StyleSheet.create({
     userLocation: {
         color: 'white',
         fontSize: 12,
+    },
+    postContentContainer: {
+
+    },
+    postContentText: {
+        color: 'white',
+        fontSize: 14,
     }
 });
 
