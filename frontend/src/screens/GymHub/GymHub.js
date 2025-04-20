@@ -47,7 +47,10 @@ const GymHub = () => {
                 <View style={styles.divider} />
                 <GymHubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             </View>
-
+            {renderContent()}
+            <Image source={require('../../assets/red-lines-graphic.png')} style={styles.redLines}></Image>
+            
+            <Image source={require('../../assets/red-dots-graphic.png')} style={styles.redDots}></Image>
         </View>
     );
 };
@@ -55,6 +58,7 @@ const GymHub = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        zIndex: 1,
     },
     titleContainer: {
         flexDirection: 'row',
@@ -103,6 +107,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Bebas Neue',
         fontSize: 23,
     },
+    redLines: {
+        width: 120,
+        height: 372,
+        position: 'absolute',
+        bottom: -40,
+        zIndex: -1,
+    },
     redDots: {
         position: 'absolute',
         width: 57,
@@ -110,6 +121,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: 0,
         height: 100,
+        zIndex: -1,
     },
 });
 
