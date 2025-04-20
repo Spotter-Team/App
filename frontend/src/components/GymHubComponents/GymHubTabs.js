@@ -18,7 +18,7 @@ const GymHubTabs = ({ activeTab, setActiveTab }) => {
             </TouchableOpacity>
 
             <TouchableOpacity onPress={handleCommunitiesPress}>
-                <Text style={activeTab === 'communities' ? styles.activeTab : styles.inactiveTab}>Communities</Text>
+                <Text style={activeTab === 'communities' ? styles.activeTab : styles.inactiveTab}>My Communities</Text>
             </TouchableOpacity>
             
         </View>
@@ -28,7 +28,7 @@ const GymHubTabs = ({ activeTab, setActiveTab }) => {
 const styles = StyleSheet.create({
     tabContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         marginTop: 26,
         marginHorizontal: 47,
     },

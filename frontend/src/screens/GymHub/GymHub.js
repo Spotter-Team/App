@@ -6,6 +6,7 @@ import HubCommunityScroll from '../../components/GymHubComponents/HubCommunitySc
 import GymHubTabs from '../../components/GymHubComponents/GymHubTabs';
 import FeedInput from '../../components/GymHubComponents/FeedInput';
 import FeedPost from '../../components/GymHubComponents/FeedPost';
+import CommunityItem from '../../components/GymHubComponents/CommunityItem';
 import mockPosts from '../../mock/GymHub/mockPosts';
 
 const GymHub = () => {
@@ -36,9 +37,8 @@ const GymHub = () => {
         }
         else if(activeTab === 'communities') {
             return (
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 200 }}>
-                    <Text style={{ color: 'white', fontSize: 30 }}>Communities Content</Text>
-                    <View style={styles.inputDivider} />
+                <View style={styles.myCommunitiesContainer}>
+                    <CommunityItem />
                 </View>
             );
         };
@@ -68,9 +68,9 @@ const GymHub = () => {
 
             </ScrollView>
 
-            <Image source={require('../../assets/red-lines-graphic.png')} style={styles.redLines}></Image>
+            <Image source={require('../../assets/red-lines-graphic.png')} style={activeTab === 'feed' ? styles.redLines : styles.hideGraphics}></Image>
             
-            <Image source={require('../../assets/red-dots-graphic.png')} style={styles.redDots}></Image>
+            <Image source={require('../../assets/red-dots-graphic.png')} style={activeTab === 'feed' ? styles.redDots : styles.hideGraphics}></Image>
         </View>
     );
 };
@@ -131,7 +131,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-
+    },
+    myCommunitiesContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
     },
     redLines: {
         width: 120,
@@ -148,6 +152,9 @@ const styles = StyleSheet.create({
         right: 0,
         height: 100,
         zIndex: -1,
+    },
+    hideGraphics: {
+        display: 'none',
     },
 });
 
