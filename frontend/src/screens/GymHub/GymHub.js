@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import HubCommunityScroll from '../../components/GymHubComponents/HubCommunityScroll';
 import GymHubTabs from '../../components/GymHubComponents/GymHubTabs';
 import FeedInput from '../../components/GymHubComponents/FeedInput';
+import FeedPost from '../../components/GymHubComponents/FeedPost';
 
 const GymHub = () => {
 
@@ -19,6 +20,7 @@ const GymHub = () => {
             return (
                 <View style={styles.feedContainer}>
                     <FeedInput />
+                    <FeedPost />
                 </View>
             );
         }
@@ -34,24 +36,27 @@ const GymHub = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>
-                    Gym Hub
-                </Text>
-                <TouchableOpacity style={styles.viewAllBtn} onPress={handleViewAllPress}>
-                    <Text style={styles.viewAllText}>
-                        View All
+            <ScrollView>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>
+                        Gym Hub
                     </Text>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity style={styles.viewAllBtn} onPress={handleViewAllPress}>
+                        <Text style={styles.viewAllText}>
+                            View All
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
-            <View style={{ flexShrink: 0 }}>
-                <HubCommunityScroll />
-                <View style={styles.divider} />
-                <GymHubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            </View>
+                <View style={{ flexShrink: 0 }}>
+                    <HubCommunityScroll />
+                    <View style={styles.divider} />
+                    <GymHubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+                </View>
 
-            {renderContent()}
+                {renderContent()}                
+
+            </ScrollView>
 
             <Image source={require('../../assets/red-lines-graphic.png')} style={styles.redLines}></Image>
             
@@ -116,6 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
+        
     },
     redLines: {
         width: 120,
