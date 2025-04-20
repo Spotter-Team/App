@@ -25,10 +25,9 @@ router.post('/create-account', (req, res) => {
 // login route
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log('Login attempt:', email, password);
 
     if (!email || !password) {
-        return res.status(400).json({ message: 'Email and password required.' });
+        return res.status(400).json({ message: 'Email and password required' });
     }
 
     UserController.userIsRegistered(email)
@@ -36,7 +35,7 @@ router.post('/login', (req, res) => {
             if (isRegistered) {
                 UserController.login(email, password)
                     .then(token => {
-                        return res.json({ message: 'Logged in successfully!', token });
+                        return res.status(200).json({ message: 'Logged in successfully!', token });
                     })
                     .catch(err => {
                         return res.status(400).json({ message: err });

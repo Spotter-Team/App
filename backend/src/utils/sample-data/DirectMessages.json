@@ -1,0 +1,131 @@
+{
+    "modelName": "DirectMessage",
+    "data": [
+        {
+            "content": "Hey Haley, I need a gym buddy!",
+            "type": "text",
+            "senderID": 1,
+            "receiverID": 2,
+            "read": true,
+            "timestamp": "2025-04-10T16:03:00Z"
+        },
+        {
+            "content": "Hey! I'd love to. What are your fitness goals?",
+            "type": "text",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-10T16:05:12Z"
+        },
+        {
+            "content": "Building upper body!",
+            "type": "text",
+            "senderID": 1,
+            "receiverID": 2,
+            "read": true,
+            "timestamp": "2025-04-10T16:06:45Z"
+        },
+        {
+            "content": "Want to workout at Southwest 5PM tomorrow?",
+            "type": "text",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-10T16:08:30Z"
+        },
+        {
+            "content": "Yup!",
+            "type": "text",
+            "senderID": 1,
+            "receiverID": 2,
+            "read": true,
+            "timestamp": "2025-04-10T16:09:10Z"
+        },
+        {
+            "content": "Sounds good, see you then!",
+            "type": "text",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-10T16:09:45Z"
+        },
+        {
+            "content": "Great job on the deadlifts",
+            "type": "text",
+            "senderID": 2,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-12T14:15:00Z"
+        },
+        {
+            "content": "Hi Joseph!",
+            "type": "text",
+            "senderID": 1,
+            "receiverID": 3,
+            "read": true,
+            "timestamp": "2025-04-09T19:28:00Z"
+        },
+        {
+            "content": "Hey! What's up?",
+            "type": "text",
+            "senderID": 3,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-09T19:28:30Z"
+        },
+        {
+            "content": "Wanna hit the gym tomorrow?",
+            "type": "text",
+            "senderID": 1,
+            "receiverID": 3,
+            "read": true,
+            "timestamp": "2025-04-09T19:29:00Z"
+        },
+        {
+            "content": "Yeah, I'm down!",
+            "type": "text",
+            "senderID": 3,
+            "receiverID": 1,
+            "timestamp": "2025-04-09T19:30:00Z"
+        },
+        {
+            "content": "Hey!",
+            "type": "text",
+            "senderID": 4,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-07T14:28:00Z"
+        },
+        {
+            "content": "Hey, just wondering, what creatine do you recommend?",
+            "type": "text",
+            "senderID": 1,
+            "receiverID": 4,
+            "read": true,
+            "timestamp": "2025-04-07T14:29:00Z"
+        },
+        {
+            "content": "I'll send you a screenshot!",
+            "type": "text",
+            "senderID": 4,
+            "receiverID": 1,
+            "read": true,
+            "timestamp": "2025-04-07T14:29:30Z"
+        },
+        {
+            "content": "Hey, wanna workout!",
+            "type": "text",
+            "senderID": 1,
+            "receiverID": 5,
+            "read": true,
+            "timestamp": "2025-04-04T14:29:00Z"
+        },
+        {
+            "content": "Next time!",
+            "type": "text",
+            "senderID": 5,
+            "receiverID": 1,
+            "timestamp": "2025-04-04T14:30:00Z"
+        }
+    ]
+}

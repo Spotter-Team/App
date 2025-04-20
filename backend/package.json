@@ -6,7 +6,8 @@
     "start": "dotenvx run -- node src/server.js",
     "setup-local-db": "node src/utils/setup-local-sqlite-db.js",
     "clean-local-db": "node src/utils/clean-local-sqlite-db.js",
-    "test": "dotenvx run -f test.env -- npx cucumber-js"
+    "test": "dotenvx run -f test.env -- npx cucumber-js",
+    "load-sample-data": "node src/utils/load-sample-data.js"
   },
   "keywords": [],
   "author": "",

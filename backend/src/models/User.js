@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { Sequelize, DataTypes, Model, Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 const sequelize = require('./sequelize')
@@ -36,17 +36,9 @@ class User extends Model {
             User.usernameIsAvailable(username)
                 .then(isAvailable => {
                     if (isAvailable) {
-                        // Hash the user's password
-                        bcrypt.hash(password, 10)
-                            .then(hashedPwd => {
-                                // Attempt to add then new user record to the db
-                                User.create({ username: username, pwd: hashedPwd })
-                                    .then(newUser => {
-                                        resolve(newUser);
-                                    })
-                                    .catch(err => {
-                                        reject(err);
-                                    })
+                        User.create({ username: username, pwd: password })
+                            .then(newUser => {
+                                resolve(newUser);
                             })
                             .catch(err => {
                                 reject(err);
@@ -64,7 +56,7 @@ class User extends Model {
     /**
      * Queries the database for a specific user and returns rows that are found
      * @param { string } username the query parameter to perform the search
-     * @returns { Promise<User[]>>} A promise that resolves to an array of users
+     * @returns { Promise<User[]> } A promise that resolves to an array of users
      */
     static findUser(username) {
         return new Promise((resolve, reject) => {
@@ -108,9 +100,105 @@ class User extends Model {
     static getUser(username) {
         return new Promise((resolve, reject) => {
             // Try to get the user's row in the db
-            User.findOne({ attributes: [ 'pwd' ], where: { username: username }})
+            User.findOne(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'pwd',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'userLocation',
+                        'fitnessLevel',
+                        'trainerBadge',
+                        'avatarUri'
+                    ], 
+                    where: {
+                        username: username
+                    }
+                })
                 .then(user => {
-                    resolve(user.dataValues);
+                    if (user !== null) {
+                        resolve(user.dataValues);
+                    } else {
+                        reject({ code: 'USER_NOT_FOUND', msg: `User with username '${username}' was not found! ` })
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * 
+     * @param { number } userID The userID to get the user for
+     * @returns { Promise<object> } A promise that resolves to an object which contains the data values for the user
+     */
+    static getUserByID(userID) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findOne(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'pwd',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'userLocation',
+                        'fitnessLevel',
+                        'trainerBadge',
+                        'avatarUri'
+                    ], 
+                    where: {
+                        userID: userID
+                    }
+                })
+                .then(user => {
+                    if (user !== null) {
+                        resolve(user.dataValues);
+                    } else {
+                        reject({ code: 'USER_NOT_FOUND', msg: `User with userID '${userID}' was not found! ` })
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Gets an array of user objects from an array of userIDs
+     * @param { number[] } userIDs The userIDs to get the users for
+     * @returns { Promise<User[]> } A promise that resolves to an array of User objects which contains the data values for the users
+     */
+    static getUsersByIDs(userIDs) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findAll(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'userLocation',
+                        'fitnessLevel',
+                        'trainerBadge',
+                        'avatarUri'
+                    ], 
+                    where: {
+                        userID: {
+                            [Op.in]: userIDs
+                        }
+                    }
+                })
+                .then(users => {
+                    resolve(users);
                 })
                 .catch(err => {
                     reject(err);
@@ -151,6 +239,7 @@ const userSchema = {
     username: {
         type: DataTypes.TEXT,
         allowNull: false,
+        unique: true,
         get() {
             return this.getDataValue();
         }
@@ -178,7 +267,11 @@ const userSchema = {
         type: DataTypes.INTEGER,
     },
     trainerBadge: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    avatarUri: {
+        type: DataTypes.TEXT
     }
 }
 
@@ -186,7 +279,14 @@ User.init(
     userSchema, 
     {
         sequelize,
-        modelName: 'User'
+        modelName: 'User',
+        hooks: {
+            beforeCreate: async (user) => {
+                const hashedPwd = await bcrypt.hash(user.dataValues.pwd, 10);
+                user.pwd = hashedPwd;
+            }
+        }
+    
     }
 );
 
