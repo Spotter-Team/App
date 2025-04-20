@@ -8,6 +8,7 @@ import FeedInput from '../../components/GymHubComponents/FeedInput';
 import FeedPost from '../../components/GymHubComponents/FeedPost';
 import CommunityItem from '../../components/GymHubComponents/CommunityItem';
 import mockPosts from '../../mock/GymHub/mockPosts';
+import mockCommunities from '../../mock/GymHub/mockCommunities';
 
 const GymHub = () => {
 
@@ -38,7 +39,15 @@ const GymHub = () => {
         else if(activeTab === 'communities') {
             return (
                 <View style={styles.myCommunitiesContainer}>
-                    <CommunityItem />
+                    {mockCommunities.map((val, index) => (
+                        <CommunityItem 
+                            key={val.id || index}
+                            name={val.name} 
+                            banner={val.banner} 
+                            rating={val.rating} 
+                            members={val.members} 
+                        />
+                    ))}
                 </View>
             );
         };

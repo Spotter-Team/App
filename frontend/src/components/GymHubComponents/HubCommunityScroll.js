@@ -10,7 +10,7 @@ const HubCommunityScroll = ({ hubURI, hubName }) => {
             {mockCommunities.map((val, index) => (
                 <TouchableOpacity style={styles.communityItemContainer} key={index}>
                     <Image source={val.logo} style={styles.communityLogo} />
-                    <Text style={styles.communityName}>{val.name}</Text>
+                    <Text style={styles.communityName}>{val.nickname}</Text>
                 </TouchableOpacity>
             ))}
           

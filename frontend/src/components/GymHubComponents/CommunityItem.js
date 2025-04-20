@@ -1,17 +1,17 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const communityItem = () => {
+const communityItem = ({ name, banner, rating, members }) => {
     return (
-        <View>
-            <Image source={require('../../mock/GymHub/uf.jpg')} style={styles.communityImage} />
+        <View style={styles.communityItemContainer}>
+            <Image source={banner} style={styles.communityImage} />
             
             <View style={styles.communityInfoContainer}>
                 <Text style={styles.communityText}>
-                    University of Florida
+                    {name}
                 </Text>
                 <Text style={{ color: 'white', fontFamily: 'Roboto', fontSize: 14, fontWeight: 500 }}>
-                    <Ionicons name="star" size={16} style={styles.ratingLogo} /> 4.3 (10k+ members+)
+                    <Ionicons name="star" size={16} style={styles.ratingLogo} /> {rating} ({members} members)
                 </Text>
 
                 <TouchableOpacity style={styles.viewCommunityBtn}>
@@ -24,6 +24,9 @@ const communityItem = () => {
 };
 
 const styles = StyleSheet.create({
+    communityItemContainer: {
+        marginVertical: 8.5,
+    },
     communityImage: {
         height: 153,
         width: 377,
