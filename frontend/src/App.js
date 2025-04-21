@@ -11,6 +11,7 @@ import Chat from './screens/Chats/Chat';
 import Filter from './screens/Home/Filter';
 import Settings from './screens/Profile/Settings';
 import MatchProfile from './screens/Chats/MatchProfile';
+import CommunityList from './screens/GymHub/CommunityList';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,13 +36,14 @@ export default function App() {
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {/* <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="CreateAccount" component={CreateAccount} /> */}
-                
+
                 <Stack.Screen name="HomeTabs" component={NavigationTabs} />
                 <Stack.Screen name="AccountInfo" component={AccountInfo} />
                 <Stack.Screen name="Chat" component={Chat} />
                 <Stack.Screen name="MatchProfile" component={MatchProfile} options={{ presentation: 'modal' }}/>
                 <Stack.Screen name="Filter" component={Filter} options={{ presentation: 'modal' }}/>
                 <Stack.Screen name="Settings" component={Settings}  />
+                <Stack.Screen name="CommunityList" component={CommunityList} options={{ presentation: 'modal' }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
