@@ -240,7 +240,7 @@ class User extends Model {
      *      addressLine2: string,
      *      addressState: string,
      *      addressCity: string,
-     *      addressZipCode: string,
+     *      addressZipCode: number,
      *      addressCountry: string,
      *      fitnessLevel: number,
      *      trainerBadge: boolean,
@@ -255,7 +255,6 @@ class User extends Model {
                     attributes: [
                         'userID',
                         'username',
-                        'pwd',
                         'phoneNumber',
                         'firstName',
                         'lastName',
@@ -283,6 +282,18 @@ class User extends Model {
                 .catch(err => {
                     reject(err);
                 })
+        })
+    }
+
+    /**
+     * Attempts to update attributes on a user record
+     * @param { number } userID The userID for the user whose account info is being updated
+     * @param { object } update The object that contains the updates
+     * @returns 
+     */
+    static updateUserAccount(userID, update) {
+        return new Promise((resolve, reject) => {
+
         })
     }
 }

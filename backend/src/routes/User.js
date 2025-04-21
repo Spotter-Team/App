@@ -1,7 +1,9 @@
 // routes/User.js
 const express = require('express');
 const router = express.Router();
+
 const UserController = require('../controllers/UserController');
+const auth = require('../middleware/auth');
 
 // create account route
 router.post('/create-account', (req, res) => {
@@ -49,10 +51,18 @@ router.post('/login', (req, res) => {
         })
 });
 
-// Get all users
-// TODO: refactor to use UserController getAllUsers() function
-router.get('/', (req, res) => {
-    res.send(users);
+// account info route
+router.get('/account-info', auth, (req, res) => {
+    const userID = req.userID;
+    if (!userID) return res.status(500).json({ message: `The auth token once decoded did not include the sender userID!` });
+
+    UserController.getUserAccountInfo(userID)
+        .then(accountInfo => {
+            res.status(200).json({ message: `Successfully retrieved the user account info!`, accountInfo })
+        })
+        .catch(err => {
+            res.status(500).json({ message: `The account info for the user could not be received!`, error: err });
+        })
 });
 
 module.exports = router;

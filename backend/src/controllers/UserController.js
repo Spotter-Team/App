@@ -72,6 +72,35 @@ class UserController {
     }
 
     /**
+     * Performs an update on the user's account info
+     * @param { number } userID The userID for the user whose account info is being updated
+     * @param { object } update The object that contains the updates
+     * @returns { Promise<{
+     *      userID: number,
+     *      username: string,
+     *       phoneNumber: string,
+     *      firstName: string,
+     *      lastName: string,
+     *      addressLine1: string,
+     *      addressLine2: string,
+     *      addressState: string,
+     *      addressCity: string,
+     *      addressZipCode: number,
+     *      addressCountry: string,
+     *      fitnessLevel: number,
+     *      trainerBadge: boolean,
+     *      avatarUri: string
+     * }> }
+     */
+    static updateAccountInfo(userID, update) {
+        return new Promise((resolve, reject) => {
+            // Validate the keys on the update object and discard any invalid attributes
+
+            
+        })
+    }
+
+    /**
      * Checks to see if the user has been registered
      * @param { string } username The username to check
      * @returns { Promise<boolean> } A Promise that resolves to true if the user exists in the DB
@@ -113,13 +142,6 @@ class UserController {
         })
     }
 
-    /**
-     * Gets the usernames for all the users in the Users table
-     * @returns An array of usernames
-     */
-    static getAllUsers() {
-        // TODO: implement getAllUsers() function
-    }
 
     /**
      * Gets the User objects for the passed userIDs
@@ -148,6 +170,38 @@ class UserController {
             User.getUser(username)
                 .then(userObj => {
                     resolve(userObj);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Get the current account info for a user
+     * @param { number } userID The id of the user to get the account info for
+     * @returns { Promise<{
+     *      userID: number,
+     *      username: string,
+     *      phoneNumber: string,
+     *      firstName: string,
+     *      lastName: string,
+     *      addressLine1: string,
+     *      addressLine2: string,
+     *      addressState: string,
+     *      addressCity: string,
+     *      addressZipCode: number,
+     *      addressCountry: string,
+     *      fitnessLevel: number,
+     *      trainerBadge: boolean,
+     *      avatarUri: string
+     * }> } A promise that resolved to an object containing the user account info
+     */
+    static getUserAccountInfo(userID) {
+        return new Promise((resolve, reject) => {
+            User.getUserAccountByUserID(userID)
+                .then(accountInfo => {
+                    resolve(accountInfo);
                 })
                 .catch(err => {
                     reject(err);
