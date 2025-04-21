@@ -226,6 +226,65 @@ class User extends Model {
                 })
         })
     }
+
+    /**
+     * Gets the account info for a particular user
+     * @param { number } userID The id for the user whose account info you desire
+     * @returns { Promise< { 
+     *      userID: number,
+     *      username: string,
+     *      phoneNumber: string,
+     *      firstName: string,
+     *      lastName: string,
+     *      addressLine1: string,
+     *      addressLine2: string,
+     *      addressState: string,
+     *      addressCity: string,
+     *      addressZipCode: string,
+     *      addressCountry: string,
+     *      fitnessLevel: number,
+     *      trainerBadge: boolean,
+     *      avatarUri: string
+     * }> } Returns a promise which resolves to an object containing user account info
+     */
+    static getUserAccountByUserID(userID) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findOne(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'pwd',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'addressLine1',
+                        'addressLine2',
+                        'addressState',
+                        'addressCity',
+                        'addressZipCode',
+                        'addressCountry',
+                        'fitnessLevel',
+                        'trainerBadge',
+                        'avatarUri'
+                    ], 
+                    where: {
+                        userID: userID
+                    }
+                })
+                .then(user => {
+                    if (user !== null) {
+                        resolve(user.dataValues);
+                    } else {
+                        reject({ code: 'USER_NOT_FOUND', msg: `User with userID '${userID}' was not found! ` })
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
 }
 
 // Define User Model attributes
@@ -275,7 +334,7 @@ const userSchema = {
     addressZipCode: {
         type: DataTypes.NUMBER
     },
-    addressCounty: {
+    addressCountry: {
         type: DataTypes.TEXT
     },
     userLocation: {
