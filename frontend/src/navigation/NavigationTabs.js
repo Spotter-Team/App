@@ -82,7 +82,6 @@ export default function NavigationTabs() {
             <Tab.Screen name="Profile" children={() => (
                 <WithHeader title="Profile">
                     <UserProfile />
-                    <UserProfile />
                 </WithHeader>
             )
 
