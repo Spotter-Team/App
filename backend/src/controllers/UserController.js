@@ -19,6 +19,22 @@ if (!defaultTokenLife) {
 }
 
 class UserController {
+    /** STATIC PUBLIC PARAMETERS */
+    static updatableAccountInfoAttributes = [
+        'username',
+        'phoneNumber',
+        'firstName',
+        'lastName',
+        'addressLine1',
+        'addressLine2',
+        'addressLine3',
+        'addressCity',
+        'addressZipCode',
+        'addressCountry',
+        'fitnessLevel',
+        'trainerBadge'
+    ];
+
     /** PUBLIC METHODS */
 
     /**
@@ -78,7 +94,7 @@ class UserController {
      * @returns { Promise<{
      *      userID: number,
      *      username: string,
-     *       phoneNumber: string,
+     *      phoneNumber: string,
      *      firstName: string,
      *      lastName: string,
      *      addressLine1: string,
@@ -90,13 +106,39 @@ class UserController {
      *      fitnessLevel: number,
      *      trainerBadge: boolean,
      *      avatarUri: string
-     * }> }
+     * }> } A promise that resolves to the current state of the account info after the update
      */
     static updateAccountInfo(userID, update) {
         return new Promise((resolve, reject) => {
             // Validate the keys on the update object and discard any invalid attributes
+            let cleanUpdate = {};
+            let invalidAttributes = [];
+            Object.keys(update).forEach(key => {
+                if (UserController.updatableAccountInfoAttributes.includes(key)) {
+                    cleanUpdate[key] = update[key];
+                } else {
+                    invalidAttributes.push(key);
+                }
+            });
 
-            
+            if (Object.keys(cleanUpdate).length == 0) {
+                reject(`After removing invalid attributes, no valid updatable attributes remained. No update will be performed!`)
+            } else {
+                User.updateUserAccount(userID, cleanUpdate)
+                    .then(() => {
+                        // Get the user account info
+                        User.getUserAccountByUserID(userID)
+                            .then(accountInfo => {
+                                resolve(accountInfo);
+                            })
+                            .catch(err => {
+                                reject(err);
+                            })
+                    })
+                    .catch(err => {
+                        reject(err);
+                    })
+            }
         })
     }
 

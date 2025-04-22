@@ -36,6 +36,7 @@ class User extends Model {
             User.usernameIsAvailable(username)
                 .then(isAvailable => {
                     if (isAvailable) {
+                        // TODO: Validate that the username passed is an email
                         User.create({ username: username, pwd: password })
                             .then(newUser => {
                                 resolve(newUser);
@@ -289,11 +290,27 @@ class User extends Model {
      * Attempts to update attributes on a user record
      * @param { number } userID The userID for the user whose account info is being updated
      * @param { object } update The object that contains the updates
-     * @returns 
+     * @returns { Promise<boolean> } A promise that resolves if the update was successful 
      */
     static updateUserAccount(userID, update) {
         return new Promise((resolve, reject) => {
+            User.update(
+                update,
+                { where: { userID } }
+            ).then(result => {
+                const numAffected = result[0];
 
+                // Determine if the update was successful
+                if (numAffected < 1) {
+                    reject(`Update failed! No rows ere affected1`);
+                } else if (numAffected == 1) {
+                    resolve();
+                } else {
+                    reject(`The number of rows that were updated is greater than 1, so some error occurred.`);
+                }
+            }).catch(err => {
+                reject(err);
+            })
         })
     }
 }
