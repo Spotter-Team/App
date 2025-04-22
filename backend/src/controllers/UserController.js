@@ -19,6 +19,22 @@ if (!defaultTokenLife) {
 }
 
 class UserController {
+    /** STATIC PUBLIC PARAMETERS */
+    static updatableAccountInfoAttributes = [
+        'username',
+        'phoneNumber',
+        'firstName',
+        'lastName',
+        'addressLine1',
+        'addressLine2',
+        'addressLine3',
+        'addressCity',
+        'addressZipCode',
+        'addressCountry',
+        'fitnessLevel',
+        'trainerBadge'
+    ];
+
     /** PUBLIC METHODS */
 
     /**
@@ -72,6 +88,61 @@ class UserController {
     }
 
     /**
+     * Performs an update on the user's account info
+     * @param { number } userID The userID for the user whose account info is being updated
+     * @param { object } update The object that contains the updates
+     * @returns { Promise<{
+     *      userID: number,
+     *      username: string,
+     *      phoneNumber: string,
+     *      firstName: string,
+     *      lastName: string,
+     *      addressLine1: string,
+     *      addressLine2: string,
+     *      addressState: string,
+     *      addressCity: string,
+     *      addressZipCode: number,
+     *      addressCountry: string,
+     *      fitnessLevel: number,
+     *      trainerBadge: boolean,
+     *      avatarUri: string
+     * }> } A promise that resolves to the current state of the account info after the update
+     */
+    static updateAccountInfo(userID, update) {
+        return new Promise((resolve, reject) => {
+            // Validate the keys on the update object and discard any invalid attributes
+            let cleanUpdate = {};
+            let invalidAttributes = [];
+            Object.keys(update).forEach(key => {
+                if (UserController.updatableAccountInfoAttributes.includes(key)) {
+                    cleanUpdate[key] = update[key];
+                } else {
+                    invalidAttributes.push(key);
+                }
+            });
+
+            if (Object.keys(cleanUpdate).length == 0) {
+                reject(`After removing invalid attributes, no valid updatable attributes remained. No update will be performed!`)
+            } else {
+                User.updateUserAccount(userID, cleanUpdate)
+                    .then(() => {
+                        // Get the user account info
+                        User.getUserAccountByUserID(userID)
+                            .then(accountInfo => {
+                                resolve(accountInfo);
+                            })
+                            .catch(err => {
+                                reject(err);
+                            })
+                    })
+                    .catch(err => {
+                        reject(err);
+                    })
+            }
+        })
+    }
+
+    /**
      * Checks to see if the user has been registered
      * @param { string } username The username to check
      * @returns { Promise<boolean> } A Promise that resolves to true if the user exists in the DB
@@ -113,20 +184,13 @@ class UserController {
         })
     }
 
-    /**
-     * Gets the usernames for all the users in the Users table
-     * @returns An array of usernames
-     */
-    static getAllUsers() {
-        // TODO: implement getAllUsers() function
-    }
 
     /**
      * Gets the User objects for the passed userIDs
      * @param { number[] } userIDs An array of userIDs to find the users for
      * @returns { Promise<User[]> } A promise that resolves to an array of User objects
      */
-    static getUsersForUserIDs(userIDs){
+    static getUsersForUserIDs(userIDs) {
         return new Promise((resolve, reject) => {
             User.getUsersByIDs(userIDs)
                 .then(users => {
@@ -148,6 +212,38 @@ class UserController {
             User.getUser(username)
                 .then(userObj => {
                     resolve(userObj);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Get the current account info for a user
+     * @param { number } userID The id of the user to get the account info for
+     * @returns { Promise<{
+     *      userID: number,
+     *      username: string,
+     *      phoneNumber: string,
+     *      firstName: string,
+     *      lastName: string,
+     *      addressLine1: string,
+     *      addressLine2: string,
+     *      addressState: string,
+     *      addressCity: string,
+     *      addressZipCode: number,
+     *      addressCountry: string,
+     *      fitnessLevel: number,
+     *      trainerBadge: boolean,
+     *      avatarUri: string
+     * }> } A promise that resolved to an object containing the user account info
+     */
+    static getUserAccountInfo(userID) {
+        return new Promise((resolve, reject) => {
+            User.getUserAccountByUserID(userID)
+                .then(accountInfo => {
+                    resolve(accountInfo);
                 })
                 .catch(err => {
                     reject(err);
