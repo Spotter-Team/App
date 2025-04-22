@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getMatchesForUser } = require('../services/matchingService');
 
+// get matches for a user
 router.get('/:userID', (req, res) => {
     getMatchesForUser(req.params.userID)
         .then(matches => res.json(matches))

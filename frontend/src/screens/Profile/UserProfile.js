@@ -18,38 +18,27 @@ import { ActivityIndicator } from 'react-native';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
 
 const UserProfile = () => {
+    const route = useRoute();
+    const { userID } = route.params;
+    const [user, setUser] = useState(null);
     const [selectedDay, setSelectedDay] = useState(null); // availability
     const [log, setLog] = useState(''); // since workout log is text based
 
-    // hardcode to test visuals before pulling user data dynamically
-    const user = {
-        name: 'Mariyah',
-        username: 'mjselreynolds',
-        avatar: require('../../assets/gymGirl.png'),
-        trainerBadge: true,
-        buddyBadge: true,
-        gymBuddies: 5,
-        fitnessLevel: 2, // beginner = 1, intermediate = 2, etc..
-        location: 'Gainesville, FL',
-        preferredWorkout: 'HIIT + Lifting',
-        availability: {
-        Mon: true,
-        Tue: false,
-        Wed: true,
-        Thu: false,
-        Fri: true,
-        Sat: false,
-        Sun: true,
-        },
-        times: {
-        Mon: '7-9am',
-        Wed: '6-8pm',
-        Fri: '5-7pm',
-        Sun: '8-10am',
-        },
-    };
+    useEffect(() => {
+        axios.get(`${API_BASE_URL}/api/user/${userID}`)
+            .then(res => setUser(res.data))
+            .catch(err => console.error("Error fetching user:", err));
+    }, [userID]);
 
-    const days = Object.keys(user.availability);
+    if (!user) {
+        return (
+            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color={COLORS.accent} />
+            </SafeAreaView>
+        );
+    }
+
+    const days = user ? Object.keys(user.availability) : [];
 
 
     return (

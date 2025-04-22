@@ -56,4 +56,9 @@ router.get('/', (req, res) => {
     res.send(users);
 });
 
+// Get messages between you and another user
+router.get('/:userID', (req, res) => {
+    const userID = req.params.userID;
+});
+
 module.exports = router;
