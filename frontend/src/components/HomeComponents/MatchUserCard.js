@@ -1,11 +1,18 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import COLORS from '../../utils/theme';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const MatchUserCard = ({ user, handleAction }) => {
     return (
         <View style={styles.card}>
             <Image source={user.avatar} style={styles.avatar} />
+            <LinearGradient 
+              colors={['rgba(0,0,0,1)', 'transparent']} 
+              style={styles.gradient} 
+              start={{ x: 0.1, y: 0.8 }}
+              end={{ x: 0.1, y: 0.4 }}
+            />
 
             <View style={styles.textWrapper}>
                 <Text style={styles.name}>{user.username}</Text>
@@ -135,6 +142,13 @@ const styles = StyleSheet.create({
           fontWeight: 'bold',
           color: '#fff',
         },
+        gradient: {
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: '60%',
+        }
 });
 
 export default MatchUserCard;
