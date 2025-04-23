@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import COLORS from '../../utils/theme';
+import SettingsHeader from '../../components/SettingsComponents/SettingsHeader';
 
 export default function Settings() {
     const navigation = useNavigation();
@@ -25,8 +26,9 @@ export default function Settings() {
 
     return (
         <SafeAreaView style={styles.safeArea}>
+            <SettingsHeader />
             <ScrollView style={styles.container}>
-                <Text style={styles.header}>Settings</Text>
+             
 
                 {settings.map((item, index) => (
                     <TouchableOpacity key={index} style={styles.row} onPress={item.action}>
@@ -45,7 +47,7 @@ export default function Settings() {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: COLORS.background,
+        backgroundColor: '#141417',
     },
     container: {
         flex: 1,
