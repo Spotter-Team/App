@@ -4,6 +4,8 @@ import COLORS from '../../utils/theme';
 import { API_BASE_URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import AccountHeader from '../../components/SettingsComponents/AccountHeader';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AccountInfo = () => {
     const [username, setUsername] = useState('');
@@ -51,6 +53,8 @@ const AccountInfo = () => {
 
 
     return (
+        <SafeAreaView style={{flex: 1, backgroundColor: '#141417'}}>
+        <AccountHeader />
         <ScrollView style={styles.container}>
             <Text style={styles.sectionTitle}>Preferences</Text>
             <View style={styles.formGroup}>
@@ -105,6 +109,7 @@ const AccountInfo = () => {
                 <Text style={styles.buttonText}>Update</Text>
             </TouchableOpacity>
         </ScrollView>
+        </SafeAreaView>
     );
 };
 
