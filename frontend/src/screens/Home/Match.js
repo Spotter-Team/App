@@ -20,6 +20,7 @@ const MatchScreen = () => {
   //const route = useRoute();
   //const { name: userID } = route.params;
   const [matches, setMatches] = useState(MatchUsers);
+  const [ currentIndex, setCurrentIndex ] = useState(0);
 
   //useEffect(() => {
     //axios.get(`${API_BASE_URL}/api/match/${userID}`)
@@ -29,13 +30,25 @@ const MatchScreen = () => {
 
   const handleAction = (userID, action) => {
     setMatches(prev => prev.filter(m => m.userID !== userID));
+    setCurrentIndex(currentIndex + 1);
   };
+
+  const renderContent = () => {
+    if(currentIndex < MatchUsers.length) {
+        return (
+            <MatchUserCard
+                key={MatchUsers[currentIndex].userID}
+                user={MatchUsers[currentIndex]}
+                handleAction={handleAction} 
+            />
+        );
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
       <View style={styles.container}>
-        {matches.map((user) => (
-            <MatchUserCard key={user.userID} user={user} handleAction={handleAction} />
-        ))}
+        {renderContent()}
       </View>
     </SafeAreaView>
   );
