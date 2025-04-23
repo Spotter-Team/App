@@ -4,10 +4,17 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/User');
 const { Blocked } = require('../models/Blocked');
 
-// Load JWT_secret
+// Load JWT_SECRET
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
     console.error(`Error: Variable JWT_SECRET was not found .env file!`);
+    process.exit(1);
+}
+
+// Load DEFAULT_TOKEN_LIFE
+const defaultTokenLife = process.env.DEFAULT_TOKEN_LIFE;
+if (!defaultTokenLife) {
+    console.error(`Error: Variable DEFAULT_TOKEN_LIFE was not found .env file!`);
     process.exit(1);
 }
 
@@ -47,7 +54,7 @@ class UserController {
                     bcrypt.compare(pwd, userObj.pwd)
                         .then(isMatch => {
                             if (isMatch) {
-                                const token = jwt.sign( { userId: userObj.userID}, jwtSecret, { expiresIn: '1h' });
+                                const token = jwt.sign( { userID: userObj.userID}, jwtSecret, { expiresIn: defaultTokenLife });
 
                                 resolve(token);
                             } else {
@@ -65,8 +72,8 @@ class UserController {
     }
 
     /**
-     * Checks to see if the user has been registerd
-     * @param { string } username 
+     * Checks to see if the user has been registered
+     * @param { string } username The username to check
      * @returns { Promise<boolean> } A Promise that resolves to true if the user exists in the DB
      */
     static userIsRegistered(username) {
@@ -76,7 +83,32 @@ class UserController {
                     resolve(!unregistered);
                 })
                 .catch(err => {
-                    reject(err);
+                    if (err.code == 'USER_NOT_FOUND') {
+                        resolve(false);
+                    } else {
+                        reject(err);
+                    }
+                })
+        })
+    }
+
+    /**
+     * Checks to see if the user has been registered
+     * @param { number } userID The userID for the user to check
+     * @returns { Promise<boolean> } A Promise that resolves to true if the user exists in the DB
+     */
+    static userIDIsRegistered(userID) {
+        return new Promise((resolve, reject) => {
+            User.getUserByID(userID)
+                .then(() => {
+                    resolve(true);
+                })
+                .catch(err => {
+                    if (err.code == 'USER_NOT_FOUND') {
+                        resolve(false);
+                    } else {
+                        reject(err);
+                    }
                 })
         })
     }
@@ -87,6 +119,40 @@ class UserController {
      */
     static getAllUsers() {
         // TODO: implement getAllUsers() function
+    }
+
+    /**
+     * Gets the User objects for the passed userIDs
+     * @param { number[] } userIDs An array of userIDs to find the users for
+     * @returns { Promise<User[]> } A promise that resolves to an array of User objects
+     */
+    static getUsersForUserIDs(userIDs){
+        return new Promise((resolve, reject) => {
+            User.getUsersByIDs(userIDs)
+                .then(users => {
+                    resolve(users)
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    } 
+
+    /**
+     * Gets information about one user
+     * @param { string } username 
+     * @returns { Promise<object> } A promise that resolves to a user object if the user is found
+     */
+    static getUser(username) {
+        return new Promise((resolve, reject) => {
+            User.getUser(username)
+                .then(userObj => {
+                    resolve(userObj);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
     }
 
     /**

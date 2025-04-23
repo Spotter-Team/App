@@ -8,7 +8,7 @@ import mockChatList from '../../mock/Chats/mockChatList';
 const ChatList = () => {
     
     const navigation = useNavigation();
-    const handleChatPress = () => navigation.navigate('Chat');
+    const handleChatPress = (chatId) => navigation.navigate('Chat', { chatId });
 
     const formatLastMessage = (userId, lastMessage) => {
         let message = '';
