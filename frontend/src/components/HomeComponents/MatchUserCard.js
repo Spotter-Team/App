@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: 'black',
         borderRadius: 20,
-        padding: 25,
+        paddingTop: 26,
         width: '100%',
         height: '100%',
         marginBottom: 30,
@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 5 },
-        marginHorizontal: 20,
+        marginHorizontal: 14,
       },
       avatar: {
-        width: 367,
+        width: '100%',
         height: '100%',
         borderRadius: 11,
         marginBottom: 15,
@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
         marginBottom: 50,
       },
       name: {
-        fontSize: 22,
+        fontSize: 40,
         fontWeight: 'bold',
-        color: '#1e1e1e',
+        color: '#FFF',
         marginBottom: 4,
       },
       fitnessContainer: {
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
       },
       fitness: {
         fontSize: 16,
-        color: '#444',
+        color: '#FFF',
+        fontWeight: 700,
       },
       fitnessLevel: {
         flexDirection: 'row',
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
       },
         info: {
           fontSize: 14,
-          color: '#666',
+          color: '#FFF',
           marginTop: 4,
         },
         buttonWrapper: {
