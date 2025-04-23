@@ -1,38 +1,63 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Switch } from 'react-native';
 import COLORS from '../../utils/theme';
+import { API_BASE_URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const AccountInfo = () => {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [zipcode, setZipcode] = useState('');
-    const [password, setPassword] = useState('');
-    const [availabilityDays, setAvailabilityDays] = useState('');
-    const [availabilityTime, setAvailabilityTime] = useState('');
-    const [interests, setInterests] = useState('');
-    const [meetup, setMeetup] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [fitnessLevel, setFitnessLevel] = useState('');
+    const [trainerBadge, setTrainerBadge] = useState(false);
 
-    const handleUpdate = () => {
-        console.log('Saving preferences...');
-        // Todo: logic to store preferences
+    const handleUpdate = async () => {
+        try {
+
+            const token = await AsyncStorage.getItem('token');
+
+            if (!token) {
+                console.warn('No token found');
+                return;
+            }
+
+            const response = await axios.put(
+                `${API_BASE_URL}/api/user/account-info`,
+                {
+                    username,
+                    zipcode,
+                    firstName,
+                    lastName,
+                    fitnessLevel,
+                    trainerBadge,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            console.log(' Updated successfully:', response.data);
+            alert('Account info updated!');
+        } catch (err) {
+            console.error(' Update failed:', err);
+            alert('An error occurred while updating account info.');
+        }
     };
+
 
     return (
         <ScrollView style={styles.container}>
-            {/* Profile section*/}
-            <Text style={styles.sectionTitle}>Profile</Text>
+            <Text style={styles.sectionTitle}>Preferences</Text>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Username</Text>
                 <TextInput
                     value={username}
                     onChangeText={setUsername}
-                    style={styles.input}
-                />
-
-                <Text style={styles.label}>Email</Text>
-                <TextInput
-                    value={email}
-                    onChangeText={setEmail}
                     style={styles.input}
                 />
 
@@ -44,56 +69,38 @@ const AccountInfo = () => {
                     style={styles.input}
                 />
 
-                <Text style={styles.label}>Password</Text>
+                <Text style={styles.label}>First Name</Text>
                 <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
+                    value={firstName}
+                    onChangeText={setFirstName}
                     style={styles.input}
                 />
+
+                <Text style={styles.label}>Last Name</Text>
+                <TextInput
+                    value={lastName}
+                    onChangeText={setLastName}
+                    style={styles.input}
+                />
+
+                <Text style={styles.label}>Fitness Level</Text>
+                <TextInput
+                    value={fitnessLevel}
+                    onChangeText={setFitnessLevel}
+                    keyboardType="numeric"
+                    style={styles.input}
+                />
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                    <Text style={styles.label}>Trainer Badge</Text>
+                    <Switch
+                        value={trainerBadge}
+                        onValueChange={setTrainerBadge}
+                        style={{ marginLeft: 10 }}
+                    />
+                </View>
             </View>
 
-            {/* preferences section*/}
-            <Text style={styles.sectionTitle}>Preferences</Text>
-            <View style={styles.formGroup}>
-                <Text style={styles.label}>Days Available</Text>
-                <TextInput
-                    placeholder="e.g. M/W/F"
-                    placeholderTextColor={COLORS.lightText}
-                    value={availabilityDays}
-                    onChangeText={setAvailabilityDays}
-                    style={styles.input}
-                />
-
-                <Text style={styles.label}>Available Time</Text>
-                <TextInput
-                    placeholder="e.g. 7pm"
-                    placeholderTextColor={COLORS.lightText}
-                    value={availabilityTime}
-                    onChangeText={setAvailabilityTime}
-                    style={styles.input}
-                />
-
-                <Text style={styles.label}>Fitness Interests</Text>
-                <TextInput
-                    placeholder="e.g. HIIT, yoga"
-                    placeholderTextColor={COLORS.lightText}
-                    value={interests}
-                    onChangeText={setInterests}
-                    style={styles.input}
-                />
-
-                <Text style={styles.label}>Meetup Type</Text>
-                <TextInput
-                    placeholder="e.g. Trainer, Buddy"
-                    placeholderTextColor={COLORS.lightText}
-                    value={meetup}
-                    onChangeText={setMeetup}
-                    style={styles.input}
-                />
-            </View>
-
-            {/* submit button */}
             <TouchableOpacity onPress={handleUpdate} style={styles.button}>
                 <Text style={styles.buttonText}>Update</Text>
             </TouchableOpacity>
