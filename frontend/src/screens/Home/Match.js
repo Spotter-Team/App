@@ -32,11 +32,11 @@ const MatchScreen = () => {
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         {matches.map((user) => (
             <MatchUserCard key={user.userID} user={user} handleAction={handleAction} />
         ))}
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

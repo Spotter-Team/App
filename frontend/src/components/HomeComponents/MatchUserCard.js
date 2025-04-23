@@ -48,7 +48,7 @@ const MatchUserCard = ({ user, handleAction }) => {
                 >
                     <Text style={styles.buttonText}> Match ❤️</Text>
                 </TouchableOpacity>
-                
+
             </View>
         </View>
     );
@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 5 },
+        marginTop: '50%',
+        marginHorizontal: 20,
       },
       avatar: {
         width: 120,
