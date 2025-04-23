@@ -14,15 +14,57 @@ import { useRoute } from '@react-navigation/native';
 import COLORS from '../../utils/theme';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
 
-const MatchScreen = ({ route }) => {
-  const { userID } = route.params;
-  const [matches, setMatches] = useState([]);
+const MatchScreen = () => {
+  //const route = useRoute();
+  //const { name: userID } = route.params;
+  const [matches, setMatches] = useState([
+      {
+        user: {
+          userID: 101,
+          username: 'Marsha',
+          userLocation: 'Gainesville, FL',
+          preferredWorkout: 'Cardio + Strength Training',
+          fitnessLevel: 4,
+          avatar: require('../../assets/gymGirl.png')
+        }
+      },
+      {
+        user: {
+          userID: 102,
+          username: 'Sophie',
+          userLocation: 'Gainesville, FL',
+          preferredWorkout: 'HIIT',
+          fitnessLevel: 2,
+          avatar: require('../../assets/gymGirl.png')
+        }
+      },
+      {
+        user: {
+          userID: 103,
+          username: 'Derek',
+          userLocation: 'Orlando, FL',
+          preferredWorkout: 'Powerlifting',
+          fitnessLevel: 3,
+          avatar: require('../../assets/gymGirl.png')
+        }
+      },
+      {
+        user: {
+          userID: 104,
+          username: 'Nina',
+          userLocation: 'Tampa, FL',
+          preferredWorkout: 'Yoga',
+          fitnessLevel: 1,
+          avatar: require('../../assets/gymGirl.png')
+        }
+      }
+    ]);
 
-  useEffect(() => {
-    axios.get(`${API_BASE_URL}/api/match/${userID}`)
-      .then(res => setMatches(res.data))
-      .catch(err => console.error('Match fetch error:', err));
-  }, [userID]);
+  //useEffect(() => {
+    //axios.get(`${API_BASE_URL}/api/match/${userID}`)
+      //.then(res => setMatches(res.data))
+      //.catch(err => console.error('Match fetch error:', err));
+  //}, [userID]);
 
   const handleAction = (userID, action) => {
     setMatches(prev => prev.filter(m => m.userID !== userID));
