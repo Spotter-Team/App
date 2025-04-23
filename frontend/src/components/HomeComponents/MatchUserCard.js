@@ -46,14 +46,14 @@ const MatchUserCard = ({ user, handleAction }) => {
                     style={[styles.button, styles.passButton]}
                     onPress={() => handleAction(user.userID, 'reject')}
                 >
-                    <Text style={styles.buttonText}> Pass ❌</Text>
+                    <Text style={styles.buttonText}>Pass</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={[styles.button, styles.matchButton]}
                     onPress={() => handleAction(user.userID, 'accept')}
                 >
-                    <Text style={styles.buttonText}> Match ❤️</Text>
+                    <Text style={styles.buttonText}> Match</Text>
                 </TouchableOpacity>
 
             </View>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         width: '100%',
         alignItems: 'flex-start',
-        marginBottom: 50,
+        marginBottom: 100,
       },
       name: {
         fontSize: 40,
@@ -120,34 +120,36 @@ const styles = StyleSheet.create({
         },
         buttonWrapper: {
           position: 'absolute',
-          bottom: 20,
+          bottom: 15,
           left: 20,
           right: 20,
+          marginBottom: 33,
           flexDirection: 'row',
           justifyContent: 'space-between',
         },
         button: {
-          paddingVertical: 10,
-          paddingHorizontal: 18,
-          borderRadius: 25,
+          paddingVertical: 12,
+          paddingHorizontal: 45,
+          borderRadius: 10,
           borderColor: COLORS.border
         },
         passButton: {
-          backgroundColor: '#ccc',
+          backgroundColor: '#2B2A2A',
         },
         matchButton: {
-          backgroundColor: COLORS.accent,
+          backgroundColor: '#B5382B',
         },
         buttonText: {
-          fontWeight: 'bold',
+          fontWeight: 600,
           color: '#fff',
+          fontSize: 24,
         },
         gradient: {
           position: 'absolute',
           left: 0,
           right: 0,
           bottom: 0,
-          height: '60%',
+          height: '80%',
         }
 });
 
