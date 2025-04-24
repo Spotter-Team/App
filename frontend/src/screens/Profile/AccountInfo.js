@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Switch } from 'react-native';
 import COLORS from '../../utils/theme';
 import { API_BASE_URL } from '@env';
@@ -9,15 +9,48 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AccountInfo = () => {
     const [username, setUsername] = useState('');
-    const [zipcode, setZipcode] = useState('');
+    const [addressZipCode, setZipcode] = useState(0);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [fitnessLevel, setFitnessLevel] = useState('');
     const [trainerBadge, setTrainerBadge] = useState(false);
 
+    useEffect(() => {
+        const fetchAccountInfo = async () => {
+
+            try {
+                const token = await AsyncStorage.getItem('token');
+                if (!token) {
+                    console.warn('No token found');
+                    return;
+                }
+    
+                const response = await axios.get(`${API_BASE_URL}/api/user/account-info`, {
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                });
+
+                //console.log(`Successfully received a response from the endpoint!`, response.data.accountInfo );
+    
+                const { username, addressZipCode, firstName, lastName, fitnessLevel, trainerBadge } = response.data.accountInfo;
+
+                setUsername(username);
+                setZipcode(addressZipCode);
+                setFirstName(firstName);
+                setLastName(lastName);
+                setFitnessLevel(fitnessLevel);
+                setTrainerBadge(trainerBadge);
+            } catch (err) {
+                console.error('Failed to fetch account info:', err);
+            }
+        };
+
+        fetchAccountInfo();
+    }, []);
+
     const handleUpdate = async () => {
         try {
-
             const token = await AsyncStorage.getItem('token');
 
             if (!token) {
@@ -29,7 +62,7 @@ const AccountInfo = () => {
                 `${API_BASE_URL}/api/user/account-info`,
                 {
                     username,
-                    addressZipcode: zipcode,
+                    addressZipCode: addressZipCode,
                     firstName,
                     lastName,
                     fitnessLevel,
@@ -43,7 +76,7 @@ const AccountInfo = () => {
                 }
             );
 
-            console.log(' Updated successfully:', response.data);
+            console.log(' Updated successfully:', response.data.accountInfo);
             alert('Account info updated!');
         } catch (err) {
             console.error(' Update failed:', err);
@@ -67,7 +100,7 @@ const AccountInfo = () => {
 
                 <Text style={styles.label}>Zipcode</Text>
                 <TextInput
-                    value={zipcode}
+                    value={addressZipCode}
                     onChangeText={setZipcode}
                     keyboardType="numeric"
                     style={styles.input}
