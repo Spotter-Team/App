@@ -7,7 +7,12 @@
             "pwd": "password",
             "phoneNumber": "+15555555",
             "firstName": "Haley",
-            "lastName": "Smith"
+            "lastName": "Smith",
+            "addressLine1": "157 Gale Lemerand Dr,",
+            "addressState": "FL",
+            "addressCity": "Gainesville",
+            "addressZipCode": "32611",
+            "addressCountry": "USA"
         },
         {
             "userID": 2,
@@ -15,7 +20,12 @@
             "pwd": "password",
             "phoneNumber": "+15555556",
             "firstName": "Jessica",
-            "lastName": "Anderson"
+            "lastName": "Anderson",
+            "addressLine1": "157 Gale Lemerand Dr,",
+            "addressState": "FL",
+            "addressCity": "Gainesville",
+            "addressZipCode": "32611",
+            "addressCountry": "USA"
         },
         {
             "userID": 3,
@@ -23,7 +33,12 @@
             "pwd": "password",
             "phoneNumber": "+15555557",
             "firstName": "Joseph",
-            "lastName": "Hernandez"
+            "lastName": "Hernandez",
+            "addressLine1": "157 Gale Lemerand Dr,",
+            "addressState": "FL",
+            "addressCity": "Gainesville",
+            "addressZipCode": "32611",
+            "addressCountry": "USA"
         },
         {
             "userID": 4,
@@ -31,7 +46,12 @@
             "pwd": "password",
             "phoneNumber": "+15555558",
             "firstName": "Michael",
-            "lastName": "Thomas"
+            "lastName": "Thomas",
+            "addressLine1": "157 Gale Lemerand Dr,",
+            "addressState": "FL",
+            "addressCity": "Gainesville",
+            "addressZipCode": "32611",
+            "addressCountry": "USA"
         },
         {
             "userID": 5,
@@ -39,7 +59,12 @@
             "pwd": "password",
             "phoneNumber": "+15555558",
             "firstName": "Maria",
-            "lastName": "Jones"
+            "lastName": "Jones",
+            "addressLine1": "157 Gale Lemerand Dr,",
+            "addressState": "FL",
+            "addressCity": "Gainesville",
+            "addressZipCode": "32611",
+            "addressCountry": "USA"
         }
     ]
 }

@@ -11,6 +11,8 @@ import {
 import axios from 'axios';
 import { API_BASE_URL } from '@env';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import COLORS from '../utils/theme';
 import DumbbellLogo from '../assets/dumbbell-logo.png';
 
@@ -27,7 +29,7 @@ const Login = () => {
         }
 
         try {
-            const res = await axios.post(`${API_BASE_URL}/api/login`, {
+            const res = await axios.post(`${API_BASE_URL}/api/user/login`, {
                 email,
                 password,
             });
@@ -36,6 +38,13 @@ const Login = () => {
             setEmail('');
             setPassword('');
             setError('');
+
+            // Store the token that was returned
+            const token = res.data.token;
+            if (!token) {
+                throw new Error(`No token was returned from the backend!`);
+            }
+            await AsyncStorage.setItem('token', token);
 
             navigation.navigate('HomeTabs', {
                 params: { screen: 'Profile', params: { name: email.split('@')[0] } },

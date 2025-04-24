@@ -92,7 +92,6 @@ REST API routes are segmented into the following groups:
 
 - User - `/api/user`
 - Direct Messaging - `/api/msg`
-
 <br>
 
 ### User routes
@@ -150,6 +149,77 @@ REST API routes are segmented into the following groups:
 > ```
 
 </details>
+
+#### Get user account info
+<details>
+    <summary><code>GET</code> <code><b>/api/user/account-info</b></code></summary>
+
+##### Parameters
+
+> None
+
+
+##### Responses
+
+> | http code     | content-type         | response                                                                          |
+> |---------------|----------------------|-----------------------------------------------------------------------------------|
+> | `200`         | `application/json`   | `{"message: "Successfully retrieved the user account info!", "accountInfo": {} }` |
+> | `500`         | `application/json`   | `{"message: "The account info for the user could not be received!", error: "" }`  |
+> | `500`         | `application/json`   | `{"message": "The auth token once decoded did not include the sender userID!" }`  |
+
+##### Example cURL
+
+> ```bash
+> curl --location 'http://localhost:3000/api/user/account-info' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
+> ```
+
+</details>
+
+#### Update user account info
+<details>
+    <summary><code>PUT</code> <code><b>/api/user/account-info</b></code></summary>
+
+##### Parameters
+
+The message body can include valid updates to updatable attributes. These attributes include: 
+```javascript
+[
+    'username',
+    'phoneNumber',
+    'firstName',
+    'lastName',
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'addressCity',
+    'addressZipCode',
+    'addressCountry',
+    'fitnessLevel',
+    'trainerBadge'
+];
+```
+
+> | name      |  type     | data type        | description                                             |
+> |-----------|-----------|------------------| --------------------------------------------------------|
+> | none      |  required | object (JSON)    | `{ "phoneNumber": "+15555555555" }`                     |
+
+
+##### Responses
+
+> | http code     | content-type         | response                                                                          |
+> |---------------|----------------------|-----------------------------------------------------------------------------------|
+> | `200`         | `application/json`   | `{"message: "Successfully retrieved the user account info!", "accountInfo": {} }` |
+> | `500`         | `application/json`   | `{"message: "The account info for the user could not be received!", error: "" }`  |
+> | `500`         | `application/json`   | `{"message": "The auth token once decoded did not include the sender userID!" }`  |
+
+##### Example cURL
+
+> ```bash
+> curl --location 'http://localhost:3000/api/user/account-info' --header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlhdCI6MTc0NDc1NzI3NSwiZXhwIjoxNzQ0NzYwODc1fQ.iGcuU3T5r65xdi9nm7rihnNp7lPFysSTalYEdTtIazE'
+> ```
+
+</details>
+
 <br>
 <br>
 

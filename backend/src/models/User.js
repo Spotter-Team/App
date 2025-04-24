@@ -36,6 +36,7 @@ class User extends Model {
             User.usernameIsAvailable(username)
                 .then(isAvailable => {
                     if (isAvailable) {
+                        // TODO: Validate that the username passed is an email
                         User.create({ username: username, pwd: password })
                             .then(newUser => {
                                 resolve(newUser);
@@ -226,6 +227,92 @@ class User extends Model {
                 })
         })
     }
+
+    /**
+     * Gets the account info for a particular user
+     * @param { number } userID The id for the user whose account info you desire
+     * @returns { Promise< { 
+     *      userID: number,
+     *      username: string,
+     *      phoneNumber: string,
+     *      firstName: string,
+     *      lastName: string,
+     *      addressLine1: string,
+     *      addressLine2: string,
+     *      addressState: string,
+     *      addressCity: string,
+     *      addressZipCode: number,
+     *      addressCountry: string,
+     *      fitnessLevel: number,
+     *      trainerBadge: boolean,
+     *      avatarUri: string
+     * }> } Returns a promise which resolves to an object containing user account info
+     */
+    static getUserAccountByUserID(userID) {
+        return new Promise((resolve, reject) => {
+            // Try to get the user's row in the db
+            User.findOne(
+                {
+                    attributes: [
+                        'userID',
+                        'username',
+                        'phoneNumber',
+                        'firstName',
+                        'lastName',
+                        'addressLine1',
+                        'addressLine2',
+                        'addressState',
+                        'addressCity',
+                        'addressZipCode',
+                        'addressCountry',
+                        'fitnessLevel',
+                        'trainerBadge',
+                        'avatarUri'
+                    ], 
+                    where: {
+                        userID: userID
+                    }
+                })
+                .then(user => {
+                    if (user !== null) {
+                        resolve(user.dataValues);
+                    } else {
+                        reject({ code: 'USER_NOT_FOUND', msg: `User with userID '${userID}' was not found! ` })
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        })
+    }
+
+    /**
+     * Attempts to update attributes on a user record
+     * @param { number } userID The userID for the user whose account info is being updated
+     * @param { object } update The object that contains the updates
+     * @returns { Promise<boolean> } A promise that resolves if the update was successful 
+     */
+    static updateUserAccount(userID, update) {
+        return new Promise((resolve, reject) => {
+            User.update(
+                update,
+                { where: { userID } }
+            ).then(result => {
+                const numAffected = result[0];
+
+                // Determine if the update was successful
+                if (numAffected < 1) {
+                    reject(`Update failed! No rows ere affected1`);
+                } else if (numAffected == 1) {
+                    resolve();
+                } else {
+                    reject(`The number of rows that were updated is greater than 1, so some error occurred.`);
+                }
+            }).catch(err => {
+                reject(err);
+            })
+        })
+    }
 }
 
 // Define User Model attributes
@@ -252,19 +339,37 @@ const userSchema = {
         }
     },
     phoneNumber: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
     },
     firstName: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
     },
     lastName: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
+    },
+    addressLine1: {
+        type: DataTypes.TEXT
+    },
+    addressLine2: {
+        type: DataTypes.TEXT
+    },
+    addressState: {
+        type: DataTypes.TEXT
+    },
+    addressCity: {
+        type: DataTypes.TEXT
+    },
+    addressZipCode: {
+        type: DataTypes.NUMBER
+    },
+    addressCountry: {
+        type: DataTypes.TEXT
     },
     userLocation: {
         type: DataTypes.TEXT
     },
     fitnessLevel: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER
     },
     trainerBadge: {
         type: DataTypes.BOOLEAN,
