@@ -1,149 +1,164 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    Button,
-    StyleSheet,
-    ScrollView,
-    SafeAreaView,
-    Alert,
-    Image,
-} from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Switch } from 'react-native';
 import COLORS from '../../utils/theme';
-import DumbbellLogo from '../../assets/dumbbell-logo.png';
+import { API_BASE_URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import AccountHeader from '../../components/SettingsComponents/AccountHeader';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AccountInfo = () => {
-    const route = useRoute();
-    const { name: routeName = 'User' } = route.params || {};
+    const [username, setUsername] = useState('');
+    const [zipcode, setZipcode] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [fitnessLevel, setFitnessLevel] = useState('');
+    const [trainerBadge, setTrainerBadge] = useState(false);
 
-    const [name, setName] = useState(routeName);
-    const [zip, setZip] = useState('');
-    const [availability, setAvailability] = useState('');
-    const [saved, setSaved] = useState(false);
+    const handleUpdate = async () => {
+        try {
 
-    const handleSave = () => {
-        if (!name || !zip || !availability) {
-            Alert.alert('Missing Info', 'Please fill out all fields.');
-            return;
+            const token = await AsyncStorage.getItem('token');
+
+            if (!token) {
+                console.warn('No token found');
+                return;
+            }
+
+            const response = await axios.put(
+                `${API_BASE_URL}/api/user/account-info`,
+                {
+                    username,
+                    zipcode,
+                    firstName,
+                    lastName,
+                    fitnessLevel,
+                    trainerBadge,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            console.log(' Updated successfully:', response.data);
+            alert('Account info updated!');
+        } catch (err) {
+            console.error(' Update failed:', err);
+            alert('An error occurred while updating account info.');
         }
-
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
     };
 
+
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
-            <ScrollView contentContainerStyle={styles.container}>
-                <Image source={DumbbellLogo} style={styles.logo} />
-
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.username}>@{name.toLowerCase().replace(/\s/g, '')}</Text>
-
-                <View style={styles.badgeContainer}>
-                    <Text style={styles.badge}> Trainer</Text>
-                    <Text style={styles.badge}> Gym Buddy</Text>
-                </View>
-
-                <Text style={styles.sectionHeader}>Edit Profile</Text>
-
+        <SafeAreaView style={{flex: 1, backgroundColor: '#141417'}}>
+        <AccountHeader />
+        <ScrollView style={styles.container}>
+            <Text style={styles.sectionTitle}>Preferences</Text>
+            <View style={styles.formGroup}>
+                <Text style={styles.label}>Username</Text>
                 <TextInput
+                    value={username}
+                    onChangeText={setUsername}
                     style={styles.input}
-                    placeholder="Name"
-                    placeholderTextColor={COLORS.lightText}
-                    value={name}
-                    onChangeText={setName}
                 />
+
+                <Text style={styles.label}>Zipcode</Text>
                 <TextInput
-                    style={styles.input}
-                    placeholder="Zip Code"
-                    placeholderTextColor={COLORS.lightText}
-                    value={zip}
-                    onChangeText={setZip}
+                    value={zipcode}
+                    onChangeText={setZipcode}
                     keyboardType="numeric"
+                    style={styles.input}
                 />
+
+                <Text style={styles.label}>First Name</Text>
                 <TextInput
-                    style={[styles.input, { height: 100, textAlignVertical: 'top' }]}
-                    placeholder="Workout availability (e.g. M/W/F 5-7PM)"
-                    placeholderTextColor={COLORS.lightText}
-                    multiline
-                    value={availability}
-                    onChangeText={setAvailability}
+                    value={firstName}
+                    onChangeText={setFirstName}
+                    style={styles.input}
                 />
 
-                <View style={styles.buttonWrapper}>
-                    <Button title="Save Info" color={COLORS.accent} onPress={handleSave} />
-                </View>
+                <Text style={styles.label}>Last Name</Text>
+                <TextInput
+                    value={lastName}
+                    onChangeText={setLastName}
+                    style={styles.input}
+                />
 
-                {saved && <Text style={styles.savedText}> Saved!</Text>}
-            </ScrollView>
+                <Text style={styles.label}>Fitness Level</Text>
+                <TextInput
+                    value={fitnessLevel}
+                    onChangeText={setFitnessLevel}
+                    keyboardType="numeric"
+                    style={styles.input}
+                />
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                    <Text style={styles.label}>Trainer Badge</Text>
+                    <Switch
+                        value={trainerBadge}
+                        onValueChange={setTrainerBadge}
+                        style={{ marginLeft: 10 }}
+                    />
+                </View>
+            </View>
+
+            <TouchableOpacity onPress={handleUpdate} style={styles.button}>
+                <Text style={styles.buttonText}>Update</Text>
+            </TouchableOpacity>
+        </ScrollView>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 40,
-        paddingHorizontal: 20,
-        paddingBottom: 60,
-        alignItems: 'center',
+        flex: 1,
+        backgroundColor: COLORS.background,
+        padding: 20,
     },
-    logo: {
-        width: 40,
-        height: 40,
-        resizeMode: 'contain',
+    sectionTitle: {
+        color: COLORS.text,
+        fontWeight: 'bold',
+        fontSize: 22,
+        marginTop: 40,
         marginBottom: 10,
     },
-    name: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        color: COLORS.text,
-        marginTop: 10,
+    formGroup: {
+        backgroundColor: 'transparent',
+        borderRadius: 10,
+        padding: 5,
+        marginBottom: 5,
     },
-    username: {
-        fontSize: 16,
+    label: {
         color: COLORS.lightText,
-        marginBottom: 10,
-    },
-    badgeContainer: {
-        flexDirection: 'row',
-        gap: 10,
-        marginBottom: 30,
-    },
-    badge: {
-        backgroundColor: COLORS.accent,
-        color: '#fff',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 20,
-        fontSize: 12,
-    },
-    sectionHeader: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: COLORS.text,
-        alignSelf: 'flex-start',
-        marginBottom: 10,
+        marginTop: 10,
+        fontSize: 16,
     },
     input: {
-        width: '100%',
-        backgroundColor: '#1C1C1C',
+        backgroundColor: '#333',
         color: COLORS.text,
         padding: 10,
-        marginBottom: 12,
         borderRadius: 6,
-        borderColor: COLORS.border,
-        borderWidth: 1,
+        marginTop: 5,
     },
-    buttonWrapper: {
-        width: '100%',
-        marginTop: 10,
+    button: {
+        backgroundColor: COLORS.accent,
+        paddingVertical: 12,
+        paddingHorizontal: 5,
+        borderRadius: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 25,
+        marginBottom: 40,
+        width: 200,
     },
-    savedText: {
-        marginTop: 10,
-        color: COLORS.accent,
+    buttonText: {
+        color: 'white',
         fontWeight: 'bold',
+        fontSize: 16,
     },
 });
 
