@@ -29,7 +29,7 @@ const AccountInfo = () => {
                 `${API_BASE_URL}/api/user/account-info`,
                 {
                     username,
-                    zipcode,
+                    addressZipcode: zipcode,
                     firstName,
                     lastName,
                     fitnessLevel,
@@ -37,7 +37,7 @@ const AccountInfo = () => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `${token}`,
                         'Content-Type': 'application/json',
                     },
                 }
