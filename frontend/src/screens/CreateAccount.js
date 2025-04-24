@@ -29,7 +29,7 @@ const CreateAccount = () => {
         }
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/create-account`, {
+            const response = await axios.post(`${API_BASE_URL}/api/user/create-account`, {
                 email,
                 password,
             });
