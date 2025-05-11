@@ -8,11 +8,12 @@ const MatchUserCard = ({ user, handleAction }) => {
     const fadeAnimation = useRef(new Animated.Value(0)).current;
     const shakeAnimation = useRef(new Animated.Value(0)).current;
     const slideAnimation = useRef(new Animated.Value(0)).current;
+    const scaleAnimation = useRef(new Animated.Value(1)).current;
 
     const handleImageLoad = () => {
       Animated.timing(fadeAnimation, {
         toValue: 1,
-        duration: 200,
+        duration: 300,
         useNativeDriver: true,
       }).start();
     };
@@ -53,11 +54,31 @@ const MatchUserCard = ({ user, handleAction }) => {
       });
     };
 
+    const handleMatch = () => {
+
+      const scaleUp = Animated.timing(scaleAnimation, {
+        toValue: 1.05,
+        duration: 200,
+        useNativeDriver: true,
+      });
+
+      const slideUp = Animated.timing(slideAnimation, {
+        toValue: -1000,
+        duration: 300,
+        useNativeDriver: true,
+      });
+
+      Animated.sequence([scaleUp, slideUp]).start(() => {
+        handleAction(user.userID, 'accept');
+      })
+    };
+
     const animatedCardStyles = {
       ...styles.card,
       transform: [
         { translateX: shakeAnimation },
         { translateY: slideAnimation },
+        { scale: scaleAnimation }, 
       ],
       borderColor: COLORS.accent,
     };
@@ -114,7 +135,7 @@ const MatchUserCard = ({ user, handleAction }) => {
 
                 <TouchableOpacity
                     style={[styles.button, styles.matchButton]}
-                    onPress={() => handleAction(user.userID, 'accept')}
+                    onPress={handleMatch}
                 >
                     <Text style={styles.buttonText}> Match</Text>
                 </TouchableOpacity>
