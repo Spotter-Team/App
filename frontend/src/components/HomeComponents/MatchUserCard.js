@@ -1,12 +1,75 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React, { useRef } from 'react';
 import COLORS from '../../utils/theme';
 import DumbbellLogo from '../../assets/dumbbell-logo.png';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const MatchUserCard = ({ user, handleAction }) => {
+    const fadeAnimation = useRef(new Animated.Value(0)).current;
+    const shakeAnimation = useRef(new Animated.Value(0)).current;
+    const slideAnimation = useRef(new Animated.Value(0)).current;
+
+    const handleImageLoad = () => {
+      Animated.timing(fadeAnimation, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    };
+
+    const handlePass = () => {
+
+      const shake = Animated.sequence([
+        Animated.timing(shakeAnimation, {
+          toValue: -10,
+          duration: 50,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 10,
+          duration: 50,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: -10,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 0,
+          duration: 50,
+          useNativeDriver: true,
+        }),
+      ]);
+
+      const slideDown = Animated.timing(slideAnimation, {
+        toValue: 1000,
+        duration: 500,
+        useNativeDriver: true,
+      });
+
+      Animated.sequence([shake, slideDown]).start(() => {
+        handleAction(user.userId, 'reject');
+      });
+    };
+
+    const animatedCardStyles = {
+      ...styles.card,
+      transform: [
+        { translateX: shakeAnimation },
+        { translateY: slideAnimation },
+      ],
+      borderColor: COLORS.accent,
+    };
+
+    const animatedCardImageStyles = {
+      ...styles.avatar,
+      opacity: fadeAnimation,
+    };
+
     return (
-        <View style={styles.card}>
-            <Image source={user.avatar} style={styles.avatar} />
+        <Animated.View style={animatedCardStyles}>
+            <Animated.Image source={user.avatar} style={animatedCardImageStyles} onLoad={handleImageLoad} />
             <LinearGradient 
               colors={['rgba(0,0,0,1)', 'transparent']} 
               style={styles.gradient} 
@@ -44,7 +107,7 @@ const MatchUserCard = ({ user, handleAction }) => {
 
                 <TouchableOpacity
                     style={[styles.button, styles.passButton]}
-                    onPress={() => handleAction(user.userID, 'reject')}
+                    onPress={handlePass}
                 >
                     <Text style={styles.buttonText}>Pass</Text>
                 </TouchableOpacity>
@@ -57,7 +120,7 @@ const MatchUserCard = ({ user, handleAction }) => {
                 </TouchableOpacity>
 
             </View>
-        </View>
+        </Animated.View>
     );
 };
 
